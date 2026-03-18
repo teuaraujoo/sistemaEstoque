@@ -1,3 +1,5 @@
+// Verificações de produtos -> nome (tamanho e tipe) / quantidade / precos compra/venda
+
 exports.validaNome = (nomeEnviado) => {
 
     if (typeof nomeEnviado !== 'string') return false;

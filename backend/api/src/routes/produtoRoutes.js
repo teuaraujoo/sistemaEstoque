@@ -2,6 +2,16 @@ const express = require('express');
 const produtosControllers = require('../controllers/produtosController');
 const router = express.Router();
 
+/* 
+
+CRUD PRODUTOS 
+
+1. READ
+2. CREATE
+3. UPDATE
+4. DELETE
+
+*/
 
 router.get('/', produtosControllers.getAllProdutos);
 
