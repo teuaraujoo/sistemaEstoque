@@ -28,6 +28,12 @@ exports.attProduto = async (productData, productId) => {
     return produtoAtt;
 };
 
+exports.updateProduto = async (id, qtd) => {
+    const q = 'UPDATE PRODUTOS SET QTD_ESTOQUE = ? WHERE ID = ?';
+    const produtoAtt = await db.query(q, [qtd, id]);
+    return produtoAtt;
+}
+
 exports.delProduto = async (productId) => {
 
     const q = 'DELETE FROM PRODUTOS WHERE ID = ? ';

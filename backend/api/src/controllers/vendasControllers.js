@@ -12,18 +12,31 @@ exports.getAllVendas = async(req, res) => {
 
 exports.createVenda = async (req, res) => {
     
-    const body = req.body;
+    const data = req.body;
     try {
-        const create = await vendasServices.createVenda(body);
+        const venda = await vendasServices.createVenda(data);
         return res.status(201).json({ 
             message: 'Venda criada com sucesso!',
-            venda: create
+            venda: venda // ID e VALOR_TOTAL da VENDA
          });
     } catch(err) {
         console.log(err)
         return res.status(500).send(err.message);
     }
 };
+
+// exports.addItem = async (req, res) => {
+//     try {
+//         const vendaId = req.params.id;
+//         const data = req.body; 
+//         const result = vendasServices.addItem(vendaId, data);
+
+//         return res.status(201).json(result);
+//     } catch (err) {
+//         return res.status(400).json(err.message);
+//     };
+// }
+
 
 exports.updateVenda = async (req, res) => {
 

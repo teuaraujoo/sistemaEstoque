@@ -1,26 +1,64 @@
 const { db } = require('../database/db');
 
-exports.findAllVendas = async() => {
+exports.findAllVendas = async () => {
     const q = 'SELECT * FROM VENDAS';
     const [vendas] = await db.query(q);
     return vendas;
 };
 
-exports.newVenda = async(vendaData) => {
-    
+exports.newVenda = async (vendaData) => {
+
     const q = 'INSERT INTO VENDAS (VALOR_TOTAL) VALUES (?)';
-    const vendaCriada = await db.query(q, [vendaData]);
-    return vendaCriada;
+    const vendaCriada = await db.query(q, vendaData);
+    return vendaCriada.ID;
 };
 
-exports.attVenda = async(vendaData, vendaId) => {
-    
+exports.insertVendaItem = async (data) => {
+    const q = `
+        INSERT INTO VENDA_ITENS 
+        (VENDA_ID, PRODUTO_ID, QUANT, PRECO_UNITARIO, VALOR_TOTAL)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    const venda = await db.query(q, data);
+    return venda;
+};
+
+/*
+Tabela vendas_id:
+
+VENDA_ID
+PRODUTO_ID
+QUANT
+PRECO_UNITARIO
+SUBTOTAL            
+*/
+
+
+// exports.sumVendaTotal = async (vendaId) => {
+//     const q = `
+//         SELECT SUM(VALOR_TOTAL) AS total 
+//         FROM VENDA_ITENS
+//         WHERE VENDA_ID = ?
+//     `;
+
+//     const [[result]] = await db.query(q, [vendaId]);
+//     return result.total || 0;
+// };
+
+// exports.updateVendaTotal = async (total, vendaId) => {
+//     const q = 'UPDATE VENDAS SET VALOR_TOTAL = ? WHERE ID = ?';
+//     await db.query(q, [total, vendaId]);
+// };
+
+exports.attVenda = async (vendaData, vendaId) => {
+
     const q = 'UPDATE VENDAS SET VALOR_TOTAL = ? WHERE ID = ?';
     const vendaAtt = await db.query(q, [...vendaData, vendaId]);
     return vendaAtt;
 };
 
-exports.delVenda = async(vendaId) => {
+exports.delVenda = async (vendaId) => {
     const q = 'DELETE FROM VENDAS WHERE ID = ?';
     const vendaDel = await db.query(q, [vendaId]);
     return vendaDel;
