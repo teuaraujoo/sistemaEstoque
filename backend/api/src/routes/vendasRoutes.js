@@ -16,8 +16,6 @@ router.get('/', vendasControllers.getAllVendas);
 
 router.post('/criar', vendasControllers.createVenda);
 
-router.put('/atualizar/:id', vendasControllers.updateVenda);
-
 router.delete('/deletar/:id', vendasControllers.deleteVenda);
 
 module.exports = router;

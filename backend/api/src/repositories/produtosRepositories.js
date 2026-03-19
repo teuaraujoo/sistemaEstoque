@@ -9,7 +9,7 @@ exports.findAllProdutos = async () => {
 
 exports.findProductById = async (productId) => {
 
-    const q = 'SELECT FROM PRODUTOS WHERE ID = ?';
+    const q = 'SELECT * FROM PRODUTOS WHERE ID = ?';
     const [produto] = await db.query(q, [productId]);
     return produto;
 };

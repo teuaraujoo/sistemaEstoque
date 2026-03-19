@@ -7,10 +7,9 @@ exports.findAllVendas = async () => {
 };
 
 exports.newVenda = async (vendaData) => {
-
     const q = 'INSERT INTO VENDAS (VALOR_TOTAL) VALUES (?)';
-    const vendaCriada = await db.query(q, vendaData);
-    return vendaCriada.ID;
+    const [vendaCriada] = await db.query(q, vendaData);
+    return vendaCriada.insertId;
 };
 
 exports.insertVendaItem = async (data) => {
@@ -24,37 +23,10 @@ exports.insertVendaItem = async (data) => {
     return venda;
 };
 
-/*
-Tabela vendas_id:
-
-VENDA_ID
-PRODUTO_ID
-QUANT
-PRECO_UNITARIO
-SUBTOTAL            
-*/
-
-
-// exports.sumVendaTotal = async (vendaId) => {
-//     const q = `
-//         SELECT SUM(VALOR_TOTAL) AS total 
-//         FROM VENDA_ITENS
-//         WHERE VENDA_ID = ?
-//     `;
-
-//     const [[result]] = await db.query(q, [vendaId]);
-//     return result.total || 0;
-// };
-
-// exports.updateVendaTotal = async (total, vendaId) => {
-//     const q = 'UPDATE VENDAS SET VALOR_TOTAL = ? WHERE ID = ?';
-//     await db.query(q, [total, vendaId]);
-// };
-
 exports.attVenda = async (vendaData, vendaId) => {
 
     const q = 'UPDATE VENDAS SET VALOR_TOTAL = ? WHERE ID = ?';
-    const vendaAtt = await db.query(q, [...vendaData, vendaId]);
+    const vendaAtt = await db.query(q, [vendaData, vendaId]);
     return vendaAtt;
 };
 

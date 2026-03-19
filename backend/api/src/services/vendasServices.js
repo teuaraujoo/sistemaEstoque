@@ -22,7 +22,6 @@ exports.createVenda = async (vendaData) => {
 
     // desestruturação do corpo da req
     const { itens } = vendaData;
-
     // valorTotal da VENDA
     let valorTotal = 0;
 
@@ -38,7 +37,7 @@ exports.createVenda = async (vendaData) => {
         }
 
         // calcula subtotal de 1 dos ITENS
-        const subtotal = produto.PRECO_VENDA * item.QUANT;
+        const subtotal = produto[0].PRECO_VENDA * item.QUANT;
         // soma do valor total da VENDA
         valorTotal += subtotal;
 
@@ -47,7 +46,7 @@ exports.createVenda = async (vendaData) => {
             vendaId,
             item.PRODUTO_ID,
             item.QUANT,
-            produto.PRECO_VENDA,
+            produto[0].PRECO_VENDA,
             subtotal
         ]);
     };
@@ -56,50 +55,6 @@ exports.createVenda = async (vendaData) => {
     const vendaAtt = await vendasRepositories.attVenda(valorTotal, vendaId);
     return vendaAtt;
 };  
-
-// exports.addItem = async (vendaId, data) => {
-//     const produto = await produtoRepository.findProductById(data.PRODUTO_ID);
-
-//     if (!produto) {
-//         throw new Error('Produto não encontrado');
-//     };
-    
-//     if (produto.QTD_ESTOQUE < quantidade) {
-//         throw new RangeError('Estoque do produto insuficiente!');
-//     };
-
-//     const preco = produto.PRECO_VENDA;
-//     const valorTotal = preco * quantidade;
-
-//     await vendasRepositories.insertVendaItem([
-//         vendaId,
-//         data.PRODUTO_ID,
-//         data.QUANT,
-//         preco,
-//         valorTotal
-//     ]);
-
-//     const newEstoque = produto.estoque - quantidade;
-//     await produtoRepository.updateProduto(data.PRODUTO_ID, newEstoque);
-
-//     const totalVenda = await vendasRepositories.sumVendaTotal(vendaId);
-
-//     await vendasRepositories.updateVendaTotal(totalVenda, vendaId);
-
-//     return {
-//         message: 'Item adicionado com sucesso!'
-//     };
-// };
-
-exports.updateVenda = async (vendaData, vendaId) => {
-
-    if (!validaQuant(vendaData.VALOR_TOTAL)) {
-        throw new Error('Preço inválido');
-    }
-
-    const vendaAtt = await vendasRepositories.attVenda([vendaData.VALOR_TOTAL], vendaId);
-    return vendaAtt;
-};
 
 exports.deleteVenda = async (vendaId) => {
 
