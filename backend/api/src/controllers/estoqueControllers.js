@@ -1,0 +1,40 @@
+const estoqueServices = require('../services/estoqueServices');
+
+exports.getAllMoveEstoque = async (req, res) => {
+
+    try {
+        const data = await estoqueServices.getAllMoveEstoque();
+        return res.status(200).json(data)
+    } catch (err) {
+        return res.status(500).send('Error ao buscar movimentações.');
+    }
+
+};
+
+exports.createMoveEstoque = async (req, res) => {
+
+    const body = req.body;
+    try {
+        const move = await estoqueServices.createMoveEstoque(body);
+        return res.status(201).json({
+            message: 'Movimentação cadastrada com sucesso!',
+            movimentacao: move
+        });
+    } catch (err) {
+        return res.status(500).send(err.message);
+    };
+};
+
+exports.deleteMoveEstoque = async (req, res) => {
+
+    const id = req.params.id;
+    try {
+        const del = await estoqueServices.deleteMoveEstoque(id);
+        return res.status(200).json({
+            message: 'Movimentação deletada com sucesso!',
+            movimentacao: del
+        });
+    } catch (err) {
+        return res.status(500).send(err.message);
+    };
+};

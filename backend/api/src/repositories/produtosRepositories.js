@@ -17,8 +17,8 @@ exports.findProductById = async (productId) => {
 exports.newProduto = async (productData) => {
 
     const q = 'INSERT INTO PRODUTOS (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QTD_ESTOQUE) VALUES (?)';
-    const produtoCriado = await db.query(q, [productData]);
-    return produtoCriado;
+    const [produtoCriado] = await db.query(q, [productData]);
+    return produtoCriado.insertId;
 };
 
 exports.attProduto = async (productData, productId) => {
@@ -28,7 +28,7 @@ exports.attProduto = async (productData, productId) => {
     return produtoAtt;
 };
 
-exports.updateProduto = async (id, qtd) => {
+exports.updateQtdProduto = async (qtd, id) => {
     const q = 'UPDATE PRODUTOS SET QTD_ESTOQUE = ? WHERE ID = ?';
     const produtoAtt = await db.query(q, [qtd, id]);
     return produtoAtt;

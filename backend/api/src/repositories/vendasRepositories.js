@@ -6,6 +6,19 @@ exports.findAllVendas = async () => {
     return vendas;
 };
 
+exports.findVendaById = async (id) => {
+
+    const q = 'SELECT * FROM VENDAS WHERE ID = ?';
+    const [vendas] = await db.query(q, [id]);
+    return vendas;
+}
+
+exports.findAllVendasItensByProdutoId = async (id) => {
+    const q = 'SELECT * FROM VENDA_ITENS WHERE PRODUTO_ID = ?';
+    const [vendas] = await db.query(q, [id]);
+    return vendas;
+}
+
 exports.newVenda = async (vendaData) => {
     const q = 'INSERT INTO VENDAS (VALOR_TOTAL) VALUES (?)';
     const [vendaCriada] = await db.query(q, vendaData);
@@ -31,8 +44,16 @@ exports.attVenda = async (vendaData, vendaId) => {
 };
 
 exports.delVenda = async (vendaId) => {
+
     const q = 'DELETE FROM VENDAS WHERE ID = ?';
     const vendaDel = await db.query(q, [vendaId]);
+    return vendaDel;
+};
+
+exports.delVendaByProdutoId = async (produtoId) => {
+    
+    const q = 'DELETE FROM VENDA_ITENS WHERE PRODUTO_ID = ?';
+    const vendaDel = await db.query(q, [produtoId]);
     return vendaDel;
 };
 
