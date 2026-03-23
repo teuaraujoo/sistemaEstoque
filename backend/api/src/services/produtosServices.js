@@ -38,6 +38,8 @@ exports.createProduto = async (productData) => {
 
     // registro de uma nova movimentação do estoque
     const produtoId = await produtosRepositories.newProduto(data);
+    const produto = await produtosRepositories.findProductById(produtoId);
+
     if (productData.QTD_ESTOQUE > 0) {
         
         const moveCreate = await estoqueRepositories.createMoveEstoque([
@@ -47,11 +49,8 @@ exports.createProduto = async (productData) => {
             productData.QTD_ESTOQUE,
             null
         ]);
-        if (!moveCreate) {
-            await produtosRepositories.delProduto(produtoId);
-        };
     }
-    return produtoId;
+    return produto[0];
 };
 
 exports.updateProduto = async (productData, productId) => {
@@ -64,7 +63,7 @@ exports.updateProduto = async (productData, productId) => {
         throw new RangeError('Valor de venda inválido')
     };
 
-    const [produto] = await produtosRepositories.findProductById(productId);
+    let [produto] = await produtosRepositories.findProductById(productId);
     const qtdEstoqueProduto = produto.QTD_ESTOQUE;
 
     const data = [
@@ -76,7 +75,8 @@ exports.updateProduto = async (productData, productId) => {
     ];
 
     const produtoAtt = await produtosRepositories.attProduto(data, productId);
-    return produtoAtt;
+    produto = await produtosRepositories.findProductById(productId);
+    return produto[0];
 };
 
 exports.deleteProduto = async (productId) => {

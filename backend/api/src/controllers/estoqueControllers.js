@@ -18,7 +18,7 @@ exports.createMoveEstoque = async (req, res) => {
         const move = await estoqueServices.createMoveEstoque(body);
         return res.status(201).json({
             message: 'Movimentação cadastrada com sucesso!',
-            movimentacao: move
+            data: move
         });
     } catch (err) {
         return res.status(500).send(err.message);
@@ -30,10 +30,7 @@ exports.deleteMoveEstoque = async (req, res) => {
     const id = req.params.id;
     try {
         const del = await estoqueServices.deleteMoveEstoque(id);
-        return res.status(200).json({
-            message: 'Movimentação deletada com sucesso!',
-            movimentacao: del
-        });
+        return res.status(200).json({ message: 'Movimentação deletada com sucesso!' });
     } catch (err) {
         return res.status(500).send(err.message);
     };

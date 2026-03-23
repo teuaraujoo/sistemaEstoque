@@ -41,8 +41,9 @@ exports.createMoveEstoque = async (data) => {
     ];
 
     await produtosRepositories.updateQtdProduto(newQtd, data.PRODUTO_ID);
-    const moveCreate = await estoqueRepositories.createMoveEstoque(body);
-    return moveCreate;
+    const moveId = await estoqueRepositories.createMoveEstoque(body);
+    const moveCreate = await estoqueRepositories.findMoveById(moveId);
+    return moveCreate[0];
 }
 
 exports.deleteMoveEstoque = async (id) => {

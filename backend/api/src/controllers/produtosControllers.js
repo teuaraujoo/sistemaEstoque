@@ -31,7 +31,7 @@ exports.createProduto = async (req, res) => {
         const create = await produtoServices.createProduto(data);
         return res.status(201).send({
             message: "Produto cadastrado com sucesso!",
-            produto: create
+            data: create
         });
     } catch (err) {
         return res.status(500).send(err.message);
@@ -47,7 +47,7 @@ exports.updateProduto = async (req, res) => {
         const produtoUpdate = await produtoServices.updateProduto(data, id);
         return res.status(200).json({
             message: 'Produto atualizado com sucesso!',
-            produto: produtoUpdate
+            data: produtoUpdate
         });
     } catch (err) {
         return res.status(500).send(err.message);
@@ -59,10 +59,7 @@ exports.deleteProduto = async (req, res) => {
     const id = req.params.id;
     try {
         const produtoDel = await  produtoServices.deleteProduto(id);
-        return res.status(200).json({
-            message: 'Produto deletado com sucesso!',
-            produto: produtoDel
-        });
+        return res.status(200).json({ message: 'Produto deletado com sucesso!' });
     } catch (err) { 
         console.log(err)
         return res.status(500).send(err.message);

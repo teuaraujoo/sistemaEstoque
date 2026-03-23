@@ -81,7 +81,8 @@ exports.createVenda = async (vendaData) => {
 
     // atualiza VENDA com o valor total
     const vendaAtt = await vendasRepositories.attVenda(valorTotal, vendaId);
-    return vendaAtt;
+    const venda = await vendasRepositories.findVendaById(vendaId);
+    return venda[0];
 };
 
 exports.deleteVenda = async (vendaId) => {

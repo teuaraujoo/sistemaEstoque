@@ -17,7 +17,7 @@ exports.createVenda = async (req, res) => {
         const venda = await vendasServices.createVenda(data);
         return res.status(201).json({ 
             message: 'Venda criada com sucesso!',
-            venda: venda // ID e VALOR_TOTAL da VENDA
+            data: venda // ID e VALOR_TOTAL da VENDA
          });
     } catch(err) {
         console.log(err)
@@ -30,10 +30,7 @@ exports.deleteVenda = async (req, res) => {
     try {
         const id = req.params.id;
         const del = await vendasServices.deleteVenda(id);
-        return res.status(200).json({ 
-            message: 'Produto deletado com sucesso!',
-            venda: del 
-        });
+        return res.status(200).json({ message: 'Venda deletado com sucesso!' });
     } catch(err) {
         return res.status(500).send('Error ao deletar venda!');
     };

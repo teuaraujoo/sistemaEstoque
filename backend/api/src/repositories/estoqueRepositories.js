@@ -31,8 +31,8 @@ exports.findMoveEstoqueByProdutoId = async (id) => {
 exports.createMoveEstoque = async (data) => {
     
     const q = 'INSERT INTO MOVE_ESTOQUE (PRODUTO_ID, TIPO, MOTIVO, QTD, VENDA_ID) VALUES (?)';
-    const moveCreate = await db.query(q, [data]);
-    return moveCreate;
+    const [moveCreate] = await db.query(q, [data]);
+    return moveCreate.insertId;
 };
 
 exports.deleteMoveEstoque = async (id) => {
