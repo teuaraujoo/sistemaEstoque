@@ -1,7 +1,7 @@
 const produtosRepositories = require('../repositories/produtosRepositories');
+const estoqueRepositories = require('../repositories/estoqueRepositories');
+const vendasRepositories = require('../repositories/vendasRepositories');
 const produtoValidators = require('../validators/produtosValidators');
-const estoqueRepository = require('../repositories/estoqueRepositories');
-const vendaRepository = require('../repositories/vendasRepositories');
 
 exports.getAllProdutos = async () => {
 
@@ -40,14 +40,13 @@ exports.createProduto = async (productData) => {
     const produtoId = await produtosRepositories.newProduto(data);
     if (productData.QTD_ESTOQUE > 0) {
         
-        const moveCreate = await estoqueRepository.createMoveEstoque([
+        const moveCreate = await estoqueRepositories.createMoveEstoque([
             produtoId,
             TIPO,
             MOTIVO,
             productData.QTD_ESTOQUE,
             null
         ]);
-        console.log(!moveCreate);
         if (!moveCreate) {
             await produtosRepositories.delProduto(produtoId);
         };
@@ -82,18 +81,23 @@ exports.updateProduto = async (productData, productId) => {
 
 exports.deleteProduto = async (productId) => {
 
-    const vendaItens = await vendaRepository.findAllVendasItensByProdutoId(productId);
+    const vendaItens = await vendasRepositories.findAllVendasItensByProdutoId(productId);
     let newValor;
     
-    for (item of vendaItens) {
-        
-        const [venda] = await vendaRepository.findVendaById(item.VENDA_ID);
-        newValor = venda.VALOR_TOTAL - item.VALOR_TOTAL;
+    if (vendaItens.length >= 1) {
 
-        await vendaRepository.attVenda(newValor, item.VENDA_ID);
-        await vendaRepository.delVendaByProdutoId(item.PRODUTO_ID);
-        await estoqueRepository.deleteMoveEstoqueProduto(item.PRODUTO_ID);
-    };
+        for (item of vendaItens) {
+            
+            const [venda] = await vendasRepositories.findVendaById(item.VENDA_ID);
+            newValor = venda.VALOR_TOTAL - item.VALOR_TOTAL;
+            
+            await vendasRepositories.attVenda(newValor, item.VENDA_ID);
+            await vendasRepositories.delVendaByProdutoId(item.PRODUTO_ID);
+            await estoqueRepositories.deleteMoveEstoqueProduto(item.PRODUTO_ID);
+        };
+    } else {
+        await estoqueRepositories.deleteMoveEstoqueProduto(productId);
+    }
 
     const produtoDel = await produtosRepositories.delProduto(productId);
     return produtoDel;

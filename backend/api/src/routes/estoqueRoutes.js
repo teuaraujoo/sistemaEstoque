@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.get('/', estoqueControllers.getAllMoveEstoque);
 
-router.post('/criar', estoqueControllers.createMoveEstoque);
+router.post('/', estoqueControllers.createMoveEstoque);
 
-router.delete('/deletar/:id', estoqueControllers.deleteMoveEstoque);
+router.delete('/:id', estoqueControllers.deleteMoveEstoque);
 
 module.exports = router;

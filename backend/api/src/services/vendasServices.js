@@ -1,7 +1,7 @@
 const vendasRepositories = require('../repositories/vendasRepositories');
 const validaQuant = require('../utils/validaQuant');
-const produtoRepository = require('../repositories/produtosRepositories');
-const estoqueRepository = require('../repositories/estoqueRepositories');
+const produtosRepositories = require('../repositories/produtosRepositories');
+const estoqueRepositories = require('../repositories/estoqueRepositories');
 const estoqueServices = require('../services/estoqueServices');
 
 exports.getAllVendas = async () => {
@@ -25,7 +25,7 @@ exports.createVenda = async (vendaData) => {
     for (item of itens) {
 
         // Busca PRODUTO
-        const [produto] = await produtoRepository.findProductById(item.PRODUTO_ID);
+        const [produto] = await produtosRepositories.findProductById(item.PRODUTO_ID);
 
         // valida qtd enviada
         if (!validaQuant(item.QUANT)) {
@@ -86,14 +86,14 @@ exports.createVenda = async (vendaData) => {
 
 exports.deleteVenda = async (vendaId) => {
 
-    const moves = await estoqueRepository.findMoveEstoqueByVendaId(vendaId);
+    const moves = await estoqueRepositories.findMoveEstoqueByVendaId(vendaId);
     let qtdEstoque;
 
     for (let move of moves) {
-        const [produto] = await produtoRepository.findProductById(move.PRODUTO_ID);
+        const [produto] = await produtosRepositories.findProductById(move.PRODUTO_ID);
         qtdEstoque = produto.QTD_ESTOQUE + move.QTD;
-        await produtoRepository.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
-        await estoqueRepository.deleteMoveEstoque(move.ID);
+        await produtosRepositories.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
+        await estoqueRepositories.deleteMoveEstoque(move.ID);
     };
     const vendaDel = await vendasRepositories.delVenda(vendaId);
     return vendaDel;

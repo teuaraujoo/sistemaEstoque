@@ -14,8 +14,8 @@ CRUD VENDAS
 
 router.get('/', vendasControllers.getAllVendas);
 
-router.post('/criar', vendasControllers.createVenda);
+router.post('/', vendasControllers.createVenda);
 
-router.delete('/deletar/:id', vendasControllers.deleteVenda);
+router.delete('/:id', vendasControllers.deleteVenda);
 
 module.exports = router;

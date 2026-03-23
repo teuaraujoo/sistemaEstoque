@@ -1,5 +1,5 @@
 const estoqueRepositories = require('../repositories/estoqueRepositories');
-const produtoRepository = require('../repositories/produtosRepositories');
+const produtosRepositories = require('../repositories/produtosRepositories');
 const validaQuant = require('../utils/validaQuant');
 
 exports.getAllMoveEstoque = async (data) => {
@@ -17,7 +17,7 @@ exports.getMoveEstoqueById = async (id) => {
 exports.createMoveEstoque = async (data) => {
 
     let newQtd;
-    const [produto] = await produtoRepository.findProductById(data.PRODUTO_ID);
+    const [produto] = await produtosRepositories.findProductById(data.PRODUTO_ID);
     const qtdEstoqueProduto = produto.QTD_ESTOQUE;
 
     // verificação de quantidade
@@ -40,7 +40,7 @@ exports.createMoveEstoque = async (data) => {
         data.VENDA_ID ?? null
     ];
 
-    await produtoRepository.updateQtdProduto(newQtd, data.PRODUTO_ID);
+    await produtosRepositories.updateQtdProduto(newQtd, data.PRODUTO_ID);
     const moveCreate = await estoqueRepositories.createMoveEstoque(body);
     return moveCreate;
 }
@@ -48,7 +48,7 @@ exports.createMoveEstoque = async (data) => {
 exports.deleteMoveEstoque = async (id) => {
 
     const [move] = await estoqueRepositories.findMoveById(id);
-    const [produto] = await produtoRepository.findProductById(move.PRODUTO_ID);
+    const [produto] = await produtosRepositories.findProductById(move.PRODUTO_ID);
     let qtdEstoque;
 
     if (move.MOTIVO === 'VENDA DE MERCADORIA') {
@@ -57,10 +57,10 @@ exports.deleteMoveEstoque = async (id) => {
     
     if (move.TIPO === "ENTRADA") {
         qtdEstoque = produto.QTD_ESTOQUE - move.QTD;
-        await produtoRepository.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
+        await produtosRepositories.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
     } else {
         qtdEstoque = produto.QTD_ESTOQUE + move.QTD;
-        await produtoRepository.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
+        await produtosRepositories.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
     }
 
     const moveDel = await estoqueRepositories.deleteMoveEstoque(id);
