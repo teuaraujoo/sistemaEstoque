@@ -10,6 +10,17 @@ exports.getAllVendas = async(req, res) => {
     }
 };
 
+exports.getAllVendaItens = async(req, res) => {
+
+    try {
+
+        const data = await vendasServices.getAllVendaItens();
+        return res.status(200).json(data); 
+    } catch(err) {
+        return res.status(500).send('Error ao buscar venda.');
+    };
+};
+
 exports.createVenda = async (req, res) => {
     
     const data = req.body;

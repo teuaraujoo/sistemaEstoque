@@ -10,6 +10,12 @@ exports.getAllVendas = async () => {
     return vendas;
 };
 
+exports.getAllVendaItens = async () => {
+
+    const vendaItens = await vendasRepositories.finAllVendaItens();
+    return vendaItens;
+}
+
 exports.createVenda = async (vendaData) => {
 
     const connection = await db.getConnection();

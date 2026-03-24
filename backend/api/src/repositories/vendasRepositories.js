@@ -12,6 +12,13 @@ exports.findVendaById = async (conn, id) => {
     const q = 'SELECT * FROM VENDAS WHERE ID = ?';
     const [vendas] = await execute.query(q, [id]);
     return vendas;
+};
+
+exports.finAllVendaItens = async () => {
+
+    const q = 'SELECT * FROM VENDA_ITENS';
+    const [vendaItens] = await db.query(q);
+    return vendaItens;
 }
 
 exports.findAllVendasItensByProdutoId = async (conn, id) => {
