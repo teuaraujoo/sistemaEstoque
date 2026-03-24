@@ -3,6 +3,7 @@ const validaQuant = require('../utils/validaQuant');
 const produtosRepositories = require('../repositories/produtosRepositories');
 const estoqueRepositories = require('../repositories/estoqueRepositories');
 const estoqueServices = require('../services/estoqueServices');
+const { db } = require('../database/db');
 
 exports.getAllVendas = async () => {
     const vendas = await vendasRepositories.findAllVendas();
@@ -11,91 +12,120 @@ exports.getAllVendas = async () => {
 
 exports.createVenda = async (vendaData) => {
 
-    //TODO: aplicar transaction (beginTransaction, commit, rollback)
+    const connection = await db.getConnection();
 
-    // cria VENDA e guarda apenas o ID
-    const vendaId = await vendasRepositories.newVenda([0]);
+    try {
 
-    // desestruturação do corpo da req
-    const { itens } = vendaData;
-    // valorTotal da VENDA
-    let valorTotal = 0;
+        await connection.beginTransaction();
 
-    // Percorre o corpo da req
-    for (item of itens) {
+        const vendaId = await vendasRepositories.newVenda(connection, [0]);
 
-        // Busca PRODUTO
-        const [produto] = await produtosRepositories.findProductById(item.PRODUTO_ID);
+        const { itens } = vendaData;
 
-        // valida qtd enviada
-        if (!validaQuant(item.QUANT)) {
-            const delVenda = await vendasRepositories.delVenda(vendaId);
-            throw new RangeError('Quantidade de venda inválida!');
+        let valorTotal = 0;
+
+        for (let item of itens) {
+
+            const [produto] = await produtosRepositories.findProductById(connection, item.PRODUTO_ID);
+            let newQtdEstoque;
+
+            if (!validaQuant(item.QUANT)) {
+                throw new RangeError('Quantidade de venda inválida!');
+            };
+
+            if (!produto) {
+                throw new Error('Produto não encontrado!');
+            };
+
+            if (produto.STATUS === 'INATIVO') {
+                throw new Error(`${produto.NOME} está inativo!`);
+            };
+            
+            // valida estoque do produto
+            if (produto.QTD_ESTOQUE < item.QUANT) {
+                throw new RangeError(`${produto.NOME} com estoque insuficiente!`);
+            };
+
+
+            // calcula subtotal de 1 dos ITENS
+            const subtotal = Number(produto.PRECO_VENDA) * item.QUANT;
+            // soma do valor total da VENDA
+            valorTotal += subtotal;
+
+            // insere item em ITENS_VENDA
+            await vendasRepositories.insertVendaItem(connection, [
+                vendaId,
+                item.PRODUTO_ID,
+                item.QUANT,
+                Number(produto.PRECO_VENDA),
+                subtotal
+            ]);
+
+            newQtdEstoque = produto.QTD_ESTOQUE - item.QUANT;
+
+            const TIPO = 'SAIDA';
+            const MOTIVO = 'VENDA DE MERCADORIA';
+
+            // cria movimentação
+            await estoqueRepositories.createMoveEstoque(connection, [
+                produto.ID,
+                TIPO,
+                MOTIVO,
+                item.QUANT,
+                vendaId
+            ]);
+
+            await produtosRepositories.updateQtdProduto(connection, newQtdEstoque, item.PRODUTO_ID);
         };
 
-        // valida PRODUTO
-        if (!produto) {
-            const delVenda = await vendasRepositories.delVenda(vendaId);
-            throw new Error('Produto não encontrado!');
-        };
+        // atualiza valor total da venda
+        await vendasRepositories.attVenda(connection, valorTotal, vendaId);
+        const venda = await vendasRepositories.findVendaById(connection, vendaId);
 
-        // valida estoque do produto
-        if (produto.QTD_ESTOQUE < item.QUANT) {
-            const delVenda = await vendasRepositories.delVenda(vendaId);
-            throw new RangeError(`${produto.NOME} com estoque insuficiente!`);
-        };
+        await connection.commit();
+        return venda[0];
 
-        // calcula subtotal de 1 dos ITENS
-        const subtotal = Number(produto.PRECO_VENDA) * item.QUANT;
-        // soma do valor total da VENDA
-        valorTotal += subtotal;
+    } catch (err) {
 
-        // insere item em ITENS_VENDA
-        await vendasRepositories.insertVendaItem([
-            vendaId,
-            item.PRODUTO_ID,
-            item.QUANT,
-            Number(produto.PRECO_VENDA),
-            subtotal
-        ]);
+        await connection.rollback();
+        throw err;
 
-        const TIPO = 'SAIDA';
-        const MOTIVO = 'VENDA DE MERCADORIA';
-        
-        const data = {
-            PRODUTO_ID: produto.ID,
-            TIPO,
-            MOTIVO,
-            QTD: item.QUANT,
-            VENDA_ID: vendaId
-        }
-
-        const move = await estoqueServices.createMoveEstoque(data);
-
-        if (!move) {
-            const delVenda = await vendasRepositories.delVenda(vendaId);
-            throw new Error('Error ao criar movimentação no estoque');
-        };
+    } finally {
+        connection.release();
     };
-
-
-    // atualiza VENDA com o valor total
-    const vendaAtt = await vendasRepositories.attVenda(valorTotal, vendaId);
-    const venda = await vendasRepositories.findVendaById(vendaId);
-    return venda[0];
 };
 
 exports.deleteVenda = async (vendaId) => {
 
-    const moves = await estoqueRepositories.findMoveEstoqueByVendaId(vendaId);
-    let qtdEstoque;
+    const connection = await db.getConnection();
 
-    for (let move of moves) {
-        const [produto] = await produtosRepositories.findProductById(move.PRODUTO_ID);
-        qtdEstoque = produto.QTD_ESTOQUE + move.QTD;
-        await produtosRepositories.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
-        await estoqueRepositories.deleteMoveEstoque(move.ID);
+    try {
+
+        await connection.beginTransaction();
+
+        const moves = await estoqueRepositories.findMoveEstoqueByVendaId(connection, vendaId);
+        let qtdEstoque;
+
+        for (let move of moves) {
+            const [produto] = await produtosRepositories.findProductById(connection, move.PRODUTO_ID);
+            qtdEstoque = produto.QTD_ESTOQUE + move.QTD;
+
+            // atualizando qtd estoque produto
+            await produtosRepositories.updateQtdProduto(connection, qtdEstoque, move.PRODUTO_ID);
+            // deletando movimentações do estoque
+            await estoqueRepositories.deleteMoveEstoque(connection, move.ID);
+        };
+        const vendaDel = await vendasRepositories.delVenda(connection, vendaId);
+
+        await connection.commit();
+        return vendaDel;
+
+    } catch (err) {
+
+        await connection.rollback();
+        throw err;
+
+    } finally {
+        connection.release();
     };
-    const vendaDel = await vendasRepositories.delVenda(vendaId);
-    return vendaDel;
 };

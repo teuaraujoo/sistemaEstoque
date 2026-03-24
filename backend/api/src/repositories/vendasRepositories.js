@@ -6,54 +6,64 @@ exports.findAllVendas = async () => {
     return vendas;
 };
 
-exports.findVendaById = async (id) => {
+exports.findVendaById = async (conn, id) => {
 
+    const execute = conn || db;
     const q = 'SELECT * FROM VENDAS WHERE ID = ?';
-    const [vendas] = await db.query(q, [id]);
+    const [vendas] = await execute.query(q, [id]);
     return vendas;
 }
 
-exports.findAllVendasItensByProdutoId = async (id) => {
+exports.findAllVendasItensByProdutoId = async (conn, id) => {
+
+    const execute = conn || db;
     const q = 'SELECT * FROM VENDA_ITENS WHERE PRODUTO_ID = ?';
-    const [vendas] = await db.query(q, [id]);
+    const [vendas] = await execute.query(q, [id]);
     return vendas;
 }
 
-exports.newVenda = async (vendaData) => {
+exports.findAllVendasItensByVendaId = async (conn, id) => {
+
+    const execute = conn || db;
+    const q = 'SELECT * FROM VENDA_ITENS WHERE VENDA_ID = ?';
+    const [vendas] = await execute.query(q, [id]);
+    return vendas;
+}
+
+exports.newVenda = async (conn, vendaData) => {
     const q = 'INSERT INTO VENDAS (VALOR_TOTAL) VALUES (?)';
-    const [vendaCriada] = await db.query(q, vendaData);
+    const [vendaCriada] = await conn.query(q, vendaData);
     return vendaCriada.insertId;
 };
 
-exports.insertVendaItem = async (data) => {
+exports.insertVendaItem = async (conn, data) => {
     const q = `
         INSERT INTO VENDA_ITENS 
         (VENDA_ID, PRODUTO_ID, QUANT, PRECO_UNITARIO, VALOR_TOTAL)
         VALUES (?, ?, ?, ?, ?)
     `;
 
-    const venda = await db.query(q, data);
+    const venda = await conn.query(q, data);
     return venda;
 };
 
-exports.attVenda = async (vendaData, vendaId) => {
+exports.attVenda = async (conn, vendaData, vendaId) => {
 
     const q = 'UPDATE VENDAS SET VALOR_TOTAL = ? WHERE ID = ?';
-    const vendaAtt = await db.query(q, [vendaData, vendaId]);
+    const vendaAtt = await conn.query(q, [vendaData, vendaId]);
     return vendaAtt;
 };
 
-exports.delVenda = async (vendaId) => {
+exports.delVenda = async (conn, vendaId) => {
 
     const q = 'DELETE FROM VENDAS WHERE ID = ?';
-    const vendaDel = await db.query(q, [vendaId]);
+    const vendaDel = await conn.query(q, [vendaId]);
     return vendaDel;
 };
 
-exports.delVendaByProdutoId = async (produtoId) => {
-    
+exports.delItensVendaByProdutoId = async (conn, produtoId) => {
+
     const q = 'DELETE FROM VENDA_ITENS WHERE PRODUTO_ID = ?';
-    const vendaDel = await db.query(q, [produtoId]);
+    const vendaDel = await conn.query(q, [produtoId]);
     return vendaDel;
 };
-

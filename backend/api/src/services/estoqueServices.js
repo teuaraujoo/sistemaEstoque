@@ -1,6 +1,7 @@
 const estoqueRepositories = require('../repositories/estoqueRepositories');
 const produtosRepositories = require('../repositories/produtosRepositories');
 const validaQuant = require('../utils/validaQuant');
+const { db } = require('../database/db');
 
 exports.getAllMoveEstoque = async (data) => {
 
@@ -16,54 +17,90 @@ exports.getMoveEstoqueById = async (id) => {
 
 exports.createMoveEstoque = async (data) => {
 
-    let newQtd;
-    const [produto] = await produtosRepositories.findProductById(data.PRODUTO_ID);
-    const qtdEstoqueProduto = produto.QTD_ESTOQUE;
+    const connection = await db.getConnection();
 
-    // verificação de quantidade
-    if (!validaQuant(data.QTD)) {
-        throw new Error('Quantidade da movimentação inválida');
+    try {
+
+        await connection.beginTransaction();
+
+        let newQtd;
+        const [produto] = await produtosRepositories.findProductById(connection, data.PRODUTO_ID);
+        const qtdEstoqueProduto = produto.QTD_ESTOQUE;
+
+        if (produto.STATUS === 'INATIVO') {
+            throw new Error(`${produto.NOME} está inativo!`);
+        };
+
+        if (!validaQuant(data.QTD)) {
+            throw new Error('Quantidade da movimentação inválida');
+        };
+
+        if (data.TIPO === 'SAIDA' && qtdEstoqueProduto > data.QTD) {
+            newQtd = qtdEstoqueProduto - data.QTD;
+        } else {
+            newQtd = qtdEstoqueProduto + data.QTD;
+        };
+
+        const body = [
+            data.PRODUTO_ID,
+            data.TIPO,
+            data.MOTIVO,
+            data.QTD,
+            data.VENDA_ID ?? null
+        ];
+
+        // atualizando qtd estoque produto
+        await produtosRepositories.updateQtdProduto(connection, newQtd, data.PRODUTO_ID);
+
+        const moveId = await estoqueRepositories.createMoveEstoque(connection, body);
+        const moveCreate = await estoqueRepositories.findMoveById(connection, moveId);
+
+        await connection.commit();
+        return moveCreate[0];
+
+    } catch (err) {
+
+        await connection.rollback();
+        throw err;
+    } finally {
+        connection.release();
     };
-
-    // verificação de tipo e quantidade
-    if (data.TIPO === 'SAIDA' && qtdEstoqueProduto > data.QTD) {
-        newQtd = qtdEstoqueProduto - data.QTD;
-    } else {
-        newQtd = qtdEstoqueProduto + data.QTD;
-    };
-
-    const body = [
-        data.PRODUTO_ID,
-        data.TIPO,
-        data.MOTIVO,
-        data.QTD,
-        data.VENDA_ID ?? null
-    ];
-
-    await produtosRepositories.updateQtdProduto(newQtd, data.PRODUTO_ID);
-    const moveId = await estoqueRepositories.createMoveEstoque(body);
-    const moveCreate = await estoqueRepositories.findMoveById(moveId);
-    return moveCreate[0];
-}
+};
 
 exports.deleteMoveEstoque = async (id) => {
 
-    const [move] = await estoqueRepositories.findMoveById(id);
-    const [produto] = await produtosRepositories.findProductById(move.PRODUTO_ID);
-    let qtdEstoque;
+    const connection = await db.getConnection();
 
-    if (move.MOTIVO === 'VENDA DE MERCADORIA') {
-        throw new TypeError('Permissão negada para deletar uma movimentação de uma venda');
-    };
-    
-    if (move.TIPO === "ENTRADA") {
-        qtdEstoque = produto.QTD_ESTOQUE - move.QTD;
-        await produtosRepositories.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
-    } else {
-        qtdEstoque = produto.QTD_ESTOQUE + move.QTD;
-        await produtosRepositories.updateQtdProduto(qtdEstoque, move.PRODUTO_ID);
+    try {
+
+        await connection.beginTransaction();
+
+        const [move] = await estoqueRepositories.findMoveById(connection, id);
+        const [produto] = await produtosRepositories.findProductById(connection, move.PRODUTO_ID);
+        let qtdEstoque;
+
+        if (move.MOTIVO === 'VENDA DE MERCADORIA') {
+            throw new TypeError('Permissão negada para deletar uma movimentação de uma venda');
+        };
+
+        if (move.TIPO === "ENTRADA") {
+            qtdEstoque = produto.QTD_ESTOQUE - move.QTD;
+            await produtosRepositories.updateQtdProduto(connection, qtdEstoque, move.PRODUTO_ID);
+        } else {
+            qtdEstoque = produto.QTD_ESTOQUE + move.QTD;
+            await produtosRepositories.updateQtdProduto(connection, qtdEstoque, move.PRODUTO_ID);
+        }
+
+        const moveDel = await estoqueRepositories.deleteMoveEstoque(connection, id);
+
+        connection.commit();
+        return moveDel;
+
+    } catch (err) {
+
+        connection.rollback();
+        throw err;
+    } finally {
+        connection.release();
     }
-
-    const moveDel = await estoqueRepositories.deleteMoveEstoque(id);
-    return moveDel;
 };
