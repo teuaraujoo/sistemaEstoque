@@ -49,7 +49,7 @@ exports.createProduto = async (productData) => {
 
         if (productData.QTD_ESTOQUE > 0) {
 
-            const moveCreate = await estoqueRepositories.createMoveEstoque(connection, [
+            await estoqueRepositories.createMoveEstoque(connection, [
                 produtoId,
                 TIPO,
                 MOTIVO,
