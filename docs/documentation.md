@@ -537,10 +537,7 @@ DELETE /api/v1/vendas/:id
 
 👉 Consulte o arquivo:
 
-```
 [Guia de instalação](./installation.md)
-
-```
 
 ---
 
