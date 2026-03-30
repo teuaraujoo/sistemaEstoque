@@ -14,7 +14,7 @@ export async function fetchProdutosResumo() {
     }
 
     const total = data.length;
-    const baixoEstoque = data.filter((produto) => Number(produto.QTD_ESTOQUE) < 10).length;
+    const baixoEstoque = data.filter((produto) => Number(produto.QTD_ESTOQUE) < 10 && produto.STATUS === 'ATIVO').length;
 
     return {
         total,

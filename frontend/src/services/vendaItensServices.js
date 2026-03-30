@@ -20,7 +20,6 @@ export async function fetchVendasItens() {
             produto: produto ? { NOME: produto.NOME } : null,
         };
     });
-    console.log('Vendas Recentes com Produto:', vendasRecentesComProduto);
     return {
         vendasRecentes: vendasRecentesComProduto,
     };
