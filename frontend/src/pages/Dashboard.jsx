@@ -1,7 +1,12 @@
+import StatsCard from '../components/Dashboard/statsCard';
+import VendasGrid from '../components/Dashboard/VendasGrid';
+
 function Dashboard() {
+
     return (
-        <div>
-            <h2>Página do Dashboard</h2>
+        <div className="bg-gray-300 min-h-full p-4">
+            <StatsCard />
+            <VendasGrid />
         </div>
     )
 }

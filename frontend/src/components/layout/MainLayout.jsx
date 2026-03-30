@@ -8,7 +8,7 @@ function MainLayout() {
             <Sidebar />
             <div className="flex-1 flex flex-col">
                 <Header />
-                <div className="p-4">
+                <div className="flex-1">
                     <Outlet />
                 </div>
             </div>

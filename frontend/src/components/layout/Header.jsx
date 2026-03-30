@@ -1,4 +1,4 @@
-
+import { NavLink } from 'react-router-dom';
 import {
     Settings,
     Bell,
@@ -16,8 +16,8 @@ function Header() {
                 <input className="w-full h-full pl-1 outline-none placeholder-gray-1000 text-sm" placeholder="Search for products" type="text" />
             </div>
             <div className='flex gap-2 items-center'>
-                <Settings className='text-gray-700' />
-                <Bell className='text-gray-700' />
+                <NavLink to="/settings"><Settings className='text-gray-700' /></NavLink>
+                <NavLink to="/notifications"><Bell className='text-gray-700' /></NavLink>
                 <div className="h-6 w-px bg-gray-500/50" />
                 <div className='flex flex-col gap-1'>
                     <h1 className="text-1xl font-bold leading-none text-slate-900">Mateus Araujo</h1>

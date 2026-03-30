@@ -1,0 +1,102 @@
+import { useState, useEffect } from "react";
+import {
+    TriangleAlertIcon,
+    Package,
+    ReceiptText,
+    CircleDollarSign,
+
+} from 'lucide-react';
+import { fetchProdutosResumo } from "../../services/produtosServices";
+import { fetchVendasResumo } from "../../services/vendasServices";
+
+
+function StatsCard() {
+
+    const [totalP, setTotalP] = useState(0);
+    const [baixoE, setBaixoE] = useState(0);
+    const [qtdVendasMes, setQtdVendasMes] = useState(0);
+    const [receita, setReceita] = useState(0);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const { total, baixoEstoque } = await fetchProdutosResumo();
+                const { qtdVendasMes, receita } = await fetchVendasResumo();
+                setTotalP(total);
+                setBaixoE(baixoEstoque);
+                setQtdVendasMes(qtdVendasMes);
+                setReceita(receita);
+            } catch (error) {
+                console.error('Erro ao buscar resumo de produtos:', error);
+            }
+        }
+        fetchData();
+    }, []);
+
+    const stats = [
+        {
+            title: 'Total de produtos',
+            value: totalP,
+            subtextColor: 'text-emerald-500',
+            iconBg: 'bg-indigo-100',
+            iconColor: 'text-indigo-600',
+            icon: <Package />,
+        },
+        {
+            title: 'Baixo estoque',
+            value: baixoE,
+            valueColor: 'text-rose-500',
+            subtextColor: 'text-rose-500',
+            iconBg: 'bg-rose-100',
+            iconColor: 'text-rose-500',
+            icon: <TriangleAlertIcon />,
+        },
+        {
+            title: "Vendas do mês",
+            value: qtdVendasMes,
+            subtextColor: 'text-emerald-500',
+            iconBg: 'bg-indigo-100',
+            iconColor: 'text-indigo-600',
+            icon: <ReceiptText />,
+        },
+        {
+            title: "Receita do mês",
+            value: receita,
+            subtextColor: 'text-emerald-500',
+            iconBg: 'bg-emerald-100',
+            iconColor: 'text-emerald-600',
+            icon: <CircleDollarSign />,
+        }
+    ];
+
+    return (
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {stats.map((item) => (
+                <div
+                    key={item.title}
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                >
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <p className="text-sm font-medium text-slate-500">{item.title}</p>
+                            <h3
+                                className={`mt-3 text-5xl font-bold tracking-tight text-slate-900 ${item.valueColor || ''
+                                    }`}
+                            >
+                                {item.value}
+                            </h3>
+                        </div>
+
+                        <div
+                            className={`flex h-14 w-14 items-center justify-center rounded-2xl text-2xl ${item.iconBg} ${item.iconColor}`}
+                        >
+                            <span>{item.icon}</span>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+export default StatsCard;
