@@ -22,7 +22,7 @@ function SalesGrid() {
     }, []);
     return (
 
-        <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm w-min  bg-neutral-primary-soft shadow-xs rounded-base border border-default w-xl">
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm bg-neutral-primary-soft shadow-xs rounded-base border border-default w-full">
             <div className="mb-4 flex items-baseline justify-between border-b border-gray-100">
                 <h2 className="text-2xl font-bold text-slate-1000 mb-6">Vendas Recentes</h2>
                 <NavLink to="/produtos" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
@@ -35,7 +35,7 @@ function SalesGrid() {
                         <th scope="col" className="px-6 py-3 font-medium text-gray-500">
                             Nome do produto
                         </th>
-                        <th scope="col" className="px-6 py-3 font-medium text-gray-500">
+                        <th scope="col" className="px-6 py-4 font-medium text-gray-500 text-left">
                             Preço
                         </th>
                         <th scope="col" className="px-6 py-3 font-medium text-gray-500">
@@ -46,11 +46,11 @@ function SalesGrid() {
                 <tbody>
                     {vendasRecentes.map((venda) => (
                         <tr key={venda.ID} className="bg-neutral-primary border-t border-gray-100 hover:bg-gray-200 h-20">
-                            <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                            <td scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
                                 {venda.produto ? venda.produto.NOME : 'Produto Desconhecido'}
-                            </th>
+                            </td>
 
-                            <td className="px-6 py-4 text-right whitespace-nowrap">
+                            <td className="px-6 py-4 text-left whitespace-nowrap">
                                 R$ {Number(venda.VALOR_TOTAL).toFixed(2)}
                             </td>
                             <td className="px-6 py-4 font-medium ">

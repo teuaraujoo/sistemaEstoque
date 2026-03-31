@@ -7,6 +7,18 @@ exports.findAllProdutos = async () => {
     return produtos;
 };
 
+exports.getTotalProdutos = async () => {
+    const q = 'SELECT COUNT(*) AS TOTAL FROM PRODUTOS';
+    const [produtos] = await db.query(q);
+    return produtos;
+};
+
+exports.findAllProdutosLowEstoque = async () => {
+    const q = 'SELECT * FROM PRODUTOS WHERE QTD_ESTOQUE < 5';
+    const [produtos] = await db.query(q);
+    return produtos;
+};
+
 exports.findProductById = async (conn, productId) => {
 
     const execute = conn || db;
@@ -33,7 +45,13 @@ exports.updateQtdProduto = async (conn, qtd, id) => {
     const q = 'UPDATE PRODUTOS SET QTD_ESTOQUE = ? WHERE ID = ?';
     const produtoAtt = await conn.query(q, [qtd, id]);
     return produtoAtt;
-}
+};
+
+exports.activateProduto = async (status, id) => {
+    const q = ' UPDATE PRODUTOS SET STATUS = ? WHERE ID = ?';
+    const activeProduto = await db.query(q, [status, id]);
+    return activeProduto;
+};
 
 exports.inactiveStatus = async (productId) => {
 

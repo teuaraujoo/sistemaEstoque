@@ -13,7 +13,7 @@ function Header() {
 
             <div className="flex items-center border w-120 pr-1 gap-1 bg-gray-200 border-gray-500/30 h-[46px] rounded-[5px] overflow-hidden">
                 <Search className='pl-2  w-6 h-6 text-gray-700' />
-                <input className="w-full h-full pl-1 outline-none placeholder-gray-1000 text-sm" placeholder="Search for products" type="text" />
+                <input className="w-full h-full pl-1 outline-none placeholder-gray-1000 text-sm" placeholder="Procure no sistema" type="text" />
             </div>
             <div className='flex gap-2 items-center'>
                 <NavLink to="/settings"><Settings className='text-gray-700' /></NavLink>

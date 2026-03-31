@@ -1,5 +1,6 @@
 const vendasRepositories = require('../repositories/vendasRepositories');
 const validaQuant = require('../utils/validaQuant');
+const daysAgo = require('../utils/daysAgo');
 const produtosRepositories = require('../repositories/produtosRepositories');
 const estoqueRepositories = require('../repositories/estoqueRepositories');
 const estoqueServices = require('../services/estoqueServices');
@@ -10,11 +11,26 @@ exports.getAllVendas = async () => {
     return vendas;
 };
 
+exports.getReceitaMes = async () => {
+    const today = new Date();
+    const diasAtras = daysAgo(today);
+    
+    const receita = await vendasRepositories.findReceitaMes(diasAtras, today);
+    return receita;
+};
+
+exports.getVendasMes = async () => {
+    const today = new Date();
+    const diasAtras = daysAgo(today);
+    const vendas = await vendasRepositories.findVendasMes(diasAtras, today);
+    return vendas;
+};
+
 exports.getAllVendaItens = async () => {
 
     const vendaItens = await vendasRepositories.finAllVendaItens();
     return vendaItens;
-}
+};
 
 exports.createVenda = async (vendaData) => {
 

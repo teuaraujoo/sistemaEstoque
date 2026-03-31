@@ -10,6 +10,17 @@ exports.getAllProdutos = async () => {
     return produtos;
 };
 
+exports.getTotalProdutos  = async () =>  {
+    const produtos = await produtosRepositories.getTotalProdutos();
+    return produtos;
+};
+
+exports.getAllProdutosLowEstoque  = async () =>  {
+    const produtos = await produtosRepositories.findAllProdutosLowEstoque();
+    return produtos;
+}
+
+
 exports.getProdutoById = async (productId) => {
 
     const produto = await produtosRepositories.findProductById(db, productId);
@@ -97,6 +108,12 @@ exports.updateProduto = async (productData, productId) => {
     await produtosRepositories.attProduto(data, productId);
     produto = await produtosRepositories.findProductById(db, productId);
     return produto[0];
+};
+
+exports.activateProduto = async (status, id) => {
+
+    const activeProduto = await produtosRepositories.activateProduto(status, id);
+    return activeProduto;
 };
 
 exports.inactiveStatus = async (productId) => {

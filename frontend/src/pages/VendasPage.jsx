@@ -1,7 +1,8 @@
 function VendasPage() {
     return (
         <div>
-            <h2>Página de Vendas</h2>
+            <h2>Vendas</h2>
+            <p>Gerencie suas vendas</p>
         </div>
     )
 }

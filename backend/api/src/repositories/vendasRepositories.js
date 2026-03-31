@@ -6,6 +6,18 @@ exports.findAllVendas = async () => {
     return vendas;
 };
 
+exports.findVendasMes = async (diasAtras, today) => {
+    const q = `SELECT * FROM VENDAS WHERE DATA_VENDA BETWEEN ? AND ? `;
+    const [vendas] = await db.query(q, [diasAtras, today]);
+    return vendas;
+};
+
+exports.findReceitaMes = async (diasAtras, today) => {
+    const q = 'SELECT SUM(VALOR_TOTAL) AS receitaTotal FROM VENDAS WHERE DATA_VENDA BETWEEN ? AND ?';
+    const [receita] = await db.query(q, [diasAtras, today]);
+    return receita;
+};
+
 exports.findVendaById = async (conn, id) => {
 
     const execute = conn || db;

@@ -14,6 +14,10 @@ CRUD VENDAS
 
 router.get('/', vendasControllers.getAllVendas);
 
+router.get('/receitaMes', vendasControllers.getReceitaMes);
+
+router.get('/vendasMes', vendasControllers.getVendasMes);
+
 router.get('/itens', vendasControllers.getAllVendaItens);
 
 router.post('/', vendasControllers.createVenda);

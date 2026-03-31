@@ -6,10 +6,28 @@ exports.getAllProdutos = async (req, res) => {
         const data = await produtoServices.getAllProdutos();
         return res.status(200).json(data);
     } catch (err) {
-        console.log(err);
         return res.status(500).send('Error ao buscar produtos.');
     };
 };
+
+exports.getTotalProdutos = async (req, res) => {
+    try {
+        const data = await produtoServices.getTotalProdutos();
+        return res.status(200).json(data);
+    } catch(err) {
+        return res.status(500).send('Error ao buscar produtos.');
+    }
+};
+
+exports.getAllProdutosLowEstoque = async (req, res) => {
+    try {
+        const data = await produtoServices.getAllProdutosLowEstoque();
+        return res.status(200).json(data) 
+    } catch(err) {
+        return res.status(500).send('Error ao buscar produtos.');
+    }
+};
+
 
 exports.getProdutoById = async (req, res) => {
 
@@ -51,6 +69,22 @@ exports.updateProduto = async (req, res) => {
         });
     } catch (err) {
         return res.status(500).send(err.message);
+    };
+};
+
+exports.activateProduto = async (req, res) => {
+
+    const id = req.params.id;
+    const { STATUS } = req.body;
+
+    try {
+        const activeProduto = await produtoServices.activateProduto(STATUS, id);
+        return res.status(200).json({
+            message: 'Produto ativado com sucesso!',
+            data: activeProduto
+        });
+    } catch (err) {
+        return res.status(400).send('Error ao ativar produto!');
     };
 };
 

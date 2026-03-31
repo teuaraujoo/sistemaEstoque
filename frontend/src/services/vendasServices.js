@@ -1,37 +1,24 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = 'http://localhost:8800/api/v1/vendas';
 
 export async function fetchVendasResumo() {
-    const response = await axios.get(API_URL);
-    const data = response.data;
 
-    if (!Array.isArray(data)) {
+    try {
+        const responseTotal = await axios.get(`${API_URL}/vendasMes`);
+        const dataTotal = await responseTotal.data.length;
+
+        const responseReceita = await axios.get(`${API_URL}/receitaMes`);
+        const receitaTotal = await responseReceita.data[0].receitaTotal;
+
         return {
-            qtdVendasMes: 0,
-            receita: 0,
+            qtdVendasMes: dataTotal,
+            receita: receitaTotal
         };
+    } catch (err) {
+        toast.error(err.response.data);
     }
-
-    const qtdVendasMes = () => {
-        const hoje = new Date();
-        const mesAtual = hoje.getMonth();
-        const anoAtual = hoje.getFullYear();
-
-        return data.filter((venda) => {
-            const dataVenda = new Date(venda.DATA_VENDA);
-            return (
-                dataVenda.getMonth() === mesAtual &&
-                dataVenda.getFullYear() === anoAtual
-            );
-        }).length;
-
-    }
-    const receita = data.reduce((total, venda) => total + Number(venda.VALOR_TOTAL), 0);
-
-    return {
-        qtdVendasMes: qtdVendasMes(),
-        receita,
-    };
 };
 

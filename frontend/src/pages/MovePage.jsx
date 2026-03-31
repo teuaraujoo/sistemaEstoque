@@ -1,7 +1,8 @@
 function MovePage() {
     return (
         <div>
-            <h2>Página de Movimentações</h2>
+            <h2>Movimentações</h2>
+            <p>Gerencie suas movimentações e estoque</p>
         </div>
     )
 }

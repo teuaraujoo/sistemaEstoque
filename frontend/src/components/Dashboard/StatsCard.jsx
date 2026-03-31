@@ -9,26 +9,21 @@ import {
 import { fetchProdutosResumo } from "../../services/produtosServices";
 import { fetchVendasResumo } from "../../services/vendasServices";
 
-
 function StatsCard() {
 
-    const [totalP, setTotalP] = useState(0);
-    const [baixoE, setBaixoE] = useState(0);
+    const [totalProdutos, setTotalProdutos] = useState(0);
+    const [baixoEstoque, setBaixoEstoque] = useState(0);
     const [qtdVendasMes, setQtdVendasMes] = useState(0);
     const [receita, setReceita] = useState(0);
 
     useEffect(() => {
         async function fetchData() {
-            try {
-                const { total, baixoEstoque } = await fetchProdutosResumo();
-                const { qtdVendasMes, receita } = await fetchVendasResumo();
-                setTotalP(total);
-                setBaixoE(baixoEstoque);
-                setQtdVendasMes(qtdVendasMes);
-                setReceita(receita);
-            } catch (error) {
-                console.error('Erro ao buscar resumo de produtos:', error);
-            }
+            const { totalProdutos, baixoEstoque } = await fetchProdutosResumo();
+            const { qtdVendasMes, receita } = await fetchVendasResumo();
+            setTotalProdutos(totalProdutos);
+            setBaixoEstoque(baixoEstoque);
+            setQtdVendasMes(qtdVendasMes);
+            setReceita(receita);
         }
         fetchData();
     }, []);
@@ -36,7 +31,7 @@ function StatsCard() {
     const stats = [
         {
             title: 'Total de produtos',
-            value: totalP,
+            value: totalProdutos,
             subtextColor: 'text-emerald-500',
             iconBg: 'bg-indigo-100',
             iconColor: 'text-indigo-600',
@@ -44,7 +39,7 @@ function StatsCard() {
         },
         {
             title: 'Baixo estoque',
-            value: baixoE,
+            value: baixoEstoque,
             valueColor: 'text-rose-500',
             subtextColor: 'text-rose-500',
             iconBg: 'bg-rose-100',
@@ -61,7 +56,7 @@ function StatsCard() {
         },
         {
             title: "Receita do mês",
-            value: receita,
+            value: `R$ ${receita}`,
             subtextColor: 'text-emerald-500',
             iconBg: 'bg-emerald-100',
             iconColor: 'text-emerald-600',
@@ -81,8 +76,8 @@ function StatsCard() {
                             <p className="text-sm font-medium text-slate-500">{item.title}</p>
                             <h3
                                 className={`mt-3 text-5xl font-bold tracking-tight text-slate-900 ${item.valueColor || ''
-                                    }`}
-                            >
+                                }`}
+                                >
                                 {item.value}
                             </h3>
                         </div>
