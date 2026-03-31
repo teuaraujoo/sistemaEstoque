@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "dev": "nodemon index.js",
     "db:reset": "node src/database/reset.js",
     "db:seed": "node src/database/seed.js"
   },
