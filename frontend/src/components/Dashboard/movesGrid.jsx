@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { fetchMoves } from '../../services/moveServices';
-import {
-    CirclePlus,
-    CircleMinus
-} from 'lucide-react';
+import { IoMdAddCircle, IoIosRemoveCircle } from "react-icons/io";
 
 
 
@@ -40,12 +37,11 @@ function MovesGrid() {
                             <th scope="row" className="px-3 py-4 font-medium text-heading whitespace-nowrap w-16">
                                 {move.TIPO === 'ENTRADA' ?
                                     <div className='bg-green-300 w-full h-full p-2 border-transparent rounded-lg'>
-
-                                        <CirclePlus className='text-green-700' />
+                                        <IoMdAddCircle className='text-green-700 w-7 h-7' />
                                     </div>
                                     :
                                     <div className='bg-red-300 w-full h-full p-2 border-transparent rounded-lg'>
-                                        <CircleMinus className='text-red-700' />
+                                        <IoIosRemoveCircle className='text-red-700 w-7 h-7' />
                                     </div>
                                 }
                             </th>

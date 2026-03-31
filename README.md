@@ -28,8 +28,13 @@ A aplicação permite:
 
 ### Frontend
 
-- React
+- Axios
 - Tailwind CSS
+- React
+- React Icons
+- React Router
+- React Toastify
+- - React Lucide Icons
 
 ### Ferramentas
 

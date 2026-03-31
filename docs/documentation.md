@@ -28,6 +28,7 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 - React Router
 - React Icons
 - React Toastify
+- React Lucide Icons
 
 ### 2.4 Conceitos Aplicados
 

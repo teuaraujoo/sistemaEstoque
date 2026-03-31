@@ -4,7 +4,8 @@ import {
     Package,
     ShoppingCart,
     ArrowLeftRight
-} from 'lucide-react'
+} from 'lucide-react';
+import logo from '../../assets/images/logo.png';
 
 const menuItems = [
     {
@@ -34,8 +35,8 @@ function Sidebar() {
         <aside className="w-64 min-h-screen bg-white border-r border-slate-300 flex flex-col">
             <div className="p-6">
                 <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-indigo-600 flex items-center justify-center">
-                        <Package className="w-5 h-5 text-white" />
+                    <div className="w-15 h-15 rounded-xl bg-transparent flex items-center justify-center">
+                        <img src={logo} alt="Logo do Saas" />
                     </div>
 
                     <div>

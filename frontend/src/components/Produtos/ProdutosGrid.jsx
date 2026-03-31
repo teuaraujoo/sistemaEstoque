@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getAllProdutos } from "../../services/produtosServices";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Trash, Pen } from "lucide-react";
 import axios from "axios";
 import { GiShieldDisabled } from "react-icons/gi";
 import { BsShieldFillCheck } from "react-icons/bs";
