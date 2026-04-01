@@ -23,6 +23,8 @@ router.get('/:id', produtosControllers.getProdutoById);
 
 router.post('/', produtosControllers.createProduto);
 
+router.put('/:id', produtosControllers.updateProduto);
+
 router.patch('/:id/status', produtosControllers.activateProduto);
 
 router.delete('/:id', produtosControllers.deleteProduto);

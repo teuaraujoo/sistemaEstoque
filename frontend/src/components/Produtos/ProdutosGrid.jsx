@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { getAllProdutos } from "../../services/produtosServices";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
@@ -7,22 +5,7 @@ import { GiShieldDisabled } from "react-icons/gi";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FaPen } from 'react-icons/fa';
 
-function ProdutosGrid() {
-
-    const [produtosData, setProdutosData] = useState([]);
-
-    useEffect(() => {
-
-        async function fetchProdutos() {
-            try {
-                const produtos = await getAllProdutos();
-                setProdutosData(produtos);
-            } catch (err) {
-                toast(err.message);
-            }
-        }
-        fetchProdutos();
-    }, []);
+function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
 
     function getBarColor(qtd) {
         if (qtd < 5) {
@@ -43,9 +26,8 @@ function ProdutosGrid() {
 
         try {
             const response = await axios.delete(`http://localhost:8800/api/v1/produtos/${id}`);
-            const updatedProdutos = produtosData.map(p => p.ID === id ? { ...p, STATUS: 'INATIVO' } : p);
-            setProdutosData(updatedProdutos);
             toast.success(response.data.message);
+            await refreshProdutos();
         } catch (err) {
             toast.error(err.response.data);
         };
@@ -54,17 +36,13 @@ function ProdutosGrid() {
     async function handleActive(id) {
         try {
             const response = await axios.patch(`http://localhost:8800/api/v1/produtos/${id}/status`, { STATUS: 'ATIVO' });
-            const updatedProdutos = produtosData.map(p => p.ID === id ? { ...p, STATUS: 'ATIVO' } : p);
-            setProdutosData(updatedProdutos);
+            
             toast.success(response.data.message);
-        } catch(err) {
+            await refreshProdutos();
+        } catch (err) {
             toast.error(err.response.data);
         };
     };
-
-    async function handleEdit(id) {
-
-    }
 
     return (
         <div className="bg-white border border-slate-200 rounded-xl overflow-hidden p-2 max-w-full">
@@ -77,7 +55,7 @@ function ProdutosGrid() {
                 <span>Actions</span>
             </div>
 
-            {produtosData.map((produto) => (
+            {produtos.map((produto) => (
                 <div
                     key={produto.ID}
                     className="grid grid-cols-[6fr_2fr_3fr_3fr_1fr] items-center px-6 py-4 border-b border-gray-200 last:border-none hover:bg-slate-100 transition"
@@ -88,7 +66,7 @@ function ProdutosGrid() {
 
                     {/* PREÇO */}
                     <span className="text-slate-700 font-medium">
-                        R$ {produto.PRECO_COMPRA}
+                        R$ {produto.PRECO_VENDA}
                     </span>
 
                     {/* ESTOQUE */}
@@ -110,7 +88,7 @@ function ProdutosGrid() {
                         {produto.STATUS}
                     </span>
                     <div className="flex gap-4 justify-start">
-                        <FaPen className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800" />
+                        <FaPen className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800" onClick={() => onEditProduct && onEditProduct(produto)} />
 
                         {produto.STATUS === 'INATIVO'
                             ?

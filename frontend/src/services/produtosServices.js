@@ -32,3 +32,28 @@ export async function getAllProdutos() {
         toast.error(err.response.data);
     }
 };
+
+export async function updateProduto(produto) {
+    const response = await axios.put(`${API_URL}/${produto.id}`, {
+        NOME: produto.nome,
+        DESCRICAO: produto.descricao,
+        PRECO_COMPRA: produto.preco_compra,
+        PRECO_VENDA: produto.preco_venda,
+        QTD_ESTOQUE: produto.quant,
+    });
+
+    return response.data;
+};
+
+export async function createProduto(produto) {
+
+    const response = await axios.post(`${API_URL}`, {
+        NOME: produto.nome,
+        DESCRICAO: produto.descricao,
+        PRECO_COMPRA: produto.preco_compra,
+        PRECO_VENDA: produto.preco_venda,
+        QTD_ESTOQUE: produto.quant,
+    });
+
+    return response.data;
+}

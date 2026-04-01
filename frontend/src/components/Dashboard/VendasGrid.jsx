@@ -25,7 +25,7 @@ function SalesGrid() {
         <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm bg-neutral-primary-soft shadow-xs rounded-base border border-default w-full">
             <div className="mb-4 flex items-baseline justify-between border-b border-gray-100">
                 <h2 className="text-2xl font-bold text-slate-1000 mb-6">Vendas Recentes</h2>
-                <NavLink to="/produtos" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
+                <NavLink to="/vendas" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
                     Ver tudo
                 </NavLink>
             </div>

@@ -1,8 +1,9 @@
+import PageTitle from "../components/ui/PageTitle";
+
 function MovePage() {
     return (
         <div>
-            <h2>Movimentações</h2>
-            <p>Gerencie suas movimentações e estoque</p>
+            <PageTitle Nome={ 'Movimentações' } Descricao={ 'Gerencie seu estoque e crie novas movimentações' } />
         </div>
     )
 }

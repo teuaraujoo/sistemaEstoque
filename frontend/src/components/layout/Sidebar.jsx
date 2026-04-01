@@ -5,7 +5,7 @@ import {
     ShoppingCart,
     ArrowLeftRight
 } from 'lucide-react';
-import logo from '../../../public/logo.png';
+import logo from '../../assets/images/logo.png';
 
 const menuItems = [
     {

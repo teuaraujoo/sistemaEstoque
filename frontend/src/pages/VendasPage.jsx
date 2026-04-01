@@ -1,8 +1,9 @@
+import PageTitle from "../components/ui/PageTitle";
+
 function VendasPage() {
     return (
         <div>
-            <h2>Vendas</h2>
-            <p>Gerencie suas vendas</p>
+            <PageTitle Nome={ 'Vendas' } Descricao={ 'Gerencie e crie suas vendas' } />
         </div>
     )
 }

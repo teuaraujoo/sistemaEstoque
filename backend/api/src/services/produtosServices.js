@@ -10,12 +10,12 @@ exports.getAllProdutos = async () => {
     return produtos;
 };
 
-exports.getTotalProdutos  = async () =>  {
+exports.getTotalProdutos = async () => {
     const produtos = await produtosRepositories.getTotalProdutos();
     return produtos;
 };
 
-exports.getAllProdutosLowEstoque  = async () =>  {
+exports.getAllProdutosLowEstoque = async () => {
     const produtos = await produtosRepositories.findAllProdutosLowEstoque();
     return produtos;
 }
@@ -39,7 +39,7 @@ exports.createProduto = async (productData) => {
             throw new RangeError('Valor do estoque inválido');
         };
 
-        if (!produtoValidators.validaPrecos(productData.PRECO_VENDA, productData.PRECO_COMPRA)) {
+        if (!produtoValidators.validaPrecos(Number(productData.PRECO_VENDA), Number(productData.PRECO_COMPRA))) {
             throw new RangeError('Valor de venda inválido');
         }
 
@@ -85,16 +85,16 @@ exports.createProduto = async (productData) => {
 
 exports.updateProduto = async (productData, productId) => {
 
+    let [produto] = await produtosRepositories.findProductById(db, productId);
+    const qtdEstoqueProduto = produto.QTD_ESTOQUE;
+
     if (!produtoValidators.validaNome(productData.NOME)) {
         throw new Error('Nome inválido!');
     };
 
-    if (!produtoValidators.validaPrecos(productData.PRECO_VENDA, productData.PRECO_COMPRA)) {
-        throw new RangeError('Valor de venda inválido')
+    if (!produtoValidators.validaPrecos(Number(productData.PRECO_VENDA), Number(productData.PRECO_COMPRA))) {
+        throw new RangeError('Valor de venda inválido');
     };
-
-    let [produto] = await produtosRepositories.findProductById(db, productId);
-    const qtdEstoqueProduto = produto.QTD_ESTOQUE;
 
     const data = [
         productData.NOME,

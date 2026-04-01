@@ -2,10 +2,111 @@ import {
     IoIosClose,
     IoMdSave
 } from "react-icons/io";
+import { useEffect, useRef } from "react";
+import { toast } from "react-toastify";
+import { updateProduto, createProduto } from "../../services/produtosServices";
 
-function ProdutoModalForm({ isOpen, onClose }) {
+function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos }) {
+
+    const ref = useRef(null);
+
+
+    useEffect(() => {
+        const user = ref.current;
+        if (!user) return;
+
+        if (onEdit) {
+            user.nome.value = onEdit.NOME;
+            user.descricao.value = onEdit.DESCRICAO;
+            user.preco_compra.value = onEdit.PRECO_COMPRA;
+            user.preco_venda.value = onEdit.PRECO_VENDA;
+            user.quant.value = onEdit.QTD_ESTOQUE;
+        } else {
+            user.nome.value = '';
+            user.descricao.value = '';
+            user.preco_compra.value = '';
+            user.preco_venda.value = '';
+            user.quant.value = '';
+        }
+    }, [onEdit, isOpen]);
 
     if (!isOpen) return null;
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const user = ref.current;
+
+        if (
+            !user.nome.value ||
+            !user.preco_compra.value ||
+            !user.preco_venda.value
+        ) {
+            return toast.warn('Preencha todos os campos!');
+        };
+        
+        if (!user.quant.value) user.quant.value = 0;
+
+        if (!user.descricao.value) user.descricao.value = '';
+
+        if (onEdit) {
+
+            const produto = {
+                id: onEdit.ID,
+                nome: user.nome.value,
+                descricao: user.descricao.value,
+                preco_compra: user.preco_compra.value,
+                preco_venda: user.preco_venda.value,
+                quant: user.quant.value,
+            };
+
+            try {
+                const data = await updateProduto(produto);
+
+                toast.success(data.message || 'Produto atualizado com sucesso!');
+
+                user.nome.value = '';
+                user.descricao.value = '';
+                user.preco_compra.value = '';
+                user.preco_venda.value = '';
+                user.quant.value = '';
+
+                setOnEdit(null);
+                onClose();
+                await refreshProdutos();
+            } catch (err) {
+                toast.error(err.response?.data || err.message);
+            }
+        } else {
+
+            const produto = {
+                nome: user.nome.value,
+                descricao: user.descricao.value,
+                preco_compra: user.preco_compra.value,
+                preco_venda: user.preco_venda.value,
+                quant: user.quant.value,
+            };
+
+            try {
+                const data = await createProduto(produto);
+
+                toast.success(data.message || 'Produto cadastrado com sucesso!');
+
+                user.nome.value = '';
+                user.descricao.value = '';
+                user.preco_compra.value = '';
+                user.preco_venda.value = '';
+                user.quant.value = '';
+
+                setOnEdit(null);
+                onClose();
+                await refreshProdutos();
+
+            } catch (err) {
+                toast.error(err.response?.data || err.message);
+            }
+        };
+    };
 
     return (
         <div
@@ -35,20 +136,19 @@ function ProdutoModalForm({ isOpen, onClose }) {
                         </div>
                     </div>
 
-                    <form action="#" className="pt-5 md:pt-6 space-y-5">
+                    <form action="#" ref={ref} onSubmit={handleSubmit} className="pt-5 md:pt-6 space-y-5">
                         <div>
                             <label
-                                htmlFor="email"
+                                htmlFor="nome"
                                 className="mb-2 block text-sm font-semibold text-slate-700"
                             >
                                 Nome do produto
                             </label>
                             <input
-                                type="email"
-                                id="email"
+                                type="text"
+                                id="nome"
                                 className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                                 placeholder="e.g. Headset Gamer HyperX"
-                                required
                             />
                         </div>
 
@@ -66,7 +166,6 @@ function ProdutoModalForm({ isOpen, onClose }) {
                                 cols={45}
                                 className="block w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                                 placeholder="Descreva seu produto, especificações técnicas"
-                                required
                             ></textarea>
                         </div>
 
@@ -84,7 +183,6 @@ function ProdutoModalForm({ isOpen, onClose }) {
                                     step="0.01"
                                     className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                                     placeholder="R$ 00,00"
-                                    required
                                 />
                             </div>
 
@@ -101,7 +199,6 @@ function ProdutoModalForm({ isOpen, onClose }) {
                                     step="0.01"
                                     className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                                     placeholder="R$ 00,00"
-                                    required
                                 />
                             </div>
                         </div>
@@ -118,7 +215,7 @@ function ProdutoModalForm({ isOpen, onClose }) {
                                 id="quant"
                                 className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                                 placeholder="0"
-                                required
+                                disabled={onEdit}
                             />
                         </div>
 
