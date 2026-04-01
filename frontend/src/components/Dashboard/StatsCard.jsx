@@ -4,7 +4,6 @@ import {
     Package,
     ReceiptText,
     CircleDollarSign,
-
 } from 'lucide-react';
 import { fetchProdutosResumo } from "../../services/produtosServices";
 import { fetchVendasResumo } from "../../services/vendasServices";
@@ -69,13 +68,13 @@ function StatsCard() {
             {stats.map((item) => (
                 <div
                     key={item.title}
-                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:-translate-y-1 transition-transform duration-300"
                 >
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-sm font-medium text-slate-500">{item.title}</p>
                             <h3
-                                className={`mt-3 text-5xl font-bold tracking-tight text-slate-900 ${item.valueColor || ''
+                                className={`mt-3 text-4xl font-bold tracking-tight text-slate-900 ${item.valueColor || ''
                                 }`}
                                 >
                                 {item.value}
@@ -83,7 +82,7 @@ function StatsCard() {
                         </div>
 
                         <div
-                            className={`flex h-14 w-14 items-center justify-center rounded-2xl text-2xl ${item.iconBg} ${item.iconColor}`}
+                            className={`flex h-12 w-12 items-center justify-center rounded-2xl ${item.iconBg} ${item.iconColor}`}
                         >
                             <span>{item.icon}</span>
                         </div>

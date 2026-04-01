@@ -1,5 +1,5 @@
 import {
-    IoIosAddCircle
+    IoIosAdd
 } from "react-icons/io";
 
 function AddButton({ Name, onClick }) {
@@ -19,7 +19,7 @@ function AddButton({ Name, onClick }) {
                 <span
                     className="absolute right-0 h-full w-10 rounded-lg bg-indigo-700 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300"
                 >
-                    <IoIosAddCircle className="w-7 h-7 text-white" />
+                    <IoIosAdd className="w-7 h-7 text-white" />
                 </span>
             </button>
         </>
