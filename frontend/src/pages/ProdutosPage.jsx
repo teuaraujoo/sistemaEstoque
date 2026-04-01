@@ -5,12 +5,6 @@ import ProdutoModalForm from "../components/Produtos/ProdutoModalForm";
 import PageTitle from "../components/ui/PageTitle";
 import { getAllProdutos } from "../services/produtosServices";
 
-/*
-usuario clica em editar -> abre modal -> preenche informacoes -> clica no botao e atualiza (PUT)
-usuario clica em cirar -> abre modal -> preenchje informacoes -> clica no botao e posta (POST)
-
-*/
-
 function ProdutosPage() {
 
     const [onEdit, setOnEdit] = useState(null);

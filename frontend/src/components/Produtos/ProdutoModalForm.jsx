@@ -6,9 +6,10 @@ import { useEffect, useRef } from "react";
 import { limparFormulario, preencherFormulario } from "../../utils/produtoFormsUtils";
 import { useProdutoForm } from "../../hooks/Produto/useProdutoForm";
 
-function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos }) {
+function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos, mensagem }) {
 
     const ref = useRef(null);
+    const mensagemEdicao = onEdit ? (mensagem ?? 'Quantidade não pode ser alterada durante a edição.') : '';
 
     useEffect(() => {
         const form = ref.current;
@@ -139,8 +140,11 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos 
                                 id="quant"
                                 className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                                 placeholder="0"
-                                disabled={onEdit}
+                                disabled={!!onEdit}
                             />
+                            <p className="mt-2 text-sm text-slate-500">
+                                {mensagemEdicao}
+                            </p>
                         </div>
 
                         <div className="flex items-center justify-end gap-3 pt-3">
