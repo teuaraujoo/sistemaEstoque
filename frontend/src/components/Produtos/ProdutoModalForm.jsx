@@ -3,110 +3,34 @@ import {
     IoMdSave
 } from "react-icons/io";
 import { useEffect, useRef } from "react";
-import { toast } from "react-toastify";
-import { updateProduto, createProduto } from "../../services/produtosServices";
+import { limparFormulario, preencherFormulario } from "../../utils/produtoFormsUtils";
+import { useProdutoForm } from "../../hooks/Produto/useProdutoForm";
 
 function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos }) {
 
     const ref = useRef(null);
 
-
     useEffect(() => {
-        const user = ref.current;
-        if (!user) return;
+        const form = ref.current;
+
+        if (!form) return;
 
         if (onEdit) {
-            user.nome.value = onEdit.NOME;
-            user.descricao.value = onEdit.DESCRICAO;
-            user.preco_compra.value = onEdit.PRECO_COMPRA;
-            user.preco_venda.value = onEdit.PRECO_VENDA;
-            user.quant.value = onEdit.QTD_ESTOQUE;
+            preencherFormulario(form, onEdit);
         } else {
-            user.nome.value = '';
-            user.descricao.value = '';
-            user.preco_compra.value = '';
-            user.preco_venda.value = '';
-            user.quant.value = '';
-        }
+            limparFormulario(form);
+        };
     }, [onEdit, isOpen]);
 
+    const { handleSubmit } = useProdutoForm({
+        onEdit,
+        setOnEdit,
+        onClose,
+        refreshProdutos,
+        ref
+    });
+
     if (!isOpen) return null;
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-
-        const user = ref.current;
-
-        if (
-            !user.nome.value ||
-            !user.preco_compra.value ||
-            !user.preco_venda.value
-        ) {
-            return toast.warn('Preencha todos os campos!');
-        };
-        
-        if (!user.quant.value) user.quant.value = 0;
-
-        if (!user.descricao.value) user.descricao.value = '';
-
-        if (onEdit) {
-
-            const produto = {
-                id: onEdit.ID,
-                nome: user.nome.value,
-                descricao: user.descricao.value,
-                preco_compra: user.preco_compra.value,
-                preco_venda: user.preco_venda.value,
-                quant: user.quant.value,
-            };
-
-            try {
-                const data = await updateProduto(produto);
-
-                toast.success(data.message || 'Produto atualizado com sucesso!');
-
-                user.nome.value = '';
-                user.descricao.value = '';
-                user.preco_compra.value = '';
-                user.preco_venda.value = '';
-                user.quant.value = '';
-
-                setOnEdit(null);
-                onClose();
-                await refreshProdutos();
-            } catch (err) {
-                toast.error(err.response?.data || err.message);
-            }
-        } else {
-
-            const produto = {
-                nome: user.nome.value,
-                descricao: user.descricao.value,
-                preco_compra: user.preco_compra.value,
-                preco_venda: user.preco_venda.value,
-                quant: user.quant.value,
-            };
-
-            try {
-                const data = await createProduto(produto);
-
-                toast.success(data.message || 'Produto cadastrado com sucesso!');
-
-                user.nome.value = '';
-                user.descricao.value = '';
-                user.preco_compra.value = '';
-                user.preco_venda.value = '';
-                user.quant.value = '';
-
-                setOnEdit(null);
-                onClose();
-                await refreshProdutos();
-
-            } catch (err) {
-                toast.error(err.response?.data || err.message);
-            }
-        };
-    };
 
     return (
         <div
