@@ -4,6 +4,7 @@ import AddButton from "../components/ui/AddButton";
 import ProdutoModalForm from "../components/Produtos/ProdutoModalForm";
 import PageTitle from "../components/ui/PageTitle";
 import { getAllProdutos } from "../services/produtosServices";
+import { IoIosAdd } from "react-icons/io";
 
 function ProdutosPage() {
 
@@ -51,7 +52,7 @@ function ProdutosPage() {
                 <div>
                     <PageTitle Nome={'Produtos'} Descricao={'Gerencie seu catálogo e quantidade de estoque'} />
                 </div>
-                <AddButton Name={'Produto'} onClick={handleOpenNewProduct} />
+                <AddButton Name={'Produto'} Icon={<IoIosAdd className="w-7 h-7 text-white" />} onClick={handleOpenNewProduct} />
             </div>
             <div className="p-7">
                 <ProdutosGrid

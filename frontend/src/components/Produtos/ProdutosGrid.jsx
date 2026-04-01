@@ -36,7 +36,7 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
     async function handleActive(id) {
         try {
             const response = await axios.patch(`http://localhost:8800/api/v1/produtos/${id}/status`, { STATUS: 'ATIVO' });
-            
+
             toast.success(response.data.message);
             await refreshProdutos();
         } catch (err) {
