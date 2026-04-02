@@ -16,42 +16,63 @@ function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
     };
 
     return (
-        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden p-2 max-w-full">
-            {/* HEADER */}
-            <div className="grid grid-cols-[2fr_1fr_1fr]  px-6 py-4 text-sm font-semibold text-slate-500 border-b border-gray-200">
-                <span>Valor</span>
-                <span>Data</span>
-                <span>Actions</span>
+        <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                    <thead className="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500">
+                                Valor
+                            </th>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500">
+                                Data
+                            </th>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500 text-center">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {vendas.map((venda) => (
+                            <tr
+                                key={venda.ID}
+                                className="border-b border-slate-100 transition hover:bg-slate-50"
+                            >
+                                <td className="px-6 py-4">
+                                    <span className="font-semibold text-slate-800">
+                                        R$ {venda.VALOR_TOTAL}
+                                    </span>
+                                </td>
+
+                                <td className="px-6 py-4 text-slate-600 font-medium">
+                                    {new Date(venda.DATA_VENDA).toLocaleDateString("pt-BR")}
+                                </td>
+
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center justify-center gap-3">
+                                        <button
+                                            onClick={() => handleDelete(venda.ID)}
+                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer transition hover:bg-red-50 hover:text-red-600"
+                                            title="Excluir venda"
+                                        >
+                                            <FaTrash className="h-4 w-4" />
+                                        </button>
+
+                                        <button
+                                            onClick={() => onInformation(venda.ID)}
+                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer transition hover:bg-indigo-50 hover:text-indigo-600"
+                                            title="Ver detalhes"
+                                        >
+                                            <IoInformationCircle className="h-5 w-5" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
-
-            {vendas.map((venda) => (
-                <div
-                    key={venda.ID}
-                    className="grid grid-cols-[2fr_1fr_1fr] items-center px-6 py-4 border-b border-gray-200 last:border-none hover:bg-slate-100 transition"
-                >
-                    {/* VALOR */}
-                    <div>
-                        <p className="font-medium text-slate-900">R$ {venda.VALOR_TOTAL}</p>
-                    </div>
-
-                    {/* DATA */}
-                    <span className="text-slate-700 font-medium">
-                        {new Date(venda.DATA_VENDA).toLocaleDateString('pt-BR')}
-                    </span>
-
-                    {/* ACTIONS */}
-                    <div className="flex items-center gap-4 justify-start">
-                        <FaTrash
-                            className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800"
-                            onClick={() => handleDelete(venda.ID)}
-                        />
-                        <IoInformationCircle
-                            className="h-10 w-10 cursor-pointer text-gray-500 hover:text-gray-800"
-                            onClick={() => onInformation(venda.ID)}
-                        />
-                    </div>
-                </div>
-            ))}
         </div>
     )
 };

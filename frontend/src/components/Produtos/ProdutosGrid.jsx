@@ -45,68 +45,118 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
     };
 
     return (
-        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden p-2 max-w-full">
-            {/* HEADER */}
-            <div className="grid grid-cols-[6fr_2fr_3fr_3fr_1fr]  px-6 py-4 text-sm font-semibold text-slate-500 border-b border-gray-200">
-                <span>Produto</span>
-                <span>Preço</span>
-                <span>Estoque</span>
-                <span>Status</span>
-                <span>Actions</span>
+        <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                    <thead className="border-b border-slate-200 bg-slate-50">
+                        <tr>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500">
+                                Produto
+                            </th>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500">
+                                Preço
+                            </th>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500">
+                                Estoque
+                            </th>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500">
+                                Status
+                            </th>
+                            <th className="px-6 py-4 text-sm font-semibold text-slate-500 text-center">
+                                Ações
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {produtos.length > 0 ? (
+                            produtos.map((produto) => (
+                                <tr
+                                    key={produto.ID}
+                                    className="border-b border-slate-100 transition hover:bg-slate-50"
+                                >
+                                    <td className="px-6 py-4">
+                                        <p className="font-semibold text-slate-800">
+                                            {produto.NOME}
+                                        </p>
+                                    </td>
+
+                                    <td className="px-6 py-4">
+                                        <span className="font-medium text-slate-700">
+                                            {Number(produto.PRECO_VENDA).toLocaleString("pt-BR", {
+                                                style: "currency",
+                                                currency: "BRL",
+                                            })}
+                                        </span>
+                                    </td>
+
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-2 w-28 overflow-hidden rounded-full bg-slate-200">
+                                                <div
+                                                    className={`h-full rounded-full ${getBarColor(produto.QTD_ESTOQUE)}`}
+                                                    style={{ width: getBarWidth(produto.QTD_ESTOQUE) }}
+                                                />
+                                            </div>
+
+                                            <span className="text-sm font-medium text-slate-600">
+                                                {produto.QTD_ESTOQUE} un
+                                            </span>
+                                        </div>
+                                    </td>
+
+                                    <td className="px-6 py-4">
+                                        <span
+                                            className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${produto.STATUS === "ATIVO"
+                                                    ? "bg-emerald-50 text-emerald-600"
+                                                    : "bg-rose-50 text-rose-600"
+                                                }`}
+                                        >
+                                            {produto.STATUS}
+                                        </span>
+                                    </td>
+
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center justify-center gap-3">
+                                            <button
+                                                onClick={() => onEditProduct && onEditProduct(produto)}
+                                                className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition cursor-pointer hover:bg-amber-50 hover:text-amber-600"
+                                                title="Editar produto"
+                                            >
+                                                <FaPen className="h-4 w-4" />
+                                            </button>
+
+                                            {produto.STATUS === "INATIVO" ? (
+                                                <button
+                                                    onClick={() => handleActive(produto.ID)}
+                                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer  transition hover:bg-emerald-50 hover:text-emerald-600"
+                                                    title="Ativar produto"
+                                                >
+                                                    <BsShieldFillCheck className="h-5 w-5" />
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    onClick={() => handleDelete(produto.ID)}
+                                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer  transition hover:bg-rose-50 hover:text-rose-600"
+                                                    title="Inativar produto"
+                                                >
+                                                    <GiShieldDisabled className="h-5 w-5" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5" className="px-6 py-10 text-center text-slate-400">
+                                    Nenhum produto encontrado.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
-
-            {produtos.map((produto) => (
-                <div
-                    key={produto.ID}
-                    className="grid grid-cols-[6fr_2fr_3fr_3fr_1fr] items-center px-6 py-4 border-b border-gray-200 last:border-none hover:bg-slate-100 transition"
-                >
-                    <div>
-                        <p className="font-medium text-slate-900">{produto.NOME}</p>
-                    </div>
-
-                    {/* PREÇO */}
-                    <span className="text-slate-700 font-medium">
-                        R$ {produto.PRECO_VENDA}
-                    </span>
-
-                    {/* ESTOQUE */}
-                    <div className="flex items-center gap-3">
-                        <div className="w-32 h-2 bg-slate-200 rounded-full overflow-hidden">
-                            <div
-                                className={`h-full ${getBarColor(produto.QTD_ESTOQUE)}`}
-                                style={{ width: getBarWidth(produto.QTD_ESTOQUE) }}
-                            />
-                        </div>
-
-                        <span className="text-sm text-slate-600 font-medium">
-                            {produto.QTD_ESTOQUE} un
-                        </span>
-                    </div>
-
-                    {/* STATUS */}
-                    <span className={`text-sm font-semibold ${produto.STATUS === 'ATIVO' ? 'text-emerald-600' : 'text-rose-600'}`}>
-                        {produto.STATUS}
-                    </span>
-                    <div className="flex gap-4 justify-start">
-                        <FaPen
-                            className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800"
-                            onClick={() => onEditProduct && onEditProduct(produto)}
-                        />
-
-                        {produto.STATUS === 'INATIVO'
-                            ?
-                            <BsShieldFillCheck
-                                className="w-7 h-7 cursor-pointer text-gray-500 hover:text-gray-800"
-                                onClick={() => handleActive(produto.ID)}
-                            />
-                            :
-                            <GiShieldDisabled
-                                className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800"
-                                onClick={() => handleDelete(produto.ID)}
-                            />}
-                    </div>
-                </div>
-            ))}
         </div>
     )
 }
