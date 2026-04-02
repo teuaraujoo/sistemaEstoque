@@ -5,6 +5,7 @@ import ProdutoModalForm from "../components/Produtos/ProdutoModalForm";
 import PageTitle from "../components/ui/PageTitle";
 import { getAllProdutos } from "../services/produtosServices";
 import { IoIosAdd } from "react-icons/io";
+import SearchBar from "../components/ui/SearchBar";
 
 function ProdutosPage() {
 
@@ -53,6 +54,11 @@ function ProdutosPage() {
                     <PageTitle Nome={'Produtos'} Descricao={'Gerencie seu catálogo e quantidade de estoque'} />
                 </div>
                 <AddButton Name={'Produto'} Icon={<IoIosAdd className="w-7 h-7 text-white" />} onClick={handleOpenNewProduct} />
+            </div>
+            <div className="ml-7 w-xl">
+                <SearchBar
+                    placeholder={'Busque pelos produtos'}
+                />
             </div>
             <div className="p-7">
                 <ProdutosGrid

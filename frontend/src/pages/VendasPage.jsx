@@ -1,12 +1,45 @@
 import PageTitle from "../components/ui/PageTitle";
 import AddButton from "../components/ui/AddButton";
-import { RxArrowTopRight } from "react-icons/rx";
-import { useNavigate } from "react-router-dom";
-import ProdutoCard from "../components/Vendas/ProdutoCard";
+import ProdutosGrid from "../components/Vendas/ProdutosGrid";
 import OrderSummary from "../components/Vendas/OrderSumary";
+import SearchBar from "../components/ui/SearchBar";
+import { getAllProdutos } from "../services/produtosServices";
+import { toast } from "react-toastify";
+import { RxArrowTopRight } from "react-icons/rx";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function VendasPage() {
+    const [produtos, setProdutos] = useState([]);
+    const [orderItems, setOrderItems] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+        async function carregarProdutos() {
+            const produtosList = await getAllProdutos();
+            setProdutos(produtosList || []);
+        };
+
+        carregarProdutos();
+    }, []);
+
+    function addItem(produto) {
+
+        const exists = orderItems.some((item) => produto.ID === item.ID);
+
+        if (exists) {
+            toast.error('Produto já adicionado');
+            return
+        };
+
+        setOrderItems((prev) => [...prev, produto]);
+    };
+
+    function removeItem(id) {
+        setOrderItems((prev) => prev.filter((item) => item.ID !== id));
+    };
 
     return (
         <div className="min-h-screen bg-slate-50">
@@ -14,7 +47,7 @@ function VendasPage() {
             <div className="flex items-end justify-between p-7">
                 <div>
                     <PageTitle
-                        Nome={"Vendas"}
+                        Nome={"Nova Venda"}
                         Descricao={"Crie novas vendas com os produtos disponíveis"}
                     />
                 </div>
@@ -29,34 +62,30 @@ function VendasPage() {
             {/* CONTEÚDO */}
             <div className="grid gap-8 px-8 pb-8 pt-6 xl:grid-cols-[1fr_360px]">
                 {/* ESQUERDA */}
-                <section className="min-w-0">
+                <section className="flex h-[calc(100vh-270px)] flex-col">
                     {/* BUSCA */}
-                    <div className="mb-6">
-                        <input
-                            type="text"
-                            placeholder="Buscar por nome..."
-                            className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-3.5 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
+                    <div className="mb-6 relative hidden md:block">
+                        <SearchBar
+                            placeholder={'Busque pelos produtos'}
                         />
                     </div>
 
-                    {/* GRID DE PRODUTOS */}
-                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-                        <ProdutoCard />
-                        <ProdutoCard />
-                        <ProdutoCard />
-                        <ProdutoCard />
-                        <ProdutoCard />
-                        <ProdutoCard />
-                    </div>
+                    <ProdutosGrid
+                        produtos={produtos}
+                        onAddItem={addItem}
+                    />
                 </section>
 
                 {/* DIREITA */}
                 <section className="h-full">
-                    <OrderSummary />
+                    <OrderSummary
+                        items={orderItems}
+                        onRemove={removeItem}
+                    />
                 </section>
             </div>
         </div>
     );
-}
+};
 
 export default VendasPage;
