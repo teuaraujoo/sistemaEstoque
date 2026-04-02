@@ -88,7 +88,10 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
                         {produto.STATUS}
                     </span>
                     <div className="flex gap-4 justify-start">
-                        <FaPen className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800" onClick={() => onEditProduct && onEditProduct(produto)} />
+                        <FaPen
+                            className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800"
+                            onClick={() => onEditProduct && onEditProduct(produto)}
+                        />
 
                         {produto.STATUS === 'INATIVO'
                             ?

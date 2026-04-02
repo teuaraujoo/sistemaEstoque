@@ -58,8 +58,8 @@ exports.newVenda = async (conn, vendaData) => {
 exports.insertVendaItem = async (conn, data) => {
     const q = `
         INSERT INTO VENDA_ITENS 
-        (VENDA_ID, PRODUTO_ID, QUANT, PRECO_UNITARIO, VALOR_TOTAL)
-        VALUES (?, ?, ?, ?, ?)
+        (VENDA_ID, PRODUTO_ID, NOME_PRODUTO, QUANT, PRECO_UNITARIO, VALOR_TOTAL)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
     const venda = await conn.query(q, data);

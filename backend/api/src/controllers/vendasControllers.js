@@ -39,6 +39,16 @@ exports.getAllVendaItens = async (req, res) => {
     };
 };
 
+exports.getAllVendaItensByVendaId = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await vendasServices.getAllVendaItensByVendaId(id);
+        return res.status(200).json(data);
+    } catch (err) {
+        return res.status(500).send('Error ao buscar itens da venda.');
+    };
+};
+
 exports.createVenda = async (req, res) => {
 
     const data = req.body;
@@ -58,7 +68,7 @@ exports.deleteVenda = async (req, res) => {
 
     try {
         const id = req.params.id;
-        const del = await vendasServices.deleteVenda(id);
+        await vendasServices.deleteVenda(id);
         return res.status(200).json({ message: 'Venda deletada com sucesso!' });
     } catch (err) {
         return res.status(500).send('Error ao deletar venda!');

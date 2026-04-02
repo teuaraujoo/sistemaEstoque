@@ -14,7 +14,7 @@ exports.getAllVendas = async () => {
 exports.getReceitaMes = async () => {
     const today = new Date();
     const diasAtras = daysAgo(today);
-    
+
     const receita = await vendasRepositories.findReceitaMes(diasAtras, today);
     return receita;
 };
@@ -31,6 +31,12 @@ exports.getAllVendaItens = async () => {
     const vendaItens = await vendasRepositories.finAllVendaItens();
     return vendaItens;
 };
+
+exports.getAllVendaItensByVendaId = async (id) => {
+
+    const vendaItens = await vendasRepositories.findAllVendasItensByVendaId(db, id);
+    return vendaItens;
+}
 
 exports.createVenda = async (vendaData) => {
 
@@ -62,7 +68,7 @@ exports.createVenda = async (vendaData) => {
             if (produto.STATUS === 'INATIVO') {
                 throw new Error(`${produto.NOME} está inativo!`);
             };
-            
+
             // valida estoque do produto
             if (produto.QTD_ESTOQUE < item.QUANT) {
                 throw new RangeError(`${produto.NOME} com estoque insuficiente!`);
@@ -78,6 +84,7 @@ exports.createVenda = async (vendaData) => {
             await vendasRepositories.insertVendaItem(connection, [
                 vendaId,
                 item.PRODUTO_ID,
+                produto.NOME,
                 item.QUANT,
                 Number(produto.PRECO_VENDA),
                 subtotal

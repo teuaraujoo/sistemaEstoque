@@ -20,6 +20,8 @@ router.get('/vendasMes', vendasControllers.getVendasMes);
 
 router.get('/itens', vendasControllers.getAllVendaItens);
 
+router.get('/itens/:id', vendasControllers.getAllVendaItensByVendaId);
+
 router.post('/', vendasControllers.createVenda);
 
 router.delete('/:id', vendasControllers.deleteVenda);

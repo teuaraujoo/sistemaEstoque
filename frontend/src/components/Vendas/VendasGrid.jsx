@@ -1,56 +1,59 @@
+import axios from "axios";
 import { FaTrash } from "react-icons/fa";
+import { IoInformationCircle } from "react-icons/io5";
+import { toast } from "react-toastify";
 
-function VendasGrid({ vendas = [], refreshVendas }) {
+function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
 
-    async function handleDelete() {
-
-
-        await refreshVendas();
-    }
+    async function handleDelete(id) {
+        try {
+            const response = await axios.delete(`http://localhost:8800/api/v1/vendas/${id}`)
+            toast.success(response.data.message);
+            await refreshVendas();
+        } catch (err) {
+            toast.error(err.data.messsage);
+        }
+    };
 
     return (
         <div className="bg-white border border-slate-200 rounded-xl overflow-hidden p-2 max-w-full">
             {/* HEADER */}
-            <div className="grid grid-cols-[6fr_2fr_3fr_1fr]  px-6 py-4 text-sm font-semibold text-slate-500 border-b border-gray-200">
-                <span>Produto</span>
-                <span>Preço</span>
-                <span>Quantidade</span>
+            <div className="grid grid-cols-[2fr_1fr_1fr]  px-6 py-4 text-sm font-semibold text-slate-500 border-b border-gray-200">
+                <span>Valor</span>
+                <span>Data</span>
                 <span>Actions</span>
             </div>
 
             {vendas.map((venda) => (
                 <div
-                    key={venda.VENDA_ID}
-                    className="grid grid-cols-[6fr_2fr_3fr_1fr] items-center px-6 py-4 border-b border-gray-200 last:border-none hover:bg-slate-100 transition"
+                    key={venda.ID}
+                    className="grid grid-cols-[2fr_1fr_1fr] items-center px-6 py-4 border-b border-gray-200 last:border-none hover:bg-slate-100 transition"
                 >
-                    {/* NOME */}
+                    {/* VALOR */}
                     <div>
-                        <p className="font-medium text-slate-900">{venda.NOME}</p>
+                        <p className="font-medium text-slate-900">R$ {venda.VALOR_TOTAL}</p>
                     </div>
 
-                    {/* PREÇO */}
+                    {/* DATA */}
                     <span className="text-slate-700 font-medium">
-                        R$ {venda.PRECO_VENDA}
-                    </span>
-
-                    {/* QUANTIDADE */}
-
-                    <span
-                        className="inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-bold text-indigo-400 inset-ring inset-ring-indigo-400/30 w-15 flex justify-center">
-                        {venda.QUANT} un
+                        {new Date(venda.DATA_VENDA).toLocaleDateString('pt-BR')}
                     </span>
 
                     {/* ACTIONS */}
-                    <div className="flex gap-4 justify-start">
+                    <div className="flex items-center gap-4 justify-start">
                         <FaTrash
                             className="h-7 w-7 cursor-pointer text-gray-500 hover:text-gray-800"
                             onClick={() => handleDelete(venda.ID)}
+                        />
+                        <IoInformationCircle
+                            className="h-10 w-10 cursor-pointer text-gray-500 hover:text-gray-800"
+                            onClick={() => onInformation(venda.ID)}
                         />
                     </div>
                 </div>
             ))}
         </div>
     )
-}
+};
 
 export default VendasGrid;
