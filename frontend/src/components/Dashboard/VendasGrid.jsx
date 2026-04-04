@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { fetchVendasItensDashboard } from '../../services/vendaItensServices';
 import { formataValor } from '../../utils/formataValor';
+import { formataData } from '../../utils/formataData';
 
 
 
@@ -55,7 +56,7 @@ function SalesGrid() {
                                 {formataValor(venda.VALOR_TOTAL)}
                             </td>
                             <td className="px-6 py-4 font-medium ">
-                                {new Date(venda.CREATED_AT).toLocaleDateString('pt-BR')}
+                                {formataData(venda.CREATED_AT)}
                             </td>
                         </tr>
                     ))}

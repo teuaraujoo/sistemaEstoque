@@ -43,6 +43,7 @@ exports.createMoveEstoque = async (data) => {
 
         const body = [
             data.PRODUTO_ID,
+            produto.NOME,
             data.TIPO,
             data.MOTIVO,
             data.QTD,
@@ -80,7 +81,7 @@ exports.deleteMoveEstoque = async (id) => {
         let qtdEstoque;
 
         if (move.MOTIVO === 'VENDA DE MERCADORIA') {
-            throw new TypeError('Permissão negada para deletar uma movimentação de uma venda');
+            throw new TypeError('Impossível deletar uma movimentação de uma venda');
         };
 
         if (move.TIPO === "ENTRADA") {

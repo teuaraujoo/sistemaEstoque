@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Icon } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const API_URL = 'http://localhost:8800/api/v1/estoque';
 
@@ -26,3 +26,13 @@ export async function fetchMoves() {
 
     return movesRecentesComProduto;
 };
+
+export async function getAllMoves() {
+    try {
+        const response = await axios.get(API_URL);
+        const data = await response.data;
+        return data;
+    } catch (err) {
+        toast.error(err.response.data);
+    }
+}
