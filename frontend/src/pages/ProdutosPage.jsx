@@ -55,7 +55,7 @@ function ProdutosPage() {
                 </div>
                 <AddButton Name={'Produto'} Icon={<IoIosAdd className="w-7 h-7 text-white" />} onClick={handleOpenNewProduct} />
             </div>
-            <div className="ml-7 w-xl">
+            <div className="ml-7 w-xl relative">
                 <SearchBar
                     placeholder={'Busque pelos produtos'}
                 />

@@ -33,3 +33,10 @@ export async function fetchVendas() {
 
     return data;
 };
+
+export async function createVenda(itens) {
+    const response = await axios.post(API_URL, {itens});
+    const data = await response.data;
+
+    return data;
+};

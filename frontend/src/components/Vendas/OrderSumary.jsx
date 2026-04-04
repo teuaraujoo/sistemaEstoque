@@ -1,6 +1,60 @@
+import { useState } from "react";
 import OrderItemCard from "./OrderItemCard";
+import { createVenda } from "../../services/vendasServices";
+import { toast } from "react-toastify";
 
-function OrderSummary({ items, onRemove }) {
+function OrderSummary({ items, onRemove, onFinish }) {
+
+    const [quant, setQuantidades] = useState({});
+
+    const valor = items.reduce((acc, item) => {
+        const qtd = quant[item.ID] || 0;
+        return acc + (Number(item.PRECO_VENDA) * qtd);
+    }, 0)
+    
+    const valorFormatado = valor.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    })
+
+    function addQtd(id) {
+        setQuantidades((prev) => ({
+            ...prev,
+            [id]: (prev[id] || 0) + 1
+        }));
+    };
+
+    function removerQtd(id) {
+
+        setQuantidades((prev) => ({
+            ...prev,
+            [id]: Math.max((prev[id] || 0) - 1, 0)
+        }));
+    };
+
+    function handleRemoveQtdItem(id) {
+        onRemove(id);
+
+        setQuantidades((prev) => {
+            const novo = { ...prev };
+            delete novo[id];
+            return novo;
+        });
+    };
+
+    async function handleFinalizarVenda() {
+        try {
+            const pedido = items.map((item) => ({
+                PRODUTO_ID: item.ID,
+                QUANT: quant[item.ID]
+            }));
+            const response = await createVenda(pedido);
+            toast.success(response.message);
+        } catch (err) {
+            toast.error(err.response.data);
+        }
+    };
+
     return (
         <aside className="flex h-[calc(100vh-250px)] flex-col rounded-3xl border border-slate-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
@@ -22,6 +76,12 @@ function OrderSummary({ items, onRemove }) {
                                 key={item.ID}
                                 item={item}
                                 onRemove={onRemove}
+                                tam={quant[item.ID] || 0}
+                                tamMax={item.QTD_ESTOQUE}
+                                more={() => addQtd(item.ID)}
+                                calcValor={valor}
+                                less={() => removerQtd(item.ID)}
+                                reset={handleRemoveQtdItem}
                             />
                         ))
                         :
@@ -37,13 +97,13 @@ function OrderSummary({ items, onRemove }) {
                 <div className="mb-5 flex items-center justify-between">
                     <span className="text-[18px] font-bold text-slate-800">Total</span>
                     <span className="text-[18px] font-bold text-slate-900">
-                        R$ 100,20
+                        {valorFormatado}
                     </span>
                 </div>
 
                 <button
                     className="w-full rounded-2xl bg-indigo-600 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition cursor-pointer hover:bg-indigo-700"
-
+                    onClick={() => { handleFinalizarVenda(); onFinish() }}
                 >
                     Finalizar Venda
                 </button>

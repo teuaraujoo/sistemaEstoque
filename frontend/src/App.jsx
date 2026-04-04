@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <AppRoutes />
-      <ToastContainer autoClose={3000} position="bottom-right" pauseOnHover={true} dragable={true} />
+      <ToastContainer autoClose={3000} position="bottom-right" pauseOnHover={true} draggable={true} />
     </>
   )
 }

@@ -1,9 +1,14 @@
 function ProdutoCard({ produto, onAddItem }) {
 
+  const precoFormatado = Number(produto.PRECO_VENDA).toLocaleString('pt-BR', {
+    style: "currency",
+    currency: "BRL"
+  });
+
   return (
     <>
       {
-        produto.QTD_ESTOQUE === 0 ? (
+        produto.QTD_ESTOQUE === 0 || produto.STATUS === 'INATIVO' ? (
           <button
             className="w-full rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm opacity-50 cursor-not-allowed"
           >
@@ -17,12 +22,19 @@ function ProdutoCard({ produto, onAddItem }) {
             {/* PREÇO */}
             <div className="flex items-end justify-between gap-3">
               <span className="text-xl font-bold text-indigo-300">
-                {produto.PRECO_VENDA}
+                {precoFormatado}
               </span>
 
               {/* QTD ESTOQUE */}
-              <span className="text-sm font-medium text-red-400">
-                Sem estoque
+              <span className="text-sm font-medium text-red-400 text-right">
+                {produto.QTD_ESTOQUE === 0 ? (
+                  'Sem estoque'
+                )
+                  :
+                  (
+                    'Inativo'
+                  )
+                }
               </span>
             </div>
           </button>
@@ -44,7 +56,7 @@ function ProdutoCard({ produto, onAddItem }) {
               {/* PREÇO */}
               < div className="flex items-end justify-between gap-3" >
                 <span className="text-xl font-bold text-indigo-600">
-                  {produto.PRECO_VENDA}
+                  {precoFormatado}
                 </span>
 
                 {/* QTD ESTOQUE */}

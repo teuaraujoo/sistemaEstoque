@@ -41,6 +41,11 @@ function VendasPage() {
         setOrderItems((prev) => prev.filter((item) => item.ID !== id));
     };
 
+
+    function limparOrder() {
+        setOrderItems([])
+    };
+
     return (
         <div className="min-h-screen bg-slate-50">
             {/* TOPO */}
@@ -81,6 +86,7 @@ function VendasPage() {
                     <OrderSummary
                         items={orderItems}
                         onRemove={removeItem}
+                        onFinish={limparOrder}
                     />
                 </section>
             </div>

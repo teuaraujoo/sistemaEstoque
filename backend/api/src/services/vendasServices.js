@@ -40,6 +40,10 @@ exports.getAllVendaItensByVendaId = async (id) => {
 
 exports.createVenda = async (vendaData) => {
 
+    const {itens} = { itens: [] };
+    console.log(itens)
+
+
     const connection = await db.getConnection();
 
     try {
@@ -48,7 +52,13 @@ exports.createVenda = async (vendaData) => {
 
         const vendaId = await vendasRepositories.newVenda(connection, [0]);
 
+
         const { itens } = vendaData;
+
+        if (itens.length <= 0) {
+            throw new Error('Adicione pelo menos 1 item a venda');
+        };
+
 
         let valorTotal = 0;
 
@@ -58,7 +68,7 @@ exports.createVenda = async (vendaData) => {
             let newQtdEstoque;
 
             if (!validaQuant(item.QUANT)) {
-                throw new RangeError('Quantidade de venda inválida!');
+                throw new RangeError('Quantidade inválida!');
             };
 
             if (!produto) {
