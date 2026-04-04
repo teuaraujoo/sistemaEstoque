@@ -1,12 +1,8 @@
-// import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { formataValor } from "../../utils/formataValor";
 
 function OrderItemCard({ item, onRemove, tam, tamMax, more, less, reset }) {
 
-    const precoFormatado = Number(item.PRECO_VENDA).toLocaleString('pt-BR', {
-        style: "currency",
-        currency: "BRL"
-    });
     const tamMin = 0;
 
     return (
@@ -15,7 +11,7 @@ function OrderItemCard({ item, onRemove, tam, tamMax, more, less, reset }) {
                 <div className="flex-1">
                     <h4 className="text-[15px] font-semibold text-slate-800">{item.NOME}</h4>
                     <p className="mt-1 text-base font-bold text-indigo-600">
-                        {precoFormatado}
+                        {formataValor(item.PRECO_VENDA)}
                     </p>
                 </div>
 

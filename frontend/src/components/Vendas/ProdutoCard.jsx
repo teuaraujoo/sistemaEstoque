@@ -1,9 +1,6 @@
-function ProdutoCard({ produto, onAddItem }) {
+import { formataValor } from "../../utils/formataValor";
 
-  const precoFormatado = Number(produto.PRECO_VENDA).toLocaleString('pt-BR', {
-    style: "currency",
-    currency: "BRL"
-  });
+function ProdutoCard({ produto, onAddItem }) {
 
   return (
     <>
@@ -22,7 +19,7 @@ function ProdutoCard({ produto, onAddItem }) {
             {/* PREÇO */}
             <div className="flex items-end justify-between gap-3">
               <span className="text-xl font-bold text-indigo-300">
-                {precoFormatado}
+                {formataValor(produto.PRECO_VENDA)}
               </span>
 
               {/* QTD ESTOQUE */}
@@ -56,7 +53,7 @@ function ProdutoCard({ produto, onAddItem }) {
               {/* PREÇO */}
               < div className="flex items-end justify-between gap-3" >
                 <span className="text-xl font-bold text-indigo-600">
-                  {precoFormatado}
+                  {formataValor(produto.PRECO_VENDA)}
                 </span>
 
                 {/* QTD ESTOQUE */}

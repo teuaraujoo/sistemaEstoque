@@ -2,6 +2,7 @@ import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { IoInformationCircle } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { formataValor } from "../../utils/formataValor";
 
 function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
 
@@ -41,7 +42,7 @@ function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
                             >
                                 <td className="px-6 py-4">
                                     <span className="font-semibold text-slate-800">
-                                        R$ {venda.VALOR_TOTAL}
+                                        {formataValor(venda.VALOR_TOTAL)}
                                     </span>
                                 </td>
 

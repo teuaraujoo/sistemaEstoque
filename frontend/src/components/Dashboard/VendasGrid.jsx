@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { fetchVendasItensDashboard } from '../../services/vendaItensServices';
+import { formataValor } from '../../utils/formataValor';
 
 
 
@@ -50,8 +51,8 @@ function SalesGrid() {
                                 {venda.produto ? venda.produto.NOME : 'Produto Desconhecido'}
                             </td>
 
-                            <td className="px-6 py-4 text-left whitespace-nowrap">
-                                R$ {Number(venda.VALOR_TOTAL).toFixed(2)}
+                            <td className="px-6 py-4 text-left whitespace-nowrap font-medium">
+                                {formataValor(venda.VALOR_TOTAL)}
                             </td>
                             <td className="px-6 py-4 font-medium ">
                                 {new Date(venda.CREATED_AT).toLocaleDateString('pt-BR')}

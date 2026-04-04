@@ -2,6 +2,7 @@ import { useState } from "react";
 import OrderItemCard from "./OrderItemCard";
 import { createVenda } from "../../services/vendasServices";
 import { toast } from "react-toastify";
+import { formataValor } from "../../utils/formataValor";
 
 function OrderSummary({ items, onRemove, onFinish }) {
 
@@ -11,11 +12,6 @@ function OrderSummary({ items, onRemove, onFinish }) {
         const qtd = quant[item.ID] || 0;
         return acc + (Number(item.PRECO_VENDA) * qtd);
     }, 0)
-    
-    const valorFormatado = valor.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    })
 
     function addQtd(id) {
         setQuantidades((prev) => ({
@@ -25,7 +21,6 @@ function OrderSummary({ items, onRemove, onFinish }) {
     };
 
     function removerQtd(id) {
-
         setQuantidades((prev) => ({
             ...prev,
             [id]: Math.max((prev[id] || 0) - 1, 0)
@@ -50,6 +45,7 @@ function OrderSummary({ items, onRemove, onFinish }) {
             }));
             const response = await createVenda(pedido);
             toast.success(response.message);
+            onFinish();
         } catch (err) {
             toast.error(err.response.data);
         }
@@ -97,13 +93,13 @@ function OrderSummary({ items, onRemove, onFinish }) {
                 <div className="mb-5 flex items-center justify-between">
                     <span className="text-[18px] font-bold text-slate-800">Total</span>
                     <span className="text-[18px] font-bold text-slate-900">
-                        {valorFormatado}
+                        {formataValor(valor)}
                     </span>
                 </div>
 
                 <button
                     className="w-full rounded-2xl bg-indigo-600 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition cursor-pointer hover:bg-indigo-700"
-                    onClick={() => { handleFinalizarVenda(); onFinish() }}
+                    onClick={() => handleFinalizarVenda()}
                 >
                     Finalizar Venda
                 </button>

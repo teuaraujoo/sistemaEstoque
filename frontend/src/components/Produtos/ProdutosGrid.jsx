@@ -4,6 +4,7 @@ import axios from "axios";
 import { GiShieldDisabled } from "react-icons/gi";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FaPen } from 'react-icons/fa';
+import { formataValor } from '../../utils/formataValor';
 
 function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
 
@@ -83,10 +84,7 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
 
                                     <td className="px-6 py-4">
                                         <span className="font-medium text-slate-700">
-                                            {Number(produto.PRECO_VENDA).toLocaleString("pt-BR", {
-                                                style: "currency",
-                                                currency: "BRL",
-                                            })}
+                                            {formataValor(produto.PRECO_VENDA)}
                                         </span>
                                     </td>
 
