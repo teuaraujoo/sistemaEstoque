@@ -50,20 +50,31 @@ function SalesGrid() {
                     </tr>
                 </thead>
                 <tbody>
-                    {vendasRecentes.map((venda) => (
-                        <tr key={venda.ID} className="bg-neutral-primary border-t border-gray-100 h-20">
-                            <td scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                                {venda.produto ? venda.produto.NOME : 'Produto Desconhecido'}
-                            </td>
+                    {vendasRecentes.length > 0 ? (
+                        vendasRecentes.map((venda) => (
+                            <tr key={venda.ID} className="bg-neutral-primary border-t border-gray-100 h-20">
+                                <td scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                                    {venda.produto ? venda.produto.NOME : 'Produto Desconhecido'}
+                                </td>
 
-                            <td className="px-6 py-4 text-left whitespace-nowrap font-medium">
-                                {formataValor(venda.VALOR_TOTAL)}
-                            </td>
-                            <td className="px-6 py-4 font-medium ">
-                                {formataData(venda.CREATED_AT)}
-                            </td>
-                        </tr>
-                    ))}
+                                <td className="px-6 py-4 text-left whitespace-nowrap font-medium">
+                                    {formataValor(venda.VALOR_TOTAL)}
+                                </td>
+                                <td className="px-6 py-4 font-medium ">
+                                    {formataData(venda.CREATED_AT)}
+                                </td>
+                            </tr>
+                        ))
+                    )
+                        :
+                        (
+                            <tr>
+                                <td colSpan="5" className="px-6 py-10 text-center text-slate-400">
+                                    Nenhuma venda recente encontrada.
+                                </td>
+                            </tr>
+                        )
+                    }
                 </tbody>
             </table>
         </div>

@@ -35,42 +35,54 @@ function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
                     </thead>
 
                     <tbody>
-                        {vendas.map((venda) => (
-                            <tr
-                                key={venda.ID}
-                                className="border-b border-slate-100 transition hover:bg-slate-50"
-                            >
-                                <td className="px-6 py-4">
-                                    <span className="font-semibold text-slate-800">
-                                        {formataValor(venda.VALOR_TOTAL)}
-                                    </span>
-                                </td>
+                        {vendas.length > 0 ? (
+                            vendas.map((venda) => (
+                                <tr
+                                    key={venda.ID}
+                                    className="border-b border-slate-100 transition hover:bg-slate-50"
+                                >
+                                    <td className="px-6 py-4">
+                                        <span className="font-semibold text-slate-800">
+                                            {formataValor(venda.VALOR_TOTAL)}
+                                        </span>
+                                    </td>
 
-                                <td className="px-6 py-4 text-slate-600 font-medium">
-                                    {new Date(venda.DATA_VENDA).toLocaleDateString("pt-BR")}
-                                </td>
+                                    <td className="px-6 py-4 text-slate-600 font-medium">
+                                        {new Date(venda.DATA_VENDA).toLocaleDateString("pt-BR")}
+                                    </td>
 
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center justify-center gap-3">
-                                        <button
-                                            onClick={() => handleDelete(venda.ID)}
-                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer transition hover:bg-red-50 hover:text-red-600"
-                                            title="Excluir venda"
-                                        >
-                                            <FaTrash className="h-4 w-4" />
-                                        </button>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center justify-center gap-3">
+                                            <button
+                                                onClick={() => handleDelete(venda.ID)}
+                                                className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer transition hover:bg-red-50 hover:text-red-600"
+                                                title="Excluir venda"
+                                            >
+                                                <FaTrash className="h-4 w-4" />
+                                            </button>
 
-                                        <button
-                                            onClick={() => onInformation(venda.ID)}
-                                            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer transition hover:bg-indigo-50 hover:text-indigo-600"
-                                            title="Ver detalhes"
-                                        >
-                                            <IoInformationCircle className="h-5 w-5" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
+                                            <button
+                                                onClick={() => onInformation(venda.ID)}
+                                                className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 cursor-pointer transition hover:bg-indigo-50 hover:text-indigo-600"
+                                                title="Ver detalhes"
+                                            >
+                                                <IoInformationCircle className="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        )
+                            :
+                            (
+                                <tr>
+                                    <td colSpan="5" className="px-6 py-10 text-center text-slate-400">
+                                        Nenhuma venda encontrada.
+                                    </td>
+                                </tr>
+                            )
+                        }
+
                     </tbody>
                 </table>
             </div>
