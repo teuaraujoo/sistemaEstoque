@@ -108,6 +108,7 @@ exports.createVenda = async (vendaData) => {
             // cria movimentação
             await estoqueRepositories.createMoveEstoque(connection, [
                 produto.ID,
+                produto.NOME,
                 TIPO,
                 MOTIVO,
                 item.QUANT,
