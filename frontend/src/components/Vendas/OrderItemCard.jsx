@@ -1,104 +1,77 @@
 import { IoClose } from "react-icons/io5";
+import { IoIosAdd } from "react-icons/io";
 import { formataValor } from "../../utils/formataValor";
 
-function OrderItemCard({ item, onRemove, tam, tamMax, more, less, reset }) {
+function OrderItemCard({ item, onRemove, tam, tamMax, more, less, reset, addAll, removeAll }) {
 
-    const tamMin = 0;
 
     return (
-        <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-            <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                    <h4 className="text-[15px] font-semibold text-slate-800">{item.NOME}</h4>
-                    <p className="mt-1 text-base font-bold text-indigo-600">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md transition-all">
+
+            {/* Header */}
+            <div className="flex items-start justify-between">
+                <div>
+                    <h4 className="text-sm font-semibold text-slate-800">
+                        {item.NOME}
+                    </h4>
+                    <p className="mt-1 text-lg font-bold text-indigo-600">
                         {formataValor(item.PRECO_VENDA)}
                     </p>
                 </div>
 
                 <button
-                    className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 cursor-pointer"
                     onClick={() => { onRemove(item.ID); reset(item.ID) }}
+                    className="cursor-pointer h-8 w-8 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-red-500 transition"
                 >
-                    <IoClose
-                        className="h-5 w-5"
-                    />
+                    <IoClose className="w-5 h-5" />
                 </button>
             </div>
 
-            <>
+            {/* Quantidade */}
+            <div className="mt-5 flex items-center justify-center gap-4">
 
-                {tam >= tamMax ? (
+                <button
+                    onClick={less}
+                    disabled={tam <= 0}
+                    className="h-9 w-9 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                >
+                    -
+                </button>
 
-                    <div className="mt-5 flex items-center gap-4">
+                <span className="text-base font-semibold text-slate-800 min-w-[24px] text-center">
+                    {tam}
+                </span>
 
-                        <>
-                            {tam <= tamMin ? (
-                                <button
-                                    className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-slate-600 transition opacity-50 cursor-not-allowed hover:bg-slate-300 "
-                                >
-                                    -
-                                </button>
-                            )
-                                :
-                                (
-                                    <button
-                                        className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-slate-600 transition cursor-pointer hover:bg-slate-300 "
-                                        onClick={() => less()}
-                                    >
-                                        -
-                                    </button>
-                                )
-                            }
-                        </>
+                <button
+                    onClick={more}
+                    disabled={tam >= tamMax}
+                    className="h-9 w-9 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center hover:bg-indigo-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                >
+                    +
+                </button>
+            </div>
 
-                        <span className="min-w-[20px] text-center text-sm font-semibold text-slate-800">
-                            {tam}
-                        </span>
+            {/* Divider */}
+            <div className="mt-5 border-t border-slate-100"></div>
 
-                        <button
-                            className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 transition opacity-50 cursor-not-allowed hover:bg-indigo-200"
-                        >
-                            +
-                        </button>
-                    </div>
-                )
-                    :
-                    (
-                        <div className="mt-5 flex items-center gap-4">
-                            <>
-                                {tam <= tamMin ? (
-                                    <button
-                                        className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-slate-600 transition opacity-50 cursor-not-allowed hover:bg-slate-300 "
-                                    >
-                                        -
-                                    </button>
-                                )
-                                    :
-                                    (
-                                        <button
-                                            className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-slate-600 transition cursor-pointer hover:bg-slate-300 "
-                                            onClick={() => less()}
-                                        >
-                                            -
-                                        </button>
-                                    )
-                                }
-                            </>
-                            <span className="min-w-[20px] text-center text-sm font-semibold text-slate-800">
-                                {tam}
-                            </span>
+            {/* Ações */}
+            <div className="mt-4 flex gap-3">
 
-                            <button
-                                className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 transition cursor-pointer hover:bg-indigo-200"
-                                onClick={() => more()}
-                            >
-                                +
-                            </button>
-                        </div>
-                    )
+                <button
+                    onClick={addAll}
+                    className="flex-1 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition"
+                >
+                    Adicionar tudo
+                </button>
 
-                }
-            </>
+                <button
+                    onClick={removeAll}
+                    className="flex-1 py-2 rounded-lg bg-slate-100 text-slate-600 text-sm font-medium hover:bg-slate-200 transition"
+                >
+                    Limpar
+                </button>
+
+            </div>
         </div>
     );
 };

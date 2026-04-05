@@ -20,6 +20,20 @@ function OrderSummary({ items, onRemove, onFinish }) {
         }));
     };
 
+    function addAll(id, qtd) {
+        setQuantidades((prev) => ({
+            ...prev,
+            [id]: qtd
+        }));
+    };
+
+    function removeAll(id) {
+        setQuantidades((prev) => ({
+            ...prev,
+            [id]: 0
+        }));
+    };
+
     function removerQtd(id) {
         setQuantidades((prev) => ({
             ...prev,
@@ -75,8 +89,10 @@ function OrderSummary({ items, onRemove, onFinish }) {
                                 tam={quant[item.ID] || 0}
                                 tamMax={item.QTD_ESTOQUE}
                                 more={() => addQtd(item.ID)}
-                                calcValor={valor}
                                 less={() => removerQtd(item.ID)}
+                                addAll={() => addAll(item.ID, item.QTD_ESTOQUE)}
+                                removeAll={() => removeAll(item.ID)}
+                                calcValor={valor}
                                 reset={handleRemoveQtdItem}
                             />
                         ))
