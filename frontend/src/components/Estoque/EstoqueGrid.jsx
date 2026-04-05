@@ -8,7 +8,7 @@ function EstoqueGrid({ moves, refreshMoves }) {
     async function handleDelete(id) {
         try {
             const response = await axios.delete(`http://localhost:8800/api/v1/estoque/${id}`);
-            toast.success(response.data.message);
+            toast.error(response.data.message);
             await refreshMoves();
         } catch (err) {
             toast.error(err.response.data);

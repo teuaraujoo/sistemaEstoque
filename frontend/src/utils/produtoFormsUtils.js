@@ -8,16 +8,16 @@ export function limparFormulario(form) {
 
 export function formsPayload(form, onEdit) {
 
-    if (!form.quant.value) form.quant.value = 0;
-    if (!form.descricao.value) form.descricao.value = '';
+    const quant = form.quant.value === '' ? 0 : Number(form.quant.value);
+    const descricao = form.descricao.value.trim();
 
     return {
         ...(onEdit && { id: onEdit.ID }),
         nome: form.nome.value,
-        descricao: form.descricao.value,
+        descricao,
         preco_compra: form.preco_compra.value,
         preco_venda: form.preco_venda.value,
-        quant: form.quant.value,
+        quant
     };
 };
 

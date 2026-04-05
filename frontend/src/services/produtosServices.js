@@ -56,4 +56,4 @@ export async function createProduto(produto) {
     });
 
     return response.data;
-}
+};

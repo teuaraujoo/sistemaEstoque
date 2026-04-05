@@ -7,9 +7,10 @@ import { limparFormulario, preencherFormulario } from "../../utils/produtoFormsU
 import { useProdutoForm } from "../../hooks/Produto/useProdutoForm";
 
 function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos, mensagem }) {
-
     const ref = useRef(null);
-    const mensagemEdicao = onEdit ? (mensagem ?? 'Quantidade não pode ser alterada durante a edição.') : '';
+    const mensagemEdicao = onEdit
+        ? (mensagem ?? "Quantidade não pode ser alterada durante a edição.")
+        : "";
 
     useEffect(() => {
         const form = ref.current;
@@ -20,7 +21,7 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
             preencherFormulario(form, onEdit);
         } else {
             limparFormulario(form);
-        };
+        }
     }, [onEdit, isOpen]);
 
     const { handleSubmit } = useProdutoForm({
@@ -34,45 +35,44 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
     if (!isOpen) return null;
 
     return (
-        <div
-            id="authentication-modal"
-            tabIndex="-1"
-            className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex"
-        >
-            <div className="relative w-full max-w-2xl">
-                <div className="relative rounded-2xl bg-white shadow-[0_20px_60px_rgba(15,23,42,0.18)] border border-slate-200 px-5 py-5 md:px-7 md:py-6">
-                    <div className="border-b border-slate-200 pb-4 md:pb-5">
-                        <div className="flex items-start justify-between gap-4">
-                            <div>
-                                <h3 className="text-[28px] leading-tight font-bold tracking-[-0.02em] text-slate-900">
-                                    Cadastro de produto
-                                </h3>
-                                <p className="mt-1 text-sm text-slate-500">
-                                    Preencha os detalhes essenciais para cadastrar um item no catálogo.
-                                </p>
-                            </div>
-
-                            <IoIosClose
-                                type="button"
-                                onClick={onClose}
-                                data-modal-hide="authentication-modal"
-                                className="h-10 w-10 shrink-0 cursor-pointer rounded-xl border border-slate-200 p-2 text-slate-500 transition hover:bg-slate-50 hover:text-slate-800"
-                            />
-                        </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4">
+            <div className="w-full max-w-2xl rounded-3xl bg-white shadow-2xl">
+                <div className="flex items-start justify-between border-b border-slate-200 px-6 py-5">
+                    <div>
+                        <h3 className="text-xl font-bold text-slate-900">
+                            Cadastro de produto
+                        </h3>
+                        <p className="mt-1 text-sm text-slate-500">
+                            Preencha os detalhes essenciais para cadastrar um item no catálogo.
+                        </p>
                     </div>
 
-                    <form action="#" ref={ref} onSubmit={handleSubmit} className="pt-5 md:pt-6 space-y-5">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+                    >
+                        <IoIosClose className="h-6 w-6 cursor-pointer" />
+                    </button>
+                </div>
+
+                <form
+                    ref={ref}
+                    onSubmit={handleSubmit}
+                    className="px-6 py-6"
+                >
+                    <div className="space-y-5">
                         <div>
                             <label
                                 htmlFor="nome"
-                                className="mb-2 block text-sm font-semibold text-slate-700"
+                                className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
                             >
                                 Nome do produto
                             </label>
                             <input
                                 type="text"
                                 id="nome"
-                                className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
                                 placeholder="e.g. Headset Gamer HyperX"
                             />
                         </div>
@@ -80,7 +80,7 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
                         <div>
                             <label
                                 htmlFor="descricao"
-                                className="mb-2 block text-sm font-semibold text-slate-700"
+                                className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
                             >
                                 Descrição
                             </label>
@@ -88,17 +88,16 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
                                 name="descricao"
                                 id="descricao"
                                 rows={5}
-                                cols={45}
-                                className="block w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                                className="w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
                                 placeholder="Descreva seu produto, especificações técnicas"
-                            ></textarea>
+                            />
                         </div>
 
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                             <div>
                                 <label
                                     htmlFor="preco_compra"
-                                    className="mb-2 block text-sm font-semibold text-slate-700"
+                                    className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
                                 >
                                     Preço da compra
                                 </label>
@@ -106,7 +105,7 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
                                     type="number"
                                     id="preco_compra"
                                     step="0.01"
-                                    className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
                                     placeholder="R$ 00,00"
                                 />
                             </div>
@@ -114,7 +113,7 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
                             <div>
                                 <label
                                     htmlFor="preco_venda"
-                                    className="mb-2 block text-sm font-semibold text-slate-700"
+                                    className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
                                 >
                                     Preço da venda
                                 </label>
@@ -122,7 +121,7 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
                                     type="number"
                                     id="preco_venda"
                                     step="0.01"
-                                    className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+                                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white"
                                     placeholder="R$ 00,00"
                                 />
                             </div>
@@ -131,44 +130,46 @@ function ProdutoModalForm({ isOpen, onClose, onEdit, setOnEdit, refreshProdutos,
                         <div>
                             <label
                                 htmlFor="quant"
-                                className="mb-2 block text-sm font-semibold text-slate-700"
+                                className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500"
                             >
                                 Quantidade
                             </label>
                             <input
                                 type="number"
                                 id="quant"
-                                className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                                placeholder="0"
                                 disabled={!!onEdit}
+                                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+                                placeholder="0"
                             />
-                            <p className="mt-2 text-sm text-slate-500">
-                                {mensagemEdicao}
-                            </p>
+                            {!!mensagemEdicao && (
+                                <p className="mt-2 text-sm text-slate-500">
+                                    {mensagemEdicao}
+                                </p>
+                            )}
                         </div>
+                    </div>
 
-                        <div className="flex items-center justify-end gap-3 pt-3">
-                            <button
-                                type="button"
-                                onClick={onClose}
-                                className="inline-flex items-center justify-center rounded-xl px-5 py-3 text-sm font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 cursor-pointer"
-                            >
-                                Cancelar
-                            </button>
+                    <div className="mt-8 flex items-center justify-end gap-3 border-t border-slate-100 pt-5">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="rounded-2xl px-5 py-3 text-sm font-semibold text-slate-500 transition cursor-pointer hover:bg-slate-100"
+                        >
+                            Cancelar
+                        </button>
 
-                            <button
-                                type="submit"
-                                className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(79,70,229,0.28)] transition hover:bg-indigo-700 cursor-pointer"
-                            >
-                                <IoMdSave />
-                                Salvar produto
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                        <button
+                            type="submit"
+                            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition cursor-pointer hover:bg-indigo-700"
+                        >
+                            <IoMdSave />
+                            Salvar produto
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-    )
+    );
 }
 
 export default ProdutoModalForm;

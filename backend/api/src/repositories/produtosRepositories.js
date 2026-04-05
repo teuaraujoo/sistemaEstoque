@@ -29,8 +29,8 @@ exports.findProductById = async (conn, productId) => {
 
 exports.newProduto = async (conn, productData) => {
 
-    const q = 'INSERT INTO PRODUTOS (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QTD_ESTOQUE) VALUES (?)';
-    const [produtoCriado] = await conn.query(q, [productData]);
+    const q = 'INSERT INTO PRODUTOS (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QTD_ESTOQUE) VALUES (?, ?, ?, ?, ?)';
+    const [produtoCriado] = await conn.query(q, productData);
     return produtoCriado.insertId;
 };
 

@@ -4,6 +4,7 @@ import { getAllMoves } from "../services/moveServices";
 import { useState, useEffect } from "react";
 import AddButton from '../components/ui/AddButton';
 import { IoIosAdd } from "react-icons/io";
+import EstoqueModalForm from "../components/Estoque/EstoqueModalForm";
 
 function MovePage() {
     const [moves, setMoves] = useState([]);
@@ -49,6 +50,7 @@ function MovePage() {
                     refreshMoves={fetchMoves}
                 />
             </div>
+            <EstoqueModalForm/>
         </div>
     )
 }

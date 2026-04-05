@@ -28,6 +28,7 @@ exports.getProdutoById = async (productId) => {
 };
 
 exports.createProduto = async (productData) => {
+    console.log(productData)
 
     const connection = await db.getConnection();
 
@@ -62,6 +63,7 @@ exports.createProduto = async (productData) => {
 
             await estoqueRepositories.createMoveEstoque(connection, [
                 produtoId,
+                produto.NOME,
                 TIPO,
                 MOTIVO,
                 productData.QTD_ESTOQUE,
