@@ -75,12 +75,15 @@ function EstoqueModalForm({ produtos = [], isOpen, onClose, refreshMoves }) {
                                 >
                                     <option value="">Selecione um produto</option>
                                     {produtos.map((produto) => (
-                                        <option
-                                            key={produto.ID}
-                                            value={produto.ID}
-                                        >
-                                            {produto.NOME}
-                                        </option>
+                                        produto.STATUS === 'ATIVO' ?
+                                            <option
+                                                key={produto.ID}
+                                                value={produto.ID}
+                                            >
+                                                {produto.NOME}
+                                            </option>
+                                            :
+                                            ''
                                     ))}
                                 </select>
                             </div>
