@@ -28,7 +28,6 @@ exports.getProdutoById = async (productId) => {
 };
 
 exports.createProduto = async (productData) => {
-    console.log(productData)
 
     const connection = await db.getConnection();
 
@@ -42,8 +41,8 @@ exports.createProduto = async (productData) => {
 
         if (!produtoValidators.validaPrecos(Number(productData.PRECO_VENDA), Number(productData.PRECO_COMPRA))) {
             throw new RangeError('Valor de venda inválido');
-        }
-
+        };
+        
         const data = [
             productData.NOME,
             productData.DESCRICAO,

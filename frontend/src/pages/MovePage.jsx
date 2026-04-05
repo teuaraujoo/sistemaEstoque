@@ -68,6 +68,7 @@ function MovePage() {
                 produtos={produtos}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
+                refreshMoves={fetchMoves}
             />
         </div>
     )

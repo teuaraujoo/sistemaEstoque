@@ -34,5 +34,18 @@ export async function getAllMoves() {
         return data;
     } catch (err) {
         toast.error(err.response.data);
-    }
-}
+    };
+};
+
+export async function createMove(move, tipo) {
+
+    const response = await axios.post(`${API_URL}`, {
+        PRODUTO_ID: move.produto,
+        TIPO: tipo,
+        MOTIVO: move.motivo,
+        QTD: Number(move.quant),
+        VENDA_ID: null
+    });
+
+    return response.data;
+};
