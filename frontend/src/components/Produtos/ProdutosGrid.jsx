@@ -9,7 +9,7 @@ import { formataValor } from '../../utils/formataValor';
 function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
 
     function getBarColor(qtd) {
-        if (qtd < 5) {
+        if (qtd <= 5) {
             return 'bg-red-500'
         } else if (qtd > 5 && qtd < 10) {
             return 'bg-yellow-400'

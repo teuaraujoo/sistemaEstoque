@@ -14,7 +14,7 @@ exports.getTotalProdutos = async () => {
 };
 
 exports.findAllProdutosLowEstoque = async () => {
-    const q = 'SELECT * FROM PRODUTOS WHERE QTD_ESTOQUE < 5';
+    const q = 'SELECT * FROM PRODUTOS WHERE QTD_ESTOQUE <= 5';
     const [produtos] = await db.query(q);
     return produtos;
 };
