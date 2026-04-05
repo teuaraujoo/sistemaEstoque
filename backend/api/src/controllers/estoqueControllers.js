@@ -27,10 +27,8 @@ exports.createMoveEstoque = async (req, res) => {
 
 exports.deleteMoveEstoque = async (req, res) => {
 
-    const id = req.params.id;
     try {
-        const del = await estoqueServices.deleteMoveEstoque(id);
-        return res.status(200).json({ message: 'Movimentação deletada com sucesso!' });
+        return res.status(200).json({ message: 'Correções de estoque devem ser feitas por meio de nova movimentação compensatória' });
     } catch (err) {
         return res.status(500).send(err.message);
     };

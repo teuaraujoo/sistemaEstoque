@@ -96,7 +96,8 @@ SISTEMAESTOQUE/
 - Saída de estoque exige quantidade disponível
 - Nome do produto deve ser string
 - Movimentação gerada por venda tem tipo e motivo fixos (SAIDA /VENDA MERCADORIA)
-- Não é permitido excluir movimentação de venda
+- Não é permitido excluir movimentações de estoque
+- Correções de estoque devem ser feitas por meio de nova movimentação compensatória
 - Produto não pode ser excluído, apenas desativado (soft delete)
 - Produto deve existir para realizar venda
 - Venda não pode ser atualizada
