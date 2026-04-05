@@ -5,9 +5,12 @@ import { useState, useEffect } from "react";
 import AddButton from '../components/ui/AddButton';
 import { IoIosAdd } from "react-icons/io";
 import EstoqueModalForm from "../components/Estoque/EstoqueModalForm";
+import { getAllProdutos } from "../services/produtosServices";
 
 function MovePage() {
     const [moves, setMoves] = useState([]);
+    const [produtos, setProdutos] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     async function fetchMoves() {
         try {
@@ -23,7 +26,9 @@ function MovePage() {
         async function carregarMoves() {
             try {
                 const movesList = await getAllMoves();
+                const produtosList = await getAllProdutos();
                 setMoves(movesList || []);
+                setProdutos(produtosList || []);
             } catch (err) {
                 console.error(err);
             };
@@ -31,6 +36,14 @@ function MovePage() {
 
         carregarMoves();
     }, []);
+
+    function handleOpenModal() {
+        setIsModalOpen(true);
+    }
+
+    function handleCloseModal() {
+        setIsModalOpen(false);
+    }
 
     return (
         <div>
@@ -42,6 +55,7 @@ function MovePage() {
                 <AddButton
                     Name={'Movimentação'}
                     Icon={<IoIosAdd className="w-7 h-7 text-white" />}
+                    onClick={handleOpenModal}
                 />
             </div>
             <div className="p-7">
@@ -50,7 +64,11 @@ function MovePage() {
                     refreshMoves={fetchMoves}
                 />
             </div>
-            <EstoqueModalForm/>
+            <EstoqueModalForm
+                produtos={produtos}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            />
         </div>
     )
 }
