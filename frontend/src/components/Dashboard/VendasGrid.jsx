@@ -26,7 +26,11 @@ function SalesGrid() {
 
         <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm bg-neutral-primary-soft shadow-xs rounded-base border border-default w-full">
             <div className="mb-4 flex items-baseline justify-between border-b border-gray-100">
-                <h2 className="text-2xl font-bold text-slate-1000 mb-6">Vendas Recentes</h2>
+                <h2
+                    className="text-2xl font-bold text-slate-1000 mb-6"
+                >
+                    Vendas Recentes
+                </h2>
                 <NavLink to="/vendas/todas" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
                     Ver tudo
                 </NavLink>
@@ -40,14 +44,14 @@ function SalesGrid() {
                         <th scope="col" className="px-6 py-4 font-medium text-gray-500 text-left">
                             Preço
                         </th>
-                        <th scope="col" className="px-6 py-3 font-medium text-gray-500">
+                        <th scope="col" className="w-[20%] px-6 py-3 font-medium text-gray-500">
                             Data
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {vendasRecentes.map((venda) => (
-                        <tr key={venda.ID} className="bg-neutral-primary border-t border-gray-100 hover:bg-gray-200 h-20">
+                        <tr key={venda.ID} className="bg-neutral-primary border-t border-gray-100 h-20">
                             <td scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
                                 {venda.produto ? venda.produto.NOME : 'Produto Desconhecido'}
                             </td>

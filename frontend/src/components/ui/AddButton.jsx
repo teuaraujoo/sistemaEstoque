@@ -1,25 +1,24 @@
-function AddButton({ Name, Icon, onClick }) {
-
+function ActionButton({ Name, Icon, onClick }) {
     return (
-        <>
-            <button
-                onClick={onClick}
-                data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
-                className="rounded-lg relative w-36 h-10 cursor-pointer flex items-center border border-indigo-700 bg-indigo-700 group hover:bg-indigo-700 active:bg-indigo-100 active:border-indigo-700"
+        <button
+            onClick={onClick}
+            className="cursor-pointer group relative inline-flex h-10 items-center overflow-hidden rounded-lg border border-indigo-700 bg-indigo-700 transition active:scale-[0.97]"
+        >
+            {/* TEXTO */}
+            <span
+                className="cursor-pointer whitespace-nowrap px-4 pr-12 text-sm font-semibold text-white transition-all duration-300"
             >
-                <span
-                    className="text-white font-semibold ml-8 transform group-hover:translate-x-0 transition-all duration-300"
-                >
-                    {Name}
-                </span>
-                <span
-                    className="absolute right-0 h-full w-10 rounded-lg bg-indigo-700 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300"
-                >
-                    {Icon}
-                </span>
-            </button>
-        </>
-    )
+                {Name}
+            </span>
+
+            {/* ÍCONE */}
+            <span
+                className="cursor-pointer absolute right-0 flex h-full w-10 items-center justify-center bg-indigo-700 transition-all duration-300 group-hover:w-full"
+            >
+                {Icon}
+            </span>
+        </button>
+    );
 }
 
-export default AddButton;
+export default ActionButton;

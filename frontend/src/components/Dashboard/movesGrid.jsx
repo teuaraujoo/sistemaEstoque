@@ -9,7 +9,6 @@ function MovesGrid() {
 
     const [moveRecentes, setmoveRecentes] = useState([]);
 
-
     useEffect(() => {
         async function fetchData() {
             try {
@@ -24,23 +23,36 @@ function MovesGrid() {
     return (
 
         <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm bg-neutral-primary-soft shadow-xs rounded-base border border-default w-full">
-            <div className="mb-4 flex items-baseline justify-between">
+            <div className="mb-4 flex items-baseline justify-between border-b border-gray-100">
                 <h2 className="text-2xl font-bold text-slate-1000 mb-6">Movimentações Recentes</h2>
-                <NavLink to="/movimentacoes" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
+                <NavLink to="/movimentacoes" className="text-sm font-medium text-indigo-600  hover:text-indigo-800">
                     Ver tudo
                 </NavLink>
             </div>
-            <table className="text-sm text-left rtl:text-left text-body w-full border-collapse">
+            <table className="text-sm text-left rtl:text-left text-body w-full border-collapse table-fixed">
+                <thead className="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-gray-100">
+                    <tr>
+                        <th scope="col" className="px-6 py-3 font-medium text-gray-500">
+                            Tipo
+                        </th>
+                        <th scope="col" className="px-6 py-4 font-medium text-gray-500 text-left">
+                            Produto
+                        </th>
+                        <th scope="col" className="w-[20%] px-6 py-3 font-medium text-gray-500">
+                            Quantidade
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
                     {moveRecentes.map((move) => (
-                        <tr key={move.ID} className="bg-neutral-primary border-t border-gray-100 hover:bg-gray-200 h-20">
+                        <tr key={move.ID} className="bg-neutral-primary border-t border-gray-100 h-20">
                             <th scope="row" className="px-3 py-4 font-medium text-heading whitespace-nowrap w-16">
                                 {move.TIPO === 'ENTRADA' ?
-                                    <div className='bg-green-300 w-full h-full p-2 border-transparent rounded-lg'>
+                                    <div className='bg-green-300 w-10 h-10 p-2 border-transparent rounded-lg flex justify-center items-center'>
                                         <IoMdAddCircle className='text-green-700 w-7 h-7' />
                                     </div>
                                     :
-                                    <div className='bg-red-300 w-full h-full p-2 border-transparent rounded-lg'>
+                                    <div className='bg-red-300 w-10 h-10 p-2 border-transparent rounded-lg flex justify-center items-center'>
                                         <IoIosRemoveCircle className='text-red-700 w-7 h-7' />
                                     </div>
                                 }
