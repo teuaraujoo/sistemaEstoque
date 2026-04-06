@@ -14,7 +14,7 @@ function SalesGrid() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const { vendasRecentes } = await fetchVendasItensDashboard();
+                const vendasRecentes = await fetchVendasItensDashboard();
                 setVendasRecentes(vendasRecentes);
             } catch (error) {
                 console.error('Erro ao buscar resumo de produtos:', error);
@@ -54,7 +54,7 @@ function SalesGrid() {
                         vendasRecentes.map((venda) => (
                             <tr key={venda.ID} className="bg-neutral-primary border-t border-gray-100 h-20">
                                 <td scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                                    {venda.produto ? venda.produto.NOME : 'Produto Desconhecido'}
+                                    {venda.NOME_PRODUTO}
                                 </td>
 
                                 <td className="px-6 py-4 text-left whitespace-nowrap font-medium">
