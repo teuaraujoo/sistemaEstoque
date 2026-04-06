@@ -6,12 +6,18 @@ import PageTitle from "../components/ui/PageTitle";
 import { getAllProdutos } from "../services/produtosServices";
 import { IoIosAdd } from "react-icons/io";
 import SearchBar from "../components/ui/SearchBar";
+import { removeAcentos } from "../utils/removeAcentos";
 
 function ProdutosPage() {
 
     const [onEdit, setOnEdit] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [produtos, setProdutos] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const produtosFiltrados = produtos.filter((produto) =>
+        removeAcentos(produto.NOME?.toLowerCase()).includes(removeAcentos(searchTerm.toLowerCase()))
+    );
 
     async function fetchProdutos() {
         try {
@@ -58,11 +64,13 @@ function ProdutosPage() {
             <div className="ml-7 w-xl relative">
                 <SearchBar
                     placeholder={'Busque pelos produtos'}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
             <div className="p-7">
                 <ProdutosGrid
-                    produtos={produtos}
+                    produtos={produtosFiltrados}
                     onEditProduct={handleOpenEditProduct}
                     refreshProdutos={fetchProdutos}
                 />

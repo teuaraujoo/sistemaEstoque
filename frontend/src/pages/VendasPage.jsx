@@ -8,12 +8,18 @@ import { toast } from "react-toastify";
 import { RxArrowTopRight } from "react-icons/rx";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { removeAcentos } from "../utils/removeAcentos";
 
 
 function VendasPage() {
     const [produtos, setProdutos] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [orderItems, setOrderItems] = useState([]);
     const navigate = useNavigate();
+
+    const produtosFiltrados = produtos.filter((produto) =>
+        removeAcentos(produto.NOME?.toLowerCase()).includes(removeAcentos(searchTerm.toLowerCase()))
+    );
 
     useEffect(() => {
 
@@ -72,11 +78,13 @@ function VendasPage() {
                     <div className="mb-6 relative hidden md:block">
                         <SearchBar
                             placeholder={'Busque pelos produtos'}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
 
                     <ProdutosGrid
-                        produtos={produtos}
+                        produtos={produtosFiltrados}
                         onAddItem={addItem}
                     />
                 </section>
