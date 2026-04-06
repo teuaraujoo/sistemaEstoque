@@ -18,7 +18,7 @@ function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
 
     return (
         <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div className="overflow-x-auto">
+            <div className="max-h-[400px] overflow-x-auto custom-scrollbar">
                 <table className="w-full text-left">
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>

@@ -54,7 +54,7 @@ function DashboardGrafico() {
                 </div>
             </div>
 
-            <div className="h-80 w-full">
+            <div className="h-60 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={data}
