@@ -33,3 +33,14 @@ export async function fetchVendasItensInfoCard(id) {
 
     return vendas;
 };
+
+export async function fetchVendasItens() {
+    const response = await axios.get(API_URL);
+    const data = await response.data;
+
+    if (!Array.isArray(data)) {
+        return [];
+    };
+
+    return data;
+};

@@ -1,18 +1,18 @@
 import StatsCard from '../components/Dashboard/StatsCard';
 import VendasGrid from '../components/Dashboard/VendasGrid';
 import MovesGrid from '../components/Dashboard/MovesGrid';
+import DashboardGrafico from '../components/Dashboard/Grafico';
 
 function Dashboard() {
-
-   
     return (
         <div className="bg-gray-300 min-h-full p-4">
             <StatsCard />
+            <DashboardGrafico />
             <div className="flex gap-10">
                 <VendasGrid />
                 <MovesGrid />
             </div>
-        </div>
+        </div >
     )
 }
 
