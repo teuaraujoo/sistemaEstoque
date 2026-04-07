@@ -1,6 +1,6 @@
 const estoqueRepositories = require('../repositories/estoqueRepositories');
 const produtosRepositories = require('../repositories/produtosRepositories');
-const validaQuant = require('../utils/validaQuant');
+const validarMove = require('../validators/validarMove');
 const { db } = require('../database/db');
 
 exports.getAllMoveEstoque = async (data) => {
@@ -20,20 +20,13 @@ exports.createMoveEstoque = async (data) => {
     const connection = await db.getConnection();
 
     try {
-
         await connection.beginTransaction();
 
         let newQtd;
         const [produto] = await produtosRepositories.findProductById(connection, data.PRODUTO_ID);
         const qtdEstoqueProduto = produto.QTD_ESTOQUE;
 
-        if (produto.STATUS === 'INATIVO') {
-            throw new Error(`${produto.NOME} está inativo!`);
-        };
-
-        if (!validaQuant(data.QTD)) {
-            throw new Error('Quantidade da movimentação inválida');
-        };
+        validarMove(produto, data);
 
         if (data.TIPO === 'SAIDA' && qtdEstoqueProduto > data.QTD) {
             newQtd = qtdEstoqueProduto - data.QTD;
@@ -58,7 +51,6 @@ exports.createMoveEstoque = async (data) => {
 
         await connection.commit();
         return moveCreate[0];
-
     } catch (err) {
 
         await connection.rollback();

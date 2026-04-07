@@ -1,7 +1,6 @@
 const produtosRepositories = require('../repositories/produtosRepositories');
 const estoqueRepositories = require('../repositories/estoqueRepositories');
-const vendasRepositories = require('../repositories/vendasRepositories');
-const produtoValidators = require('../validators/produtosValidators');
+const validarProduto = require('../validators/validarProduto');
 const { db } = require('../database/db');
 
 exports.getAllProdutos = async () => {
@@ -32,17 +31,10 @@ exports.createProduto = async (productData) => {
     const connection = await db.getConnection();
 
     try {
-
         await connection.beginTransaction();
 
-        if (!produtoValidators.validaQtdEstoque(productData.QTD_ESTOQUE)) {
-            throw new RangeError('Valor do estoque inválido');
-        };
+        validarProduto(productData);
 
-        if (!produtoValidators.validaPrecos(Number(productData.PRECO_VENDA), Number(productData.PRECO_COMPRA))) {
-            throw new RangeError('Valor de venda inválido');
-        };
-        
         const data = [
             productData.NOME,
             productData.DESCRICAO,
@@ -73,7 +65,6 @@ exports.createProduto = async (productData) => {
 
         await connection.commit();
         return produto[0];
-
     } catch (err) {
 
         await connection.rollback();
@@ -89,13 +80,7 @@ exports.updateProduto = async (productData, productId) => {
     let [produto] = await produtosRepositories.findProductById(db, productId);
     const qtdEstoqueProduto = produto.QTD_ESTOQUE;
 
-    if (!produtoValidators.validaNome(productData.NOME)) {
-        throw new Error('Nome inválido!');
-    };
-
-    if (!produtoValidators.validaPrecos(Number(productData.PRECO_VENDA), Number(productData.PRECO_COMPRA))) {
-        throw new RangeError('Valor de venda inválido');
-    };
+    validarProduto(productData);
 
     const data = [
         productData.NOME,

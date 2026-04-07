@@ -1,9 +1,8 @@
 const vendasRepositories = require('../repositories/vendasRepositories');
-const validaQuant = require('../utils/validaQuant');
-const daysAgo = require('../utils/daysAgo');
 const produtosRepositories = require('../repositories/produtosRepositories');
 const estoqueRepositories = require('../repositories/estoqueRepositories');
-const estoqueServices = require('../services/estoqueServices');
+const validarProdutoParaVenda = require('../validators/validarProdutoParaVenda');
+const daysAgo = require('../utils/daysAgo');
 const { db } = require('../database/db');
 
 exports.getAllVendas = async () => {
@@ -40,25 +39,18 @@ exports.getAllVendaItensByVendaId = async (id) => {
 
 exports.createVenda = async (vendaData) => {
 
-    const {itens} = { itens: [] };
-    console.log(itens)
-
-
     const connection = await db.getConnection();
 
     try {
-
         await connection.beginTransaction();
 
         const vendaId = await vendasRepositories.newVenda(connection, [0]);
-
 
         const { itens } = vendaData;
 
         if (itens.length <= 0) {
             throw new Error('Adicione pelo menos 1 item a venda');
         };
-
 
         let valorTotal = 0;
 
@@ -67,23 +59,7 @@ exports.createVenda = async (vendaData) => {
             const [produto] = await produtosRepositories.findProductById(connection, item.PRODUTO_ID);
             let newQtdEstoque;
 
-            if (!validaQuant(item.QUANT)) {
-                throw new RangeError('Quantidade inválida!');
-            };
-
-            if (!produto) {
-                throw new Error('Produto não encontrado!');
-            };
-
-            if (produto.STATUS === 'INATIVO') {
-                throw new Error(`${produto.NOME} está inativo!`);
-            };
-
-            // valida estoque do produto
-            if (produto.QTD_ESTOQUE < item.QUANT) {
-                throw new RangeError(`${produto.NOME} com estoque insuficiente!`);
-            };
-
+            validarProdutoParaVenda(produto, item);
 
             // calcula subtotal de 1 dos ITENS
             const subtotal = Number(produto.PRECO_VENDA) * item.QUANT;
@@ -114,17 +90,14 @@ exports.createVenda = async (vendaData) => {
                 item.QUANT,
                 vendaId
             ]);
-
             await produtosRepositories.updateQtdProduto(connection, newQtdEstoque, item.PRODUTO_ID);
         };
-
         // atualiza valor total da venda
         await vendasRepositories.attVenda(connection, valorTotal, vendaId);
         const venda = await vendasRepositories.findVendaById(connection, vendaId);
 
         await connection.commit();
         return venda[0];
-
     } catch (err) {
 
         await connection.rollback();
