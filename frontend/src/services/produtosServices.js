@@ -13,17 +13,17 @@ export async function fetchProdutosResumo() {
             }
         });
         const total = responseTotal.data[0].TOTAL;
-        
-        const responseLowEstoque = await axios.get(`${API_URL}/estoqueMin.`, {
+
+        const responseLowEstoque = await axios.get(`${API_URL}/estoqueMin`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        });
-        const lowEstoque = responseLowEstoque.data.length;
+        })
+        const dataLowEstoque = await responseLowEstoque.data.length;
 
         return {
             totalProdutos: total,
-            baixoEstoque: lowEstoque,
+            baixoEstoque: dataLowEstoque,
         };
     } catch (err) {
         toast.error(err.response.data);

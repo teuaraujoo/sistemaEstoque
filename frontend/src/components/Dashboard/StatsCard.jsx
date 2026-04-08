@@ -8,6 +8,7 @@ import {
 import { fetchProdutosResumo } from "../../services/produtosServices";
 import { fetchVendasResumo } from "../../services/vendasServices";
 import { NavLink } from "react-router-dom";
+import { formataValor } from '../../utils/formataValor';
 
 function StatsCard() {
 
@@ -59,7 +60,7 @@ function StatsCard() {
         },
         {
             title: "Receita do mês",
-            value: `R$ ${receita}`,
+            value: `${formataValor(receita)}`,
             subtextColor: 'text-emerald-500',
             iconBg: 'bg-emerald-100',
             iconColor: 'text-emerald-600',
