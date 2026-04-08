@@ -1,29 +1,20 @@
 const express = require('express');
 const vendasControllers = require('../controllers/vendasControllers');
+const authToken = require('../middlewares/authMiddlewares');
 const router = express.Router();
 
-/* 
-CRUD VENDAS
+router.get('/', authToken, vendasControllers.getAllVendas);
 
-1. READ
-2. CREATE
-3. UPDATE
-4. DELETE
+router.get('/receitaMes', authToken, vendasControllers.getReceitaMes);
 
-*/
+router.get('/vendasMes', authToken, vendasControllers.getVendasMes);
 
-router.get('/', vendasControllers.getAllVendas);
+router.get('/itens', authToken, vendasControllers.getAllVendaItens);
 
-router.get('/receitaMes', vendasControllers.getReceitaMes);
+router.get('/itens/:id', authToken, vendasControllers.getAllVendaItensByVendaId);
 
-router.get('/vendasMes', vendasControllers.getVendasMes);
+router.post('/', authToken, vendasControllers.createVenda);
 
-router.get('/itens', vendasControllers.getAllVendaItens);
-
-router.get('/itens/:id', vendasControllers.getAllVendaItensByVendaId);
-
-router.post('/', vendasControllers.createVenda);
-
-router.delete('/:id', vendasControllers.deleteVenda);
+router.delete('/:id', authToken, vendasControllers.deleteVenda);
 
 module.exports = router;

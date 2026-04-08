@@ -1,32 +1,31 @@
 const express = require('express');
 const produtosControllers = require('../controllers/produtosControllers');
+const authToken = require('../middlewares/authMiddlewares');
 const router = express.Router();
 
 /* 
-
-CRUD PRODUTOS 
+CRUD 
 
 1. READ
 2. CREATE
 3. UPDATE
 4. DELETE
-
 */
 
-router.get('/', produtosControllers.getAllProdutos);
+router.get('/', authToken, produtosControllers.getAllProdutos);
 
-router.get('/total', produtosControllers.getTotalProdutos);
+router.get('/total', authToken, produtosControllers.getTotalProdutos);
 
-router.get('/estoqueMin', produtosControllers.getAllProdutosLowEstoque);
+router.get('/estoqueMin', authToken, produtosControllers.getAllProdutosLowEstoque);
 
-router.get('/:id', produtosControllers.getProdutoById);
+router.get('/:id', authToken, produtosControllers.getProdutoById);
 
-router.post('/', produtosControllers.createProduto);
+router.post('/', authToken, produtosControllers.createProduto);
 
-router.put('/:id', produtosControllers.updateProduto);
+router.put('/:id', authToken, produtosControllers.updateProduto);
 
-router.patch('/:id/status', produtosControllers.activateProduto);
+router.patch('/:id/status', authToken, produtosControllers.activateProduto);
 
-router.delete('/:id', produtosControllers.deleteProduto);
+router.delete('/:id', authToken, produtosControllers.deleteProduto);
 
 module.exports = router;

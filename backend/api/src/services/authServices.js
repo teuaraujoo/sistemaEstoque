@@ -20,13 +20,13 @@ exports.login = async ({ email, senha }) => {
     const user = await authRepositories.findByEmail(email);
 
     if (!user) {
-        throw new Error('Credenciais inválidas');
+        throw new Error('Senha ou email inválidos');
     };
 
     const senhaCorreta = await bcrypt.compare(senha, user.SENHA_HASH);
 
     if (!senhaCorreta) {
-        throw new Error('Credenciais inválidas');
+        throw new Error('Senha ou email inválidos');
     };
 
     const token = jwt.sign({ id: user.ID, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10h' });

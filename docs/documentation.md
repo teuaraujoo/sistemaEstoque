@@ -16,6 +16,8 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 - Express
 - MySQL
 - mysql2/promise (pool de conexões)
+- JWT
+- Bcrypt
 
 ### 2.2 Frontend
 
@@ -52,11 +54,13 @@ SISTEMAESTOQUE/
 │       ├── src/
 │       │   ├── controllers/
 │       │   ├── database/
+│       │   ├── middlewares/
 │       │   ├── repositories/
 │       │   ├── routes/
 │       │   ├── services/
 │       │   ├── utils/
 │       │   └── validators/
+│       ├── .env
 │       ├── index.js
 │       ├── package.json
 │       └── yarn.lock
@@ -70,6 +74,7 @@ SISTEMAESTOQUE/
 │   ├── src/
 │   │   ├── assets/
 │   │   ├── components/
+│   │   ├── hooks/
 │   │   ├── pages/
 │   │   ├── utils/
 │   │   ├── App.css
@@ -160,7 +165,18 @@ CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP,
 UPDATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ```
 
-### 5.5 Relacionamentos
+### 5.5 USUARIOS
+
+```sql
+  ID INT AUTO_INCREMENT PRIMARY KEY,
+  NOME VARCHAR(100) NOT NULL,
+  EMAIL VARCHAR(100) NOT NULL UNIQUE,
+  SENHA_HASH VARCHAR(255) NOT NULL,
+  CREATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UPDATED_AT DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+```
+
+### 5.6 Relacionamentos
 
 - Produto → Vendas (1:N)
 - Produto → Movimentações (1:N)
