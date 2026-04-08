@@ -34,7 +34,7 @@ A aplicação permite:
 - React Icons
 - React Router
 - React Toastify
-- - React Lucide Icons
+- React Lucide Icons
 
 ### Ferramentas
 
