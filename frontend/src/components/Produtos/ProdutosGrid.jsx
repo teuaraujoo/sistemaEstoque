@@ -7,6 +7,7 @@ import { FaPen } from 'react-icons/fa';
 import { formataValor } from '../../utils/formataValor';
 
 function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
+    const token = localStorage.getItem("token")
 
     function getBarColor(qtd) {
         if (qtd <= 5) {
@@ -26,7 +27,11 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
     async function handleDelete(id) {
 
         try {
-            const response = await axios.delete(`http://localhost:8800/api/v1/produtos/${id}`);
+            const response = await axios.delete(`http://localhost:8800/api/v1/produtos/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             toast.success(response.data.message);
             await refreshProdutos();
         } catch (err) {
@@ -36,7 +41,11 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
 
     async function handleActive(id) {
         try {
-            const response = await axios.patch(`http://localhost:8800/api/v1/produtos/${id}/status`, { STATUS: 'ATIVO' });
+            const response = await axios.patch(`http://localhost:8800/api/v1/produtos/${id}/status`, { STATUS: 'ATIVO' }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
 
             toast.success(response.data.message);
             await refreshProdutos();
@@ -106,8 +115,8 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
                                     <td className="px-6 py-4">
                                         <span
                                             className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${produto.STATUS === "ATIVO"
-                                                    ? "bg-emerald-50 text-emerald-600"
-                                                    : "bg-rose-50 text-rose-600"
+                                                ? "bg-emerald-50 text-emerald-600"
+                                                : "bg-rose-50 text-rose-600"
                                                 }`}
                                         >
                                             {produto.STATUS}

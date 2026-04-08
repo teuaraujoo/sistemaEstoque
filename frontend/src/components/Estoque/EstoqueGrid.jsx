@@ -6,8 +6,13 @@ import { toast } from 'react-toastify';
 function EstoqueGrid({ moves, refreshMoves }) {
 
     async function handleDelete(id) {
+        const token = localStorage.getItem("token");
         try {
-            const response = await axios.delete(`http://localhost:8800/api/v1/estoque/${id}`);
+            const response = await axios.delete(`http://localhost:8800/api/v1/estoque/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             toast.error(response.data.message);
             await refreshMoves();
         } catch (err) {

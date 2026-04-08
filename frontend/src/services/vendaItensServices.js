@@ -1,9 +1,14 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8800/api/v1/vendas/itens';
+const token = localStorage.getItem("token");
 
 export async function fetchVendasItensDashboard() {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const data = response.data;
 
     if (!Array.isArray(data)) {
@@ -15,7 +20,11 @@ export async function fetchVendasItensDashboard() {
 };
 
 export async function fetchVendasItensInfoCard(id) {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await axios.get(`${API_URL}/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const data = response.data;
 
     if (!Array.isArray(data)) {
@@ -35,7 +44,11 @@ export async function fetchVendasItensInfoCard(id) {
 };
 
 export async function fetchVendasItens() {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const data = await response.data;
 
     if (!Array.isArray(data)) {

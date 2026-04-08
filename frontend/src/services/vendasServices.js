@@ -3,14 +3,23 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = 'http://localhost:8800/api/v1/vendas';
+const token = localStorage.getItem("token")
 
 export async function fetchVendasResumo() {
 
     try {
-        const responseTotal = await axios.get(`${API_URL}/vendasMes`);
+        const responseTotal = await axios.get(`${API_URL}/vendasMes`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         const dataTotal = await responseTotal.data.length;
 
-        const responseReceita = await axios.get(`${API_URL}/receitaMes`);
+        const responseReceita = await axios.get(`${API_URL}/receitaMes`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         const receitaTotal = await responseReceita.data[0].receitaTotal;
 
         return {
@@ -23,7 +32,11 @@ export async function fetchVendasResumo() {
 };
 
 export async function fetchVendas() {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const data = response.data;
 
     if (!Array.isArray(data)) {
@@ -35,7 +48,11 @@ export async function fetchVendas() {
 };
 
 export async function createVenda(itens) {
-    const response = await axios.post(API_URL, {itens});
+    const response = await axios.post(API_URL, { itens }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
     const data = await response.data;
 
     return data;

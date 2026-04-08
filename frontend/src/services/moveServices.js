@@ -2,11 +2,20 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const API_URL = 'http://localhost:8800/api/v1/estoque';
+const token = localStorage.getItem("token");
 
 export async function fetchMoves() {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const data = response.data;
-    const produtos = await axios.get('http://localhost:8800/api/v1/produtos');
+    const produtos = await axios.get('http://localhost:8800/api/v1/produtos', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const produtosData = produtos.data;
 
     if (!Array.isArray(data)) {
@@ -29,7 +38,11 @@ export async function fetchMoves() {
 
 export async function getAllMoves() {
     try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get(API_URL, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         const data = await response.data;
         return data;
     } catch (err) {
@@ -45,6 +58,10 @@ export async function createMove(move, tipo) {
         MOTIVO: move.motivo,
         QTD: Number(move.quant),
         VENDA_ID: null
+    }, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     });
 
     return response.data;

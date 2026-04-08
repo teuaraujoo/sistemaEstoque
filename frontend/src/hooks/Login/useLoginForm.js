@@ -22,7 +22,7 @@ export function useLoginForm({ ref }) {
 
             toast.success(data.message);
             limparForms(form);
-            console.log('hooks: ', localStorage.getItem("token"))
+            localStorage.setItem("token", data.data.token);
         } catch (err) {
             toast.error(err.response?.data);
         };
