@@ -7,8 +7,13 @@ import { formataValor } from "../../utils/formataValor";
 function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
 
     async function handleDelete(id) {
+        const token = localStorage.getItem("token");
         try {
-            const response = await axios.delete(`http://localhost:8800/api/v1/vendas/${id}`)
+            const response = await axios.delete(`http://localhost:8800/api/v1/vendas/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             toast.success(response.data.message);
             await refreshVendas();
         } catch (err) {

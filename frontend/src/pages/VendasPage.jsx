@@ -21,6 +21,11 @@ function VendasPage() {
         removeAcentos(produto.NOME?.toLowerCase()).includes(removeAcentos(searchTerm.toLowerCase()))
     );
 
+    async function fetchProdutos() {
+        const produtosList = await getAllProdutos();
+        setProdutos(produtosList || []);
+    };
+
     useEffect(() => {
 
         async function carregarProdutos() {
@@ -49,7 +54,7 @@ function VendasPage() {
 
 
     function limparOrder() {
-        setOrderItems([])
+        setOrderItems([]);
     };
 
     return (
@@ -95,6 +100,7 @@ function VendasPage() {
                         items={orderItems}
                         onRemove={removeItem}
                         onFinish={limparOrder}
+                        refreshProdutos={fetchProdutos}
                     />
                 </section>
             </div>

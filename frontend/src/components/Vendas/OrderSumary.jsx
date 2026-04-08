@@ -4,7 +4,7 @@ import { createVenda } from "../../services/vendasServices";
 import { toast } from "react-toastify";
 import { formataValor } from "../../utils/formataValor";
 
-function OrderSummary({ items, onRemove, onFinish }) {
+function OrderSummary({ items, onRemove, onFinish,  refreshProdutos }) {
 
     const [quant, setQuantidades] = useState({});
 
@@ -60,6 +60,7 @@ function OrderSummary({ items, onRemove, onFinish }) {
             const response = await createVenda(pedido);
             toast.success(response.message);
             onFinish();
+            refreshProdutos();
         } catch (err) {
             toast.error(err.response.data);
         }
