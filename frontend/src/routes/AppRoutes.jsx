@@ -5,6 +5,7 @@ import Produtos from '../pages/ProdutosPage';
 import Vendas from '../pages/VendasPage';
 import AllVendas from '../pages/allVendasPage';
 import Movimentacoes from '../pages/MovePage';
+import LoginPage from '../pages/LoginPage';
 
 function AppRoutes() {
     return (
@@ -16,6 +17,7 @@ function AppRoutes() {
                 <Route path="/vendas/todas" element={<AllVendas />} />
                 <Route path="/movimentacoes" element={<Movimentacoes />} />
             </Route>
+                <Route path="/login" element={<LoginPage />} />
         </Routes>
     )
 };
