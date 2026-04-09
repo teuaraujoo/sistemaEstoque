@@ -28,8 +28,12 @@ exports.createMoveEstoque = async (data) => {
 
         validarMove(produto, data);
 
-        if (data.TIPO === 'SAIDA' && qtdEstoqueProduto > data.QTD) {
-            newQtd = qtdEstoqueProduto - data.QTD;
+        if (data.TIPO === 'SAIDA') {
+            if (qtdEstoqueProduto < data.QTD) {
+                throw new Error('Produto com estoque insuficiente!');
+            } else {
+                newQtd = qtdEstoqueProduto - data.QTD;
+            }
         } else {
             newQtd = qtdEstoqueProduto + data.QTD;
         };
