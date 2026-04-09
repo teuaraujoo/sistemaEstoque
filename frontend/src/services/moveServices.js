@@ -12,12 +12,6 @@ export async function fetchMoves() {
         }
     });
     const data = await response.data;
-    const produtos = await axios.get('http://localhost:8800/api/v1/produtos', {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
-    const produtosData = await produtos.data;
 
     if (!Array.isArray(data)) {
         return {
@@ -26,15 +20,7 @@ export async function fetchMoves() {
     }
 
     const movesRecentes = data.sort((a, b) => new Date(b.CREATED_AT) - new Date(a.CREATED_AT)).slice(0, 3);
-    const movesRecentesComProduto = movesRecentes.map((move) => {
-        const produto = produtosData.find((p) => p.ID === move.PRODUTO_ID);
-        return {
-            ...move,
-            produto: produto ? { NOME: produto.NOME } : null
-        };
-    });
-
-    return movesRecentesComProduto;
+    return movesRecentes;
 };
 
 export async function getAllMoves() {
