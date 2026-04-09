@@ -1,8 +1,11 @@
 import { validarFormulario, formsPayload, limparForms } from "../../utils/loginFormsUtil";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../../services/userServices";
+import { setToken } from "../../services/token/setToken";
 
 export function useLoginForm({ ref }) {
+    const navigate = useNavigate();
 
     async function handleSubmmit(e) {
         e.preventDefault();
@@ -22,7 +25,8 @@ export function useLoginForm({ ref }) {
 
             toast.success(data.message);
             limparForms(form);
-            localStorage.setItem("token", data.data.token);
+            setToken("token", data.data.token, 36000000);
+            navigate('/');
         } catch (err) {
             toast.error(err.response?.data);
         };

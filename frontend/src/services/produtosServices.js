@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getToken } from './token/setToken';
 
 const API_URL = 'http://localhost:8800/api/v1/produtos';
-const token = localStorage.getItem("token");
+const token = getToken("token");
 
 export async function fetchProdutosResumo() {
     try {
@@ -12,7 +13,7 @@ export async function fetchProdutosResumo() {
                 Authorization: `Bearer ${token}`
             }
         });
-        const total = responseTotal.data[0].TOTAL;
+        const total = await responseTotal.data[0].TOTAL;
 
         const responseLowEstoque = await axios.get(`${API_URL}/estoqueMin`, {
             headers: {

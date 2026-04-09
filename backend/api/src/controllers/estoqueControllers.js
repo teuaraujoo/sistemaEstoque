@@ -24,12 +24,3 @@ exports.createMoveEstoque = async (req, res) => {
         return res.status(500).send(err.message);
     };
 };
-
-exports.deleteMoveEstoque = async (req, res) => {
-
-    try {
-        return res.status(200).json({ message: 'Correções de estoque devem ser feitas por meio de nova movimentação compensatória' });
-    } catch (err) {
-        return res.status(500).send(err.message);
-    };
-};

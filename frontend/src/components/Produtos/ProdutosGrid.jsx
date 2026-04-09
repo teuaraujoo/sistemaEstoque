@@ -5,9 +5,10 @@ import { GiShieldDisabled } from "react-icons/gi";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FaPen } from 'react-icons/fa';
 import { formataValor } from '../../utils/formataValor';
+import { getToken } from '../../services/token/setToken';
 
 function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
-    const token = localStorage.getItem("token")
+    const token = getToken("token")
 
     function getBarColor(qtd) {
         if (qtd <= 5) {

@@ -1,23 +1,12 @@
-import axios from 'axios';
 import { FaTrash } from 'react-icons/fa';
 import { formataData } from '../../utils/formataData';
 import { toast } from 'react-toastify';
 
 function EstoqueGrid({ moves, refreshMoves }) {
 
-    async function handleDelete(id) {
-        const token = localStorage.getItem("token");
-        try {
-            const response = await axios.delete(`http://localhost:8800/api/v1/estoque/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            toast.error(response.data.message);
-            await refreshMoves();
-        } catch (err) {
-            toast.error(err.response.data);
-        };
+    async function handleDelete() {
+        toast.error('Correções de estoque devem ser feitas por meio de nova movimentação compensatória');
+        await refreshMoves();
     };
 
     return (

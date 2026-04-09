@@ -5,6 +5,5 @@ const router = express.Router();
 
 router.get('/', authToken, estoqueControllers.getAllMoveEstoque);
 router.post('/', authToken, estoqueControllers.createMoveEstoque);
-router.delete('/:id', authToken, estoqueControllers.deleteMoveEstoque);
 
 module.exports = router;

@@ -6,19 +6,24 @@ import Vendas from '../pages/VendasPage';
 import AllVendas from '../pages/allVendasPage';
 import Movimentacoes from '../pages/MovePage';
 import LoginPage from '../pages/LoginPage';
+import ProtectedRoute from './ProtectedRoute';
 
 function AppRoutes() {
     return (
         <Routes>
-            <Route element={<MainLayout />}>
-                <Route path='/' element={<Dashboard />} />
-                <Route path="/produtos" element={<Produtos />} />
-                <Route path="/vendas" element={<Vendas />} />
-                <Route path="/vendas/todas" element={<AllVendas />} />
-                <Route path="/movimentacoes" element={<Movimentacoes />} />
+
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route element={<ProtectedRoute />}>
+                <Route element={<MainLayout />} >
+                    <Route path='/' element={<Dashboard />} />
+                    <Route path="/produtos" element={<Produtos />} />
+                    <Route path="/vendas" element={<Vendas />} />
+                    <Route path="/vendas/todas" element={<AllVendas />} />
+                    <Route path="/movimentacoes" element={<Movimentacoes />} />
+                </Route>
             </Route>
-                <Route path="/login" element={<LoginPage />} />
-        </Routes>
+        </Routes >
     )
 };
 

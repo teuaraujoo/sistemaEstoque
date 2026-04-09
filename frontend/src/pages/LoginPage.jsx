@@ -2,10 +2,13 @@ import { Mail, Lock, Package } from "lucide-react";
 import { gsap } from 'gsap';
 import { useEffect, useRef } from "react";
 import { useLoginForm } from "../hooks/Login/useLoginForm";
+import { Navigate } from "react-router-dom";
+import { getToken } from "../services/token/setToken";
 
 function LoginPage() {
     const formRef = useRef(null);
     const ref = useRef(null);
+    const token = getToken("token");
 
     useEffect(() => {
         gsap.fromTo(
@@ -24,6 +27,10 @@ function LoginPage() {
     }, []);
 
     const handleSubmit = useLoginForm({ ref });
+
+    if (token) {
+        return <Navigate to="/" replace />
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-100 via-[#f5f3fb] to-[#eef1ff] text-slate-800 overflow-hidden" id="loginPage">

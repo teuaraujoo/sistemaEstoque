@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { getToken } from './token/setToken';
 
 const API_URL = 'http://localhost:8800/api/v1/estoque';
-const token = localStorage.getItem("token");
+const token = getToken("token");
 
 export async function fetchMoves() {
     const response = await axios.get(API_URL, {
@@ -10,13 +11,13 @@ export async function fetchMoves() {
             Authorization: `Bearer ${token}`
         }
     });
-    const data = response.data;
+    const data = await response.data;
     const produtos = await axios.get('http://localhost:8800/api/v1/produtos', {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
-    const produtosData = produtos.data;
+    const produtosData = await produtos.data;
 
     if (!Array.isArray(data)) {
         return {

@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getToken } from './token/setToken';
 
 const API_URL = 'http://localhost:8800/api/v1/vendas';
-const token = localStorage.getItem("token")
+const token = getToken("token");
 
 export async function fetchVendasResumo() {
 
@@ -37,7 +38,7 @@ export async function fetchVendas() {
             Authorization: `Bearer ${token}`
         }
     });
-    const data = response.data;
+    const data = await response.data;
 
     if (!Array.isArray(data)) {
         return [];

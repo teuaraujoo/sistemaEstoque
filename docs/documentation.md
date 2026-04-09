@@ -23,6 +23,7 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 
 - React
 - Tailwind CSS
+- GSAP
 
 ### 2.3 Ferramentas
 
@@ -31,6 +32,7 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 - React Icons
 - React Toastify
 - React Lucide Icons
+- Recharts
 
 ### 2.4 Conceitos Aplicados
 
