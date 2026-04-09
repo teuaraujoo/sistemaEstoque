@@ -58,7 +58,7 @@ function VendasPage() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div>
             {/* TOPO */}
             <div className="flex items-end justify-between p-7">
                 <div>

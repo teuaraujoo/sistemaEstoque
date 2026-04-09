@@ -4,7 +4,7 @@ import { createVenda } from "../../services/vendasServices";
 import { toast } from "react-toastify";
 import { formataValor } from "../../utils/formataValor";
 
-function OrderSummary({ items, onRemove, onFinish,  refreshProdutos }) {
+function OrderSummary({ items, onRemove, onFinish, refreshProdutos }) {
 
     const [quant, setQuantidades] = useState({});
 
@@ -67,7 +67,7 @@ function OrderSummary({ items, onRemove, onFinish,  refreshProdutos }) {
     };
 
     return (
-        <aside className="flex h-[calc(100vh-250px)] flex-col rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <aside className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
                 <h2 className="text-[18px] font-semibold text-slate-800">
                     Pedido Atual
