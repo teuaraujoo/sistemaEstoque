@@ -22,21 +22,10 @@ exports.createMoveEstoque = async (data) => {
     try {
         await connection.beginTransaction();
 
-        let newQtd;
         const [produto] = await produtosRepositories.findProductById(connection, data.PRODUTO_ID);
         const qtdEstoqueProduto = produto.QTD_ESTOQUE;
 
-        validarMove(produto, data);
-
-        if (data.TIPO === 'SAIDA') {
-            if (qtdEstoqueProduto < data.QTD) {
-                throw new Error('Produto com estoque insuficiente!');
-            } else {
-                newQtd = qtdEstoqueProduto - data.QTD;
-            }
-        } else {
-            newQtd = qtdEstoqueProduto + data.QTD;
-        };
+        const newQtd = validarMove(produto, data, qtdEstoqueProduto);
 
         const body = [
             data.PRODUTO_ID,
