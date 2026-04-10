@@ -1,4 +1,8 @@
-require('dotenv').config();
+require('dotenv').config({
+    path: process.env.NODE_ENV === 'production'
+        ? '.env.production'
+        : '.env.development'
+});
 const express = require('express');
 const cors = require('cors');
 const produtoRoutes = require('./src/routes/produtoRoutes');
@@ -16,8 +20,12 @@ app.use('/api/v1/produtos', produtoRoutes);
 app.use('/api/v1/vendas', vendasRoutes);
 app.use('/api/v1/estoque', estoqueRoutes);
 
-const port = process.env.PORT || 3000;
+app.get('/health', (req, res) => {
+    res.json({ ok: true });
+});
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`SERVER IS RUNNING ON PORT ${port}`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`SERVER IS RUNNING ON PORT ${PORT}`);
 });
