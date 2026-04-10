@@ -16,7 +16,7 @@ app.use('/api/v1/produtos', produtoRoutes);
 app.use('/api/v1/vendas', vendasRoutes);
 app.use('/api/v1/estoque', estoqueRoutes);
 
-const port = process.env.DB_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
     console.log(`SERVER IS RUNNING ON PORT ${port}`);
