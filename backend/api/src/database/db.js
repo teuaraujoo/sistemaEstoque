@@ -1,15 +1,9 @@
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 
-// exports.db = mysql.createPool({
-//     host: 'mysql.railway.internal',
-//     port: 3306,
-//     user: 'root',
-//     password: 'fNEwvEfyrHjVWwcFghcxthanEyoFaUeP',
-//     database: 'railway',
-//     waitForConnections: true,
-//     connectionLimit: 10,
-//     queueLimit: 0
-// });
+if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL não está definida.');
+};
 
 const pool = mysql.createPool(process.env.DATABASE_URL);
 module.exports = pool;

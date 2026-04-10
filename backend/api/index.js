@@ -6,7 +6,6 @@ const vendasRoutes = require('./src/routes/vendasRoutes');
 const estoqueRoutes = require('./src/routes/estoqueRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const app = express();
-const pool = require('./src/database/db');
 
 app.use(express.json());
 app.use(cors());
