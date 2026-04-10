@@ -4,9 +4,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from './token/setToken';
 
 const API_URL = 'http://localhost:8800/api/v1/produtos';
-const token = getToken("token");
 
 export async function fetchProdutosResumo() {
+    const token = getToken("token");
+
     try {
         const responseTotal = await axios.get(`${API_URL}/total`, {
             headers: {
@@ -32,6 +33,7 @@ export async function fetchProdutosResumo() {
 };
 
 export async function getAllProdutos() {
+    const token = getToken("token");
 
     try {
         const response = await axios.get(API_URL, {
@@ -48,6 +50,8 @@ export async function getAllProdutos() {
 };
 
 export async function updateProduto(produto) {
+    const token = getToken("token");
+    
     const response = await axios.put(`${API_URL}/${produto.id}`, {
         NOME: produto.nome,
         DESCRICAO: produto.descricao,
@@ -64,6 +68,7 @@ export async function updateProduto(produto) {
 };
 
 export async function createProduto(produto) {
+    const token = getToken("token");
 
     const response = await axios.post(`${API_URL}`, {
         NOME: produto.nome,

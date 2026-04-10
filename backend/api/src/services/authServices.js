@@ -39,3 +39,11 @@ exports.login = async ({ email, senha }) => {
         }
     };
 };
+
+exports.getAll = async () => {
+    try {
+
+    } catch (err) {
+
+    }
+};

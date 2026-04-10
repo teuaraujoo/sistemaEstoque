@@ -11,3 +11,9 @@ exports.findByEmail = async (email) => {
     const [user] = await db.query(q, [email]);
     return user[0];
 };
+
+exports.getUsers = async () => {
+    const q = 'SELECT * FROM USUARIOS';
+    const [user] = await db.query(q, [email]);
+    return user[0];
+};

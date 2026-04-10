@@ -4,9 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from './token/setToken';
 
 const API_URL = 'http://localhost:8800/api/v1/vendas';
-const token = getToken("token");
 
 export async function fetchVendasResumo() {
+    const token = getToken("token");
 
     try {
         const responseTotal = await axios.get(`${API_URL}/vendasMes`, {
@@ -33,6 +33,8 @@ export async function fetchVendasResumo() {
 };
 
 export async function fetchVendas() {
+    const token = getToken("token");
+
     const response = await axios.get(API_URL, {
         headers: {
             Authorization: `Bearer ${token}`
@@ -49,11 +51,13 @@ export async function fetchVendas() {
 };
 
 export async function createVenda(itens) {
+    const token = getToken("token");
+
     const response = await axios.post(API_URL, { itens }, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
     const data = await response.data;
 
     return data;

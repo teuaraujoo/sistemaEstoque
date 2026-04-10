@@ -19,3 +19,11 @@ exports.login = async (req, res) => {
         return res.status(401).json(err.message);
     };
 };
+
+exports.getAll = async (req, res) => {
+    try {
+
+    } catch (err) {
+
+    }
+}
