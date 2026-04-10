@@ -32,6 +32,7 @@ app.listen(port, '0.0.0.0', () => {
         DB_PORT: process.env.DB_PORT,
         DB_USER: process.env.DB_USER,
         DB_NAME: process.env.DB_NAME,
-        PORT: process.env.PORT
+        PORT: process.env.PORT,
+        HAS_DB_PASSWORD: Boolean(process.env.DB_PASSWORD)
     });
 });
