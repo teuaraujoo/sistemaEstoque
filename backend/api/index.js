@@ -18,7 +18,14 @@ app.use('/api/v1/estoque', estoqueRoutes);
 
 const port = process.env.PORT || 3000;
 
-app.listen(port,'0.0.0.0', () => {
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        ok: true,
+        message: 'API online'
+    });
+});
+
+app.listen(port, '0.0.0.0', () => {
     console.log(`SERVER IS RUNNING ON PORT ${port}`);
     console.log({
         DB_HOST: process.env.DB_HOST,
