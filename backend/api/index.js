@@ -25,6 +25,19 @@ app.get('/health', (req, res) => {
     });
 });
 
+app.get('/db-check', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT 1 AS ok');
+        res.json({ ok: true, rows });
+    } catch (error) {
+        console.error('db-check error:', error);
+        res.status(500).json({
+            ok: false,
+            message: error.message
+        });
+    }
+});
+
 app.listen(port, '0.0.0.0', () => {
     console.log(`SERVER IS RUNNING ON PORT ${port}`);
     console.log({
