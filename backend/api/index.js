@@ -38,6 +38,26 @@ app.get('/db-check', async (req, res) => {
     }
 });
 
+app.get('/db-debug', async (req, res) => {
+    try {
+        const url = process.env.DATABASE_URL || '';
+        const masked = url
+            ? url.replace(/:\/\/([^:]+):([^@]+)@/, '://$1:***@')
+            : null;
+
+        res.json({
+            hasDatabaseUrl: Boolean(process.env.DATABASE_URL),
+            databaseUrlPreview: masked,
+            dbHost: process.env.DB_HOST,
+            dbPort: process.env.DB_PORT,
+            dbUser: process.env.DB_USER,
+            dbName: process.env.DB_NAME,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 app.listen(port, '0.0.0.0', () => {
     console.log(`SERVER IS RUNNING ON PORT ${port}`);
     console.log({
