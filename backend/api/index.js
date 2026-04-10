@@ -16,6 +16,14 @@ app.use('/api/v1/produtos', produtoRoutes);
 app.use('/api/v1/vendas', vendasRoutes);
 app.use('/api/v1/estoque', estoqueRoutes);
 
-app.listen(process.env.PORT, () => {
- console.log('SERVER IS RUNNING ON PORT 8800');
+const port = process.env.DB_PORT || 3000;
+
+app.listen(port, () => {
+    console.log(`SERVER IS RUNNING ON PORT ${port}`);
+    console.log({
+        DB_HOST: process.env.DB_HOST,
+        DB_PORT: process.env.DB_PORT,
+        DB_USER: process.env.DB_USER,
+        DB_NAME: process.env.DB_NAME,
+    });
 });

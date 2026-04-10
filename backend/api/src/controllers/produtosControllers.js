@@ -6,7 +6,7 @@ exports.getAllProdutos = async (req, res) => {
         const data = await produtoServices.getAllProdutos();
         return res.status(200).json(data);
     } catch (err) {
-        return res.status(500).send('Error ao buscar produtos.');
+        return res.status(500).json({ message: 'Error ao buscar produtos.', error: err.message });
     };
 };
 
@@ -14,7 +14,7 @@ exports.getTotalProdutos = async (req, res) => {
     try {
         const data = await produtoServices.getTotalProdutos();
         return res.status(200).json(data);
-    } catch(err) {
+    } catch (err) {
         return res.status(500).send('Error ao buscar produtos.');
     }
 };
@@ -22,8 +22,8 @@ exports.getTotalProdutos = async (req, res) => {
 exports.getAllProdutosLowEstoque = async (req, res) => {
     try {
         const data = await produtoServices.getAllProdutosLowEstoque();
-        return res.status(200).json(data) 
-    } catch(err) {
+        return res.status(200).json(data)
+    } catch (err) {
         return res.status(500).send('Error ao buscar produtos.');
     }
 };
@@ -92,9 +92,9 @@ exports.deleteProduto = async (req, res) => {
 
     const id = req.params.id;
     try {
-        const produtoDel = await  produtoServices.inactiveStatus(id);
+        const produtoDel = await produtoServices.inactiveStatus(id);
         return res.status(200).json({ message: 'Produto desativado com sucesso!' });
-    } catch (err) { 
+    } catch (err) {
         console.log(err)
         return res.status(500).send(err.message);
     };
