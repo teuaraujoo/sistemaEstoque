@@ -18,7 +18,7 @@ app.use('/api/v1/estoque', estoqueRoutes);
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
     console.log(`SERVER IS RUNNING ON PORT ${port}`);
     console.log({
         DB_HOST: process.env.DB_HOST,
