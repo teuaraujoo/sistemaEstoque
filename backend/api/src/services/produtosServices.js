@@ -1,7 +1,7 @@
 const produtosRepositories = require('../repositories/produtosRepositories');
 const estoqueRepositories = require('../repositories/estoqueRepositories');
 const validarProduto = require('../validators/validarProduto');
-const { db } = require('../database/db');
+const db  = require('../database/db');
 
 exports.getAllProdutos = async () => {
 

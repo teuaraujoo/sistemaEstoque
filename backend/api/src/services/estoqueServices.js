@@ -1,7 +1,7 @@
 const estoqueRepositories = require('../repositories/estoqueRepositories');
 const produtosRepositories = require('../repositories/produtosRepositories');
 const validarMove = require('../validators/validarMove');
-const { db } = require('../database/db');
+const db = require('../database/db');
 
 exports.getAllMoveEstoque = async (data) => {
 

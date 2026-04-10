@@ -3,7 +3,7 @@ const produtosRepositories = require('../repositories/produtosRepositories');
 const estoqueRepositories = require('../repositories/estoqueRepositories');
 const validarProdutoParaVenda = require('../validators/validarProdutoParaVenda');
 const daysAgo = require('../utils/daysAgo');
-const { db } = require('../database/db');
+const db = require('../database/db');
 
 exports.getAllVendas = async () => {
     const vendas = await vendasRepositories.findAllVendas();
