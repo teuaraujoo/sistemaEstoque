@@ -1,4 +1,4 @@
-const { db } = require('../database/db');
+const db = require('../database/db');
 
 exports.findAllVendas = async () => {
     const q = 'SELECT * FROM VENDAS';

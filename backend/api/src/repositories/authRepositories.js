@@ -1,4 +1,4 @@
-const { db } = require('../database/db');
+const db = require('../database/db');
 
 // exports.create = (data) => {
 //     const q = 'INSERT INTO USUARIOS(NOME, EMAIL, SENHA_HASH) VALUES (?, ?, ?)';
