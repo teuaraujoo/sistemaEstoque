@@ -6,6 +6,7 @@ import { BsShieldFillCheck } from "react-icons/bs";
 import { FaPen } from 'react-icons/fa';
 import { formataValor } from '../../utils/formataValor';
 import { getToken } from '../../services/token/setToken';
+import { api } from '../../services/api';
 
 function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
     const token = getToken("token")
@@ -28,7 +29,7 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
     async function handleDelete(id) {
 
         try {
-            const response = await axios.delete(`http://localhost:8800/api/v1/produtos/${id}`, {
+            const response = await axios.delete(`${api.produtos}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -42,7 +43,7 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
 
     async function handleActive(id) {
         try {
-            const response = await axios.patch(`http://localhost:8800/api/v1/produtos/${id}/status`, { STATUS: 'ATIVO' }, {
+            const response = await axios.patch(`${api.produtos}/${id}/status`, { STATUS: 'ATIVO' }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

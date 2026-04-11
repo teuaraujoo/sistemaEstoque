@@ -4,13 +4,14 @@ import { IoInformationCircle } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { formataValor } from "../../utils/formataValor";
 import { getToken } from "../../services/token/setToken";
+import { api } from "../../services/api";
 
 function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
 
     async function handleDelete(id) {
         const token = getToken("token");
         try {
-            const response = await axios.delete(`http://localhost:8800/api/v1/vendas/${id}`, {
+            const response = await axios.delete(`${api.vendas}/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
