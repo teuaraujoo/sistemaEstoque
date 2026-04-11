@@ -3,18 +3,18 @@ const bcrypt = require('bcrypt');
 const authRepositories = require('../repositories/authRepositories');
 
 
-// exports.create = async (data) => {
+exports.create = async (data) => {
 
-//     const senhaHash = await bcrypt.hash(data.senha, 12);
+    const senhaHash = await bcrypt.hash(data.senha, 12);
 
-//     const user = authRepositories.create([
-//         data.nome,
-//         data.email,
-//         senhaHash
-//     ]);
+    const user = authRepositories.create([
+        data.nome,
+        data.email,
+        senhaHash
+    ]);
 
-//     return user;
-// };
+    return user;
+};
 
 exports.login = async ({ email, senha }) => {
     const user = await authRepositories.findByEmail(email);
