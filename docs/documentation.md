@@ -24,9 +24,6 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 - React
 - Tailwind CSS
 - GSAP
-
-### 2.3 Ferramentas
-
 - Axios
 - React Router
 - React Icons
@@ -34,12 +31,12 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 - React Lucide Icons
 - Recharts
 
-### 2.4 Deploy
+### 2.3 Deploy
 
 - Railway -> Banco + Backend
 - Vercel -> Frontend
 
-### 2.5 Conceitos Aplicados
+### 2.4 Conceitos Aplicados
 
 - Arquitetura em Camadas (Layered Architecture)
 - REST API
@@ -48,6 +45,7 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 - Separação de responsabilidades
 - Padronização de respostas HTTP
 - Conventional Commits
+- Layred Architheture
 
 ---
 
@@ -69,6 +67,7 @@ SISTEMAESTOQUE/
 │       │   └── validators/
 │       ├── .env
 │       ├── index.js
+│       ├── .env.example
 │       ├── package.json
 │       └── yarn.lock
 ├── docs/
@@ -83,6 +82,8 @@ SISTEMAESTOQUE/
 │   │   ├── components/
 │   │   ├── hooks/
 │   │   ├── pages/
+│   │   ├── routes/
+│   │   ├── services/
 │   │   ├── utils/
 │   │   ├── App.css
 │   │   ├── App.jsx
@@ -90,6 +91,7 @@ SISTEMAESTOQUE/
 │   │   └── main.jsx
 │   ├── eslint.config.js
 │   ├── index.html
+│   ├── .env.example
 │   ├── package.json
 │   ├── vite.config.js
 │   └── yarn.lock
@@ -239,7 +241,6 @@ Valida dados
 ```
 GET    /api/v1/estoque
 POST   /api/v1/estoque
-DELETE /api/v1/estoque/:id
 ```
 
 ### 7.2 Produtos
@@ -599,7 +600,15 @@ yarn run dev
 
 ---
 
-## 12. Recursos Adicionais
+## 12. Features
+
+- Documentação da API com Swagger
+- Inteligência Artificial para geração de relatórios
+- Exportar relatórios em CSV
+
+---
+
+## 13. Recursos Adicionais
 
 | Arquivo              | Descrição              |
 | -------------------- | ---------------------- |
@@ -610,7 +619,7 @@ yarn run dev
 
 ---
 
-## 13. Licença
+## 14. Licença
 
 Este projeto utiliza licença **MIT**.
 

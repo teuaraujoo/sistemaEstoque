@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento de Estoque
+﻿# Sistema de Gerenciamento de Estoque
 
 Sistema completo para gerenciamento de estoque, com controle de produtos, vendas e movimentações, garantindo integridade dos dados e rastreabilidade das operações.
 
@@ -172,7 +172,6 @@ DELETE /api/v1/vendas/:id
 
 GET    /api/v1/estoque  
 POST   /api/v1/estoque  
-DELETE /api/v1/estoque/:id  
 
 ---
 
@@ -191,14 +190,19 @@ backend/api
   ├── controllers  
   ├── services  
   ├── repositories  
+  ├── middlewares 
   ├── routes  
   ├── validators  
   ├── utils  
   └── database  
 
 frontend  
+  ├── assets
   ├── components  
   ├── pages  
+  ├── services
+  ├── hooks
+  ├── routes
   └── utils  
 
 docs  
