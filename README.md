@@ -1,6 +1,6 @@
 ﻿# Sistema de Gerenciamento de Estoque
  
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/yuribodo/a-base-vem-forte/blob/main/LICENSE)
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/teuaraujoo/sistemaEstoque/blob/main/LICENSE.md)
 
 Sistema completo para gerenciamento de estoque, com controle de produtos, vendas e movimentações, garantindo integridade dos dados e rastreabilidade das operações.
 
