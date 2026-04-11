@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getToken } from './token/setToken';
-
-const API_URL = 'http://localhost:8800/api/v1/estoque';
+import { api } from './api';
 
 export async function fetchMoves() {
     const token = getToken("token");
-    const response = await axios.get(API_URL, {
+    const response = await axios.get(api.estoque, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -26,7 +25,7 @@ export async function fetchMoves() {
 export async function getAllMoves() {
     const token = getToken("token");
     try {
-        const response = await axios.get(API_URL, {
+        const response = await axios.get(api.estoque, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -41,7 +40,7 @@ export async function getAllMoves() {
 export async function createMove(move, tipo) {
     const token = getToken("token");
 
-    const response = await axios.post(`${API_URL}`, {
+    const response = await axios.post(api.estoque, {
         PRODUTO_ID: move.produto,
         TIPO: tipo,
         MOTIVO: move.motivo,

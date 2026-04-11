@@ -2,21 +2,20 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from './token/setToken';
-
-const API_URL = 'http://localhost:8800/api/v1/produtos';
+import { api } from './api';
 
 export async function fetchProdutosResumo() {
     const token = getToken("token");
 
     try {
-        const responseTotal = await axios.get(`${API_URL}/total`, {
+        const responseTotal = await axios.get(`${api.produtos}/total`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
         const total = await responseTotal.data[0].TOTAL;
 
-        const responseLowEstoque = await axios.get(`${API_URL}/estoqueMin`, {
+        const responseLowEstoque = await axios.get(`${api.produtos}/estoqueMin`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -36,7 +35,7 @@ export async function getAllProdutos() {
     const token = getToken("token");
 
     try {
-        const response = await axios.get(API_URL, {
+        const response = await axios.get(api.produtos, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -52,7 +51,7 @@ export async function getAllProdutos() {
 export async function updateProduto(produto) {
     const token = getToken("token");
     
-    const response = await axios.put(`${API_URL}/${produto.id}`, {
+    const response = await axios.put(`${api.produtos}/${produto.id}`, {
         NOME: produto.nome,
         DESCRICAO: produto.descricao,
         PRECO_COMPRA: produto.preco_compra,
@@ -70,7 +69,7 @@ export async function updateProduto(produto) {
 export async function createProduto(produto) {
     const token = getToken("token");
 
-    const response = await axios.post(`${API_URL}`, {
+    const response = await axios.post(api.produtos, {
         NOME: produto.nome,
         DESCRICAO: produto.descricao,
         PRECO_COMPRA: produto.preco_compra,

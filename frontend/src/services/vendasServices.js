@@ -2,21 +2,20 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from './token/setToken';
-
-const API_URL = 'http://localhost:8800/api/v1/vendas';
+import { api } from './api';
 
 export async function fetchVendasResumo() {
     const token = getToken("token");
 
     try {
-        const responseTotal = await axios.get(`${API_URL}/vendasMes`, {
+        const responseTotal = await axios.get(`${api.vendas}/vendasMes`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
         const dataTotal = await responseTotal.data.length;
 
-        const responseReceita = await axios.get(`${API_URL}/receitaMes`, {
+        const responseReceita = await axios.get(`${api.vendas}/receitaMes`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -35,7 +34,7 @@ export async function fetchVendasResumo() {
 export async function fetchVendas() {
     const token = getToken("token");
 
-    const response = await axios.get(API_URL, {
+    const response = await axios.get(api.vendas, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -53,7 +52,7 @@ export async function fetchVendas() {
 export async function createVenda(itens) {
     const token = getToken("token");
 
-    const response = await axios.post(API_URL, { itens }, {
+    const response = await axios.post(api.vendas, { itens }, {
         headers: {
             Authorization: `Bearer ${token}`
         }

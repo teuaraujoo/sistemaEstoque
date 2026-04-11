@@ -2,3 +2,4 @@ aprendizados.txt
 node_modules
 test.js
 .env
+.env.development

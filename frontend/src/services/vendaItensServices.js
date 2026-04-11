@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { getToken } from './token/setToken';
-
-const API_URL = 'http://localhost:8800/api/v1/vendas/itens';
+import { api } from './api';
 
 export async function fetchVendasItensDashboard() {
     const token = getToken("token");
 
-    const response = await axios.get(API_URL, {
+    const response = await axios.get(api.venda_itens, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -24,7 +23,7 @@ export async function fetchVendasItensDashboard() {
 export async function fetchVendasItensInfoCard(id) {
     const token = getToken("token");
 
-    const response = await axios.get(`${API_URL}/${id}`, {
+    const response = await axios.get(`${api.venda_itens}/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -50,7 +49,7 @@ export async function fetchVendasItensInfoCard(id) {
 export async function fetchVendasItens() {
     const token = getToken("token");
 
-    const response = await axios.get(API_URL, {
+    const response = await axios.get(api.venda_itens, {
         headers: {
             Authorization: `Bearer ${token}`
         }

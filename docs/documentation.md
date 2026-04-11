@@ -34,7 +34,12 @@ Projeto prático voltado para desenvolvimento fullstack e fortalecimento de port
 - React Lucide Icons
 - Recharts
 
-### 2.4 Conceitos Aplicados
+### 2.4 Deploy
+
+- Railway -> Banco + Backend
+- Vercel -> Frontend
+
+### 2.5 Conceitos Aplicados
 
 - Arquitetura em Camadas (Layered Architecture)
 - REST API
