@@ -29,13 +29,13 @@ exports.login = async ({ email, senha }) => {
         throw new Error('Senha ou email inválidos');
     };
 
-    const token = jwt.sign({ id: user.ID, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10h' });
+    const token = jwt.sign({ id: user.ID }, process.env.JWT_SECRET, { expiresIn: '5h' });
 
     return {
         token,
         user: {
             id: user.ID,
-            email: user.EMAIL,
+            nome: user.NOME,
         }
     };
 };
