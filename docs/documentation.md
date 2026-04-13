@@ -603,6 +603,7 @@ yarn run dev
 ## 12. Features
 
 - Documentação da API com Swagger
+- Mudança de armazenamento de token (localStorage -> Cookies)
 - Inteligência Artificial para geração de relatórios
 - Exportar relatórios em CSV
 
