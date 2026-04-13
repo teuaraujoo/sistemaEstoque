@@ -13,7 +13,7 @@ exports.findByEmail = async (email) => {
 };
 
 exports.getUsers = async () => {
-    const q = 'SELECT * FROM USUARIOS';
-    const [user] = await db.query(q, [email]);
-    return user[0];
+    const q = 'SELECT EMAIL, NOME FROM USUARIOS';
+    const [user] = await db.query(q);
+    return user;
 };
