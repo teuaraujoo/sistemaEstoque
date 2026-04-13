@@ -10,9 +10,27 @@ const vendasRoutes = require('./src/routes/vendasRoutes');
 const estoqueRoutes = require('./src/routes/estoqueRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const app = express();
-
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://sistema-estoque-one.vercel.app",
+];
+
+console.log(allowedOrigins.includes('http://localhost:5173'))
+
+const corsOptions = {
+    credentials: true,
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    }
+};
+
+app.use(cors(corsOptions));
 
 // ROTAS
 app.use('/api/v1/usuario', authRoutes);
