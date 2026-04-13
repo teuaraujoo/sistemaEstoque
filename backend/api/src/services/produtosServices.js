@@ -54,7 +54,7 @@ exports.createProduto = async (productData) => {
 
             await estoqueRepositories.createMoveEstoque(connection, [
                 produtoId,
-                produto.NOME,
+                productData.NOME,
                 TIPO,
                 MOTIVO,
                 productData.QTD_ESTOQUE,

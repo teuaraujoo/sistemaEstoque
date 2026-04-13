@@ -17,8 +17,6 @@ const allowedOrigins = [
     "https://sistema-estoque-one.vercel.app",
 ];
 
-console.log(allowedOrigins.includes('http://localhost:5173'))
-
 const corsOptions = {
     credentials: true,
     origin: function (origin, callback) {
