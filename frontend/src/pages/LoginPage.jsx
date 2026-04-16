@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { useEffect, useRef, useState } from "react";
 import { useLoginForm } from "../hooks/Login/useLoginForm";
 import { Navigate } from "react-router-dom";
+import { api } from "../services/api";
 
 function LoginPage() {
     const formRef = useRef(null);
@@ -13,12 +14,12 @@ function LoginPage() {
         async function validarUser() {
 
             try {
-                const response = await fetch('http://localhost:8800/api/v1/usuario/user', {
+                const response = await fetch(`${api.usuario}/user`, {
                     method: 'GET',
                     credentials: 'include'
                 });
 
-                
+
                 if (response.status === 401) {
                     setIsAuth(false);
                     return;

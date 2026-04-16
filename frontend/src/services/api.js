@@ -6,5 +6,5 @@ export const api = {
     vendas: `${API_URL}/vendas`,
     estoque: `${API_URL}/estoque`,
     venda_itens: `${API_URL}/vendas/itens`,
-    usuario: `${API_URL}/usuario/login`
+    usuario: `${API_URL}/usuario`
 };

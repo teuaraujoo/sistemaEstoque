@@ -1,7 +1,7 @@
 import { api } from "./api";
 
 export async function login(user) {
-    const response = await fetch(api.usuario, {
+    const response = await fetch(`${api.usuario}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -15,7 +15,7 @@ export async function login(user) {
 };
 
 export async function logout() {
-    const response = await fetch('http://localhost:8800/api/v1/usuario/logout', {
+    const response = await fetch(`${api.usuario}/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
