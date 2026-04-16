@@ -11,17 +11,24 @@ function LoginPage() {
 
     useEffect(() => {
         async function validarUser() {
+
             try {
                 const response = await fetch('http://localhost:8800/api/v1/usuario/user', {
                     method: 'GET',
                     credentials: 'include'
                 });
+
                 
-                if (response.ok) {
-                    setIsAuth(true);
-                } else {
+                if (response.status === 401) {
                     setIsAuth(false);
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error('Erro ao validar usuário');
                 };
+
+                setIsAuth(true);
             } catch {
                 setIsAuth(false);
             }
@@ -49,7 +56,7 @@ function LoginPage() {
 
     if (isAuth) {
         return <Navigate to="/" replace />
-    };
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-100 via-[#f5f3fb] to-[#eef1ff] text-slate-800 overflow-hidden" id="loginPage">
