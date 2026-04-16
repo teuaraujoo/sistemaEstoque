@@ -10,9 +10,13 @@ function VendasGrid({ vendas = [], refreshVendas, onInformation }) {
         try {
             const response = await fetch(`${api.vendas}/${id}`, {
                 method: 'DELETE',
-                credentials: 'include'
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             });
-            toast.success(response.data.message);
+            const data = await response.json();
+            toast.success(data.message);
             await refreshVendas();
         } catch (err) {
             toast.error(err.data.messsage);
