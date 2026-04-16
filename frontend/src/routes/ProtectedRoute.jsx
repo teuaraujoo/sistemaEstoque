@@ -12,7 +12,7 @@ function ProtectedRoute() {
     useEffect(() => {
         async function validarUser() {
             try {
-                const response = await fetch(`${api.user}/user`, {
+                const response = await fetch(`${api.usuario}/user`, {
                     method: 'GET',
                     credentials: 'include'
                 });
