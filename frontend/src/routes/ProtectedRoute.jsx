@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { api } from '../services/api';
 
 // Outlet -> renderiza rotas filhas 
 // replace -> substitui a entrada atual no histórico do navegador em vez de adicionar uma nova. Isso significa que o usuário não pode voltar para a página anterior usando o botão "voltar"
@@ -11,7 +12,7 @@ function ProtectedRoute() {
     useEffect(() => {
         async function validarUser() {
             try {
-                const response = await fetch('http://localhost:8800/api/v1/usuario/user', {
+                const response = await fetch(`${api.user}/user`, {
                     method: 'GET',
                     credentials: 'include'
                 });
