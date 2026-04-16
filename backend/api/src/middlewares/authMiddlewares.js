@@ -1,16 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 function authToken(req, res, next) {
-    const authHeader = req.headers.authorization;
+    const token = req.cookies.accessToken;
 
-    if (!authHeader) {
+    if (!token) {
         return res.status(401).json({ message: 'Token não informado' });
-    };
-
-    const [type, token] = authHeader.split(' ');
-
-    if (type !== 'Bearer' || !token) {
-        return res.status(401).json({ message: 'Token mal informado' });
     };
 
     try {

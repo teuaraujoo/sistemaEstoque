@@ -1,85 +1,82 @@
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getToken } from './token/setToken';
 import { api } from './api';
 
 export async function fetchProdutosResumo() {
-    const token = getToken("token");
 
     try {
-        const responseTotal = await axios.get(`${api.produtos}/total`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const responseTotal = await fetch(`${api.produtos}/total`, {
+            method: 'GET',
+            credentials: 'include'
         });
-        const total = await responseTotal.data[0].TOTAL;
+        const total = await responseTotal.json();
 
-        const responseLowEstoque = await axios.get(`${api.produtos}/estoqueMin`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const responseLowEstoque = await fetch(`${api.produtos}/estoqueMin`, {
+            method: 'GET',
+            credentials: 'include'
         })
-        const dataLowEstoque = await responseLowEstoque.data.length;
+        const dataLowEstoque = await responseLowEstoque.json();
 
         return {
-            totalProdutos: total,
-            baixoEstoque: dataLowEstoque,
+            totalProdutos: total[0].TOTAL,
+            baixoEstoque: dataLowEstoque.length,
         };
     } catch (err) {
-        toast.error(err.response.data);
+        toast.error(err.message);
     };
 };
 
 export async function getAllProdutos() {
-    const token = getToken("token");
 
     try {
-        const response = await axios.get(api.produtos, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const response = await fetch(api.produtos, {
+            method: 'GET',
+            credentials: 'include'
         });
-        const data = await response.data;
+        const data = await response.json();
 
         return data;
     } catch (err) {
-        toast.error(err.response.data);
+        toast.error(err.message);
     }
 };
 
 export async function updateProduto(produto) {
-    const token = getToken("token");
-    
-    const response = await axios.put(`${api.produtos}/${produto.id}`, {
-        NOME: produto.nome,
-        DESCRICAO: produto.descricao,
-        PRECO_COMPRA: produto.preco_compra,
-        PRECO_VENDA: produto.preco_venda,
-        QTD_ESTOQUE: produto.quant,
-    }, {
+
+    const response = await fetch(`${api.produtos}/${produto.id}`, {
+        method: 'PUT',
+        credentials: 'include',
         headers: {
-            Authorization: `Bearer ${token}`
-        }
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            NOME: produto.nome,
+            DESCRICAO: produto.descricao,
+            PRECO_COMPRA: produto.preco_compra,
+            PRECO_VENDA: produto.preco_venda,
+            QTD_ESTOQUE: produto.quant
+        })
     });
 
-    return response.data;
+    return response.json();
 };
 
 export async function createProduto(produto) {
-    const token = getToken("token");
 
-    const response = await axios.post(api.produtos, {
-        NOME: produto.nome,
-        DESCRICAO: produto.descricao,
-        PRECO_COMPRA: produto.preco_compra,
-        PRECO_VENDA: produto.preco_venda,
-        QTD_ESTOQUE: produto.quant,
-    }, {
+    const response = await fetch(api.produtos, {
+        method: 'POST',
+        credentials: 'include',
         headers: {
-            Authorization: `Bearer ${token}`
-        }
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            NOME: produto.nome,
+            DESCRICAO: produto.descricao,
+            PRECO_COMPRA: produto.preco_compra,
+            PRECO_VENDA: produto.preco_venda,
+            QTD_ESTOQUE: produto.quant
+        })
     });
 
-    return response.data;
+    return response.json();
 };

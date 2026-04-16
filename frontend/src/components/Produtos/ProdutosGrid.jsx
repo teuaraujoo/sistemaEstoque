@@ -1,15 +1,12 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
 import { GiShieldDisabled } from "react-icons/gi";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FaPen } from 'react-icons/fa';
 import { formataValor } from '../../utils/formataValor';
-import { getToken } from '../../services/token/setToken';
 import { api } from '../../services/api';
 
 function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
-    const token = getToken("token")
 
     function getBarColor(qtd) {
         if (qtd <= 5) {
@@ -29,30 +26,34 @@ function ProdutosGrid({ produtos = [], onEditProduct, refreshProdutos }) {
     async function handleDelete(id) {
 
         try {
-            const response = await axios.delete(`${api.produtos}/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const response = await fetch(`${api.produtos}/${id}`, {
+                method: 'DELETE',
+                credentials: 'include'
             });
-            toast.success(response.data.message);
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || 'Erro ao desativar produto');
+            toast.success(data.message);
             await refreshProdutos();
         } catch (err) {
-            toast.error(err.response.data);
+            toast.error(err.message);
         };
     };
 
     async function handleActive(id) {
         try {
-            const response = await axios.patch(`${api.produtos}/${id}/status`, { STATUS: 'ATIVO' }, {
+            const response = await fetch(`${api.produtos}/${id}/status`, {
+                method: 'PATCH',
+                credentials: 'include',
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ STATUS: 'ATIVO' })
             });
-
-            toast.success(response.data.message);
+            const data = await response.json();
+            toast.success(data.message);
             await refreshProdutos();
         } catch (err) {
-            toast.error(err.response.data);
+            toast.error(err.message);
         };
     };
 

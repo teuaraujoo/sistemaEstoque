@@ -13,12 +13,37 @@ exports.create = async (req, res) => {
 exports.login = async (req, res) => {
 
     try {
-        const user = await authServices.login(req.body);
-        return res.status(200).json({ message: 'Login realizado com sucesso!', data: user });
+        const result = await authServices.login(req.body);
+
+        res.cookie('accessToken', result.token, {
+            httpOnly: true, // impedi scripts JS
+            secure: process.env.NODE_ENV === 'production', // so permite que o cookie trafegue em uma rede segura (HTTPS)
+            sameSite: 'lax',
+            maxAge: 1000 * 60 * 300 // 5 horas
+        });
+
+        return res.status(200).json({ message: 'Login realizado com sucesso!', data: result.user });
     } catch (err) {
         return res.status(401).json(err.message);
     };
 };
+
+exports.logout = async (req, res) => {
+    res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax'
+    });
+    return res.json({ message: 'Logout realizado com sucesso!' });
+};
+
+exports.user = async (req, res) => {
+    try {
+        return res.status(200).json({ authenticated: true, user: req.user });
+    } catch (err) {
+        return res.status(401).json(err.message);
+    };
+}
 
 exports.getAll = async (req, res) => {
     try {

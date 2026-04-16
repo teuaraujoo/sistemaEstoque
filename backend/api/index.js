@@ -5,12 +5,15 @@ require('dotenv').config({
 });
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const produtoRoutes = require('./src/routes/produtoRoutes');
 const vendasRoutes = require('./src/routes/vendasRoutes');
 const estoqueRoutes = require('./src/routes/estoqueRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const app = express();
+
 app.use(express.json());
+app.use(cookieParser());
 
 const allowedOrigins = [
     "http://localhost:5173",

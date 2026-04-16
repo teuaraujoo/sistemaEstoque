@@ -61,8 +61,9 @@ function OrderSummary({ items, onRemove, onFinish, refreshProdutos }) {
             toast.success(response.message);
             onFinish();
             refreshProdutos();
+            setQuantidades({});
         } catch (err) {
-            toast.error(err.response.data);
+            toast.error(err.message);
         }
     };
 

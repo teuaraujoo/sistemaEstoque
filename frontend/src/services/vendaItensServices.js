@@ -1,16 +1,12 @@
-import axios from 'axios';
-import { getToken } from './token/setToken';
 import { api } from './api';
 
 export async function fetchVendasItensDashboard() {
-    const token = getToken("token");
 
-    const response = await axios.get(api.venda_itens, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await fetch(api.venda_itens, {
+        method: 'GET',
+        credentials: 'include'
     });
-    const data = await response.data;
+    const data = await response.json();
 
     if (!Array.isArray(data)) {
         return [];
@@ -21,14 +17,12 @@ export async function fetchVendasItensDashboard() {
 };
 
 export async function fetchVendasItensInfoCard(id) {
-    const token = getToken("token");
 
-    const response = await axios.get(`${api.venda_itens}/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await fetch(`${api.venda_itens}/${id}`, {
+        method: 'GET',
+        credentials: 'include'
     });
-    const data = await response.data;
+    const data = await response.json();
 
     if (!Array.isArray(data)) {
         return [];
@@ -47,14 +41,12 @@ export async function fetchVendasItensInfoCard(id) {
 };
 
 export async function fetchVendasItens() {
-    const token = getToken("token");
 
-    const response = await axios.get(api.venda_itens, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await fetch(api.venda_itens, {
+        method: 'GET',
+        credentials: 'include'
     });
-    const data = await response.data;
+    const data = await response.json();
 
     if (!Array.isArray(data)) {
         return [];

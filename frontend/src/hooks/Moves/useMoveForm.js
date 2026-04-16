@@ -25,7 +25,7 @@ export function useMoveForm({ onClose, refreshMoves, ref, tipo }) {
 
             await refreshMoves();
         } catch (err) {
-            toast.error(err.response?.data)
+            toast.error(err.message);
         };
     };
     return { handleSubmit };

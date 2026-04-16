@@ -1,63 +1,56 @@
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getToken } from './token/setToken';
 import { api } from './api';
 
 export async function fetchVendasResumo() {
-    const token = getToken("token");
 
     try {
-        const responseTotal = await axios.get(`${api.vendas}/vendasMes`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const responseTotal = await fetch(`${api.vendas}/vendasMes`, {
+            method: 'GET',
+            credentials: 'include'
         });
-        const dataTotal = await responseTotal.data.length;
+        const dataTotal = await responseTotal.json();
 
-        const responseReceita = await axios.get(`${api.vendas}/receitaMes`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const responseReceita = await fetch(`${api.vendas}/receitaMes`, {
+            method: 'GET',
+            credentials: 'include'
         });
-        const receitaTotal = await responseReceita.data[0].receitaTotal;
+        const receitaTotal = await responseReceita.json();
 
         return {
-            qtdVendasMes: dataTotal,
-            receita: receitaTotal
+            qtdVendasMes: dataTotal.length,
+            receita: receitaTotal[0].receitaTotal
         };
     } catch (err) {
-        toast.error(err.response.data);
+        toast.error(err.message);
     }
 };
 
 export async function fetchVendas() {
-    const token = getToken("token");
 
-    const response = await axios.get(api.vendas, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await fetch(api.vendas, {
+        method: 'GET',
+        credentials: 'include'
     });
-    const data = await response.data;
+    const data = await response.json();
 
     if (!Array.isArray(data)) {
         return [];
     };
 
-
     return data;
 };
 
 export async function createVenda(itens) {
-    const token = getToken("token");
-
-    const response = await axios.post(api.vendas, { itens }, {
+    const response = await fetch(api.vendas, {
+        method: 'POST',
+        credentials: 'include',
         headers: {
-            Authorization: `Bearer ${token}`
-        }
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itens })
     });
-    const data = await response.data;
+    const data = await response.json();
 
     return data;
 };

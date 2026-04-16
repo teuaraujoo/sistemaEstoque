@@ -77,6 +77,10 @@ exports.activateProduto = async (req, res) => {
     const id = req.params.id;
     const { STATUS } = req.body;
 
+    if (!STATUS) {
+        return res.status(400).json({ message: 'Status não informado.' });
+    }
+
     try {
         const activeProduto = await produtoServices.activateProduto(STATUS, id);
         return res.status(200).json({
@@ -84,7 +88,7 @@ exports.activateProduto = async (req, res) => {
             data: activeProduto
         });
     } catch (err) {
-        return res.status(400).send('Error ao ativar produto!');
+        return res.status(400).json({ message: 'Error ao ativar produto!' });
     };
 };
 

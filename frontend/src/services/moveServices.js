@@ -1,16 +1,12 @@
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { getToken } from './token/setToken';
 import { api } from './api';
 
 export async function fetchMoves() {
-    const token = getToken("token");
-    const response = await axios.get(api.estoque, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+    const response = await fetch(api.estoque, {
+        method: 'GET',
+        credentials: 'include'
     });
-    const data = await response.data;
+    const data = await response.json();
 
     if (!Array.isArray(data)) {
         return {
@@ -23,34 +19,39 @@ export async function fetchMoves() {
 };
 
 export async function getAllMoves() {
-    const token = getToken("token");
     try {
-        const response = await axios.get(api.estoque, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const response = await fetch(api.estoque, {
+            method: 'GET',
+            credentials: 'include'
         });
-        const data = await response.data;
+        const data = await response.json();
         return data;
     } catch (err) {
-        toast.error(err.response.data);
+        toast.error(err.message);
     };
 };
 
 export async function createMove(move, tipo) {
-    const token = getToken("token");
 
-    const response = await axios.post(api.estoque, {
-        PRODUTO_ID: move.produto,
-        TIPO: tipo,
-        MOTIVO: move.motivo,
-        QTD: Number(move.quant),
-        VENDA_ID: null
-    }, {
+    const response = await fetch(api.estoque, {
+        method: 'POST',
+        credentials: 'include',
         headers: {
-            Authorization: `Bearer ${token}`
-        }
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            PRODUTO_ID: move.produto,
+            TIPO: tipo,
+            MOTIVO: move.motivo,
+            QTD: Number(move.quant),
+            VENDA_ID: null
+        })
     });
 
-    return response.data;
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
 };

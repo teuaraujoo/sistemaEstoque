@@ -2,7 +2,6 @@ import { validarFormulario, formsPayload, limparForms } from "../../utils/loginF
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../../services/userServices";
-import { setToken } from "../../services/token/setToken";
 
 export function useLoginForm({ ref }) {
     const navigate = useNavigate();
@@ -25,7 +24,6 @@ export function useLoginForm({ ref }) {
 
             toast.success(data.message);
             limparForms(form);
-            setToken("token", data.data.token, 36000000);
             navigate('/');
         } catch (err) {
             toast.error(err.response?.data);
