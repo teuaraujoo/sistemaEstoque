@@ -31,7 +31,12 @@ app.use(cookieParser());
 //     }
 // };
 
-app.use(cors());
+const corsOptions = {
+    origin: true,
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // ROTAS
 app.use('/api/v1/usuario', authRoutes);

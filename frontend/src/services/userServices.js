@@ -3,10 +3,10 @@ import { api } from "./api";
 export async function login(user) {
     const response = await fetch(`${api.usuario}/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
-        credentials: 'include',
         body: JSON.stringify(user)
     });
     const data = await response.json();
