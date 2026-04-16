@@ -16,9 +16,9 @@ exports.login = async (req, res) => {
         const result = await authServices.login(req.body);
 
         res.cookie('accessToken', result.token, {
-            httpOnly: true, // impedi scripts JS
-            secure: process.env.NODE_ENV === 'production', // so permite que o cookie trafegue em uma rede segura (HTTPS)
-            sameSite: 'lax',
+            httpOnly: true, // impede scripts JS
+            secure: process.env.NODE_ENV === 'production', // só permite que o cookie trafegue em HTTPS em produção
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             maxAge: 1000 * 60 * 300 // 5 horas
         });
 
