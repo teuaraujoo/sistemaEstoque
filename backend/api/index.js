@@ -15,23 +15,23 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://sistema-estoque-one.vercel.app",
-];
+// const allowedOrigins = [
+//     "http://localhost:5173",
+//     "https://sistema-estoque-one.vercel.app",
+// ];
 
-const corsOptions = {
-    credentials: true,
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    }
-};
+// const corsOptions = {
+//     credentials: true,
+//     origin: function (origin, callback) {
+//         if (!origin || allowedOrigins.includes(origin)) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error("Not allowed by CORS"));
+//         }
+//     }
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // ROTAS
 app.use('/api/v1/usuario', authRoutes);
