@@ -1,14 +1,33 @@
 import { Mail, Lock, Package } from "lucide-react";
 import { gsap } from 'gsap';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLoginForm } from "../hooks/Login/useLoginForm";
 import { Navigate } from "react-router-dom";
-import { getToken } from "../services/token/setToken";
 
 function LoginPage() {
     const formRef = useRef(null);
     const ref = useRef(null);
-    const token = getToken("token");
+    const [isAuth, setIsAuth] = useState(false);
+
+    useEffect(() => {
+        async function validarUser() {
+            try {
+                const response = await fetch('http://localhost:8800/api/v1/usuario/user', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    setIsAuth(true);
+                } else {
+                    setIsAuth(false);
+                };
+            } catch {
+                setIsAuth(false);
+            }
+        }
+        validarUser();
+    }, []);
 
     useEffect(() => {
         gsap.fromTo(
@@ -28,7 +47,7 @@ function LoginPage() {
 
     const handleSubmit = useLoginForm({ ref });
 
-    if (token) {
+    if (isAuth) {
         return <Navigate to="/" replace />
     };
 

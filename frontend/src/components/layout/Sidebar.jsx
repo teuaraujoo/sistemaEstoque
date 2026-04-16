@@ -7,6 +7,8 @@ import {
     LogOut,
 } from 'lucide-react';
 import logo from '../../assets/images/logo.png';
+import { logout } from '../../services/userServices';
+import { toast } from 'react-toastify';
 
 const menuItems = [
     {
@@ -34,9 +36,14 @@ const menuItems = [
 function Sidebar() {
     const navigate = useNavigate();
 
-    function handleLogout() {
-        localStorage.removeItem("token");
-        navigate('/login');
+    async function handleLogout() {
+        const response = await logout();
+
+        if (response) {
+            navigate('/login');
+        } else {
+            toast.error('Error ao fazer logout!');
+        };
     };
 
     return (
@@ -82,7 +89,7 @@ function Sidebar() {
 
             <div className="p-4 border-t border-slate-200">
                 <button
-                    onClick={() => { handleLogout() }}
+                    onClick={async () => await handleLogout()}
                     className="cursor-pointer w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-700 hover:bg-red-50 hover:text-red-600 transition-all"
                 >
                     <LogOut className="w-5 h-5" />
