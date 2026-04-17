@@ -19,7 +19,8 @@ exports.login = async (req, res) => {
             httpOnly: true, // impede scripts JS
             secure: process.env.NODE_ENV === 'production', // só permite que o cookie trafegue em HTTPS em produção
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: 1000 * 60 * 300 // 5 horas
+            maxAge: 1000 * 60 * 300, // 5 horas
+            path: '/'
         });
 
         return res.status(200).json({ message: 'Login realizado com sucesso!', data: result.user });
@@ -32,7 +33,8 @@ exports.logout = async (req, res) => {
     res.clearCookie('accessToken', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/'
     });
     return res.json({ message: 'Logout realizado com sucesso!' });
 };

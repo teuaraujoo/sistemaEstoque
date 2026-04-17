@@ -15,26 +15,26 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// const allowedOrigins = [
-//     "http://localhost:5173",
-//     "https://sistema-estoque-one.vercel.app",
-// ];
-
-// const corsOptions = {
-//     credentials: true,
-//     origin: function (origin, callback) {
-//         if (!origin || allowedOrigins.includes(origin)) {
-//             callback(null, true);
-//         } else {
-//             callback(new Error("Not allowed by CORS"));
-//         }
-//     }
-// };
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://sistema-estoque-one.vercel.app",
+];
 
 const corsOptions = {
-    origin: true,
-    credentials: true
+    credentials: true,
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    }
 };
+
+// const corsOptions = {
+//     origin: true,
+//     credentials: true
+// };
 
 app.use(cors(corsOptions));
 
