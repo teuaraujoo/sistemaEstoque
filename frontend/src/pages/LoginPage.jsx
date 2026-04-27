@@ -82,10 +82,10 @@ function LoginPage() {
                         <div
                             className="mt-10 rounded-3xl border border-white/60 bg-white/70 p-11 text-left shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl" ref={formRef} >
                             <h2 className="text-[38px] font-semibold text-slate-900 text-center">
-                                Welcome Back
+                                Bem vindo de volta!
                             </h2>
                             <p className="mt-3 text-lg leading-relaxed text-slate-500 text-center">
-                                Enter your credentials to access your dashboard.
+                                Coloque suas credenciais para acessar o dashboard.
                             </p>
 
                             {/* FORM */}
@@ -97,7 +97,7 @@ function LoginPage() {
                             >
                                 <div>
                                     <label className="mb-3 block text-xs tracking-[0.22em] font-semibold uppercase text-slate-500">
-                                        Email Address
+                                        Email
                                     </label>
                                     <div className="flex h-14 items-center gap-3 rounded-2xl bg-[#f6f4fb] px-4 text-slate-400 ring-1 ring-transparent transition focus-within:ring-2 focus-within:ring-indigo-400">
                                         <Mail className="w-5 h-5" />
@@ -113,7 +113,7 @@ function LoginPage() {
                                 <div>
                                     <div className="mb-3 flex items-center justify-between">
                                         <label className="block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                            Password
+                                            Senha
                                         </label>
                                     </div>
                                     <div className="flex h-14 items-center gap-3 rounded-2xl bg-[#f6f4fb] px-4 text-slate-400 ring-1 ring-transparent transition focus-within:ring-2 focus-within:ring-indigo-400">
@@ -131,18 +131,18 @@ function LoginPage() {
                                     type="submit"
                                     className="cursor-pointer group flex h-16 w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-400 text-xl font-semibold text-white shadow-[0_16px_30px_rgba(99,102,241,0.35)] transition hover:scale-[1.01] hover:shadow-[0_20px_35px_rgba(99,102,241,0.38)] active:scale-[0.99]"
                                 >
-                                    Sign In
+                                    Login
                                 </button>
                             </form>
                         </div>
 
                         <p className="mt-10 text-lg text-slate-600">
-                            Don't have an account?{' '}
+                            Não tem uma conta?{' '}
                             <a
                                 href="mailto:empresarial.mateus25@gmail.com?subject=Conta%20Sistema%20de%20Estoque&body=Mateus%2C%20preciso%20de%20uma%20conta%20no%20sistema%20de%20estoquemailto:empresarial.mateus25@gmail.com?subject=Conta%20Sistema%20de%20Estoque&body=Mateus%2C%20preciso%20de%20uma%20conta%20no%20sistema%20de%20estoque"
                                 className="font-semibold text-indigo-700 hover:text-indigo-800"
                             >
-                                Contact your Administrator
+                                Entre em contato com o administrador!
                             </a>
                         </p>
                     </div>
