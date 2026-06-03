@@ -18,6 +18,7 @@ app.use(cookieParser());
 const allowedOrigins = [
     "http://localhost:5173",
     "https://sistema-estoque-one.vercel.app",
+    "https://sistemaestoqueteu.netlify.app/"
 ];
 
 const corsOptions = {
