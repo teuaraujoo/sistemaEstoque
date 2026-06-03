@@ -19,24 +19,28 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://sistema-estoque-one.vercel.app",
   "https://sistemaestoqueteu.netlify.app",
+  "https://sistema-estoque-mx16.vercel.app/"
 ];
 
 const corsOptions = {
-  credentials: true,
   origin(origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, origin);
+      callback(null, true);
       return;
     }
 
     callback(new Error("Not allowed by CORS"));
   },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+  ],
 };
-
-// const corsOptions = {
-//     origin: true,
-//     credentials: true
-// };
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
