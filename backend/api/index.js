@@ -16,20 +16,21 @@ app.use(express.json());
 app.use(cookieParser());
 
 const allowedOrigins = [
-    "http://localhost:5173",
-    "https://sistema-estoque-one.vercel.app",
-    "https://sistemaestoqueteu.netlify.app/"
+  "http://localhost:5173",
+  "https://sistema-estoque-one.vercel.app",
+  "https://sistemaestoqueteu.netlify.app",
 ];
 
 const corsOptions = {
-    credentials: true,
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
+  credentials: true,
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, origin);
+      return;
     }
+
+    callback(new Error("Not allowed by CORS"));
+  },
 };
 
 // const corsOptions = {
@@ -38,6 +39,7 @@ const corsOptions = {
 // };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // ROTAS
 app.use('/api/v1/usuario', authRoutes);
